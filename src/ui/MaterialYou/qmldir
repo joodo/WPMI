@@ -1,0 +1,22 @@
+module MaterialYou
+BusyIndicator 2.15 BusyIndicator.qml
+Button 2.15 Button.qml
+Chip 2.15 Chip.qml
+ComboBox 2.15 ComboBox.qml
+Dialog 2.15 Dialog.qml
+DialogButtonBox 2.15 DialogButtonBox.qml
+Frame 2.15 Frame.qml
+IconLabel 2.15 IconLabel.qml
+ApplicationWindow 2.15 ApplicationWindow.qml
+Label 2.15 Label.qml
+Menu 2.15 Menu.qml
+MenuItem 2.15 MenuItem.qml
+Page 2.15 Page.qml
+Pane 2.15 Pane.qml
+ProgressBar 2.15 ProgressBar.qml
+ScrollIndicator 2.15 ScrollIndicator.qml
+Slider 2.15 Slider.qml
+TextField 2.15 TextField.qml
+ToolBar 2.15 ToolBar.qml
+ToolButton 2.15 ToolButton.qml
+ToolSeparator 2.15 ToolSeparator.qml

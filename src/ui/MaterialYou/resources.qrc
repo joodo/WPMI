@@ -1,0 +1,34 @@
+<RCC>
+    <qresource prefix="/MaterialYou">
+        <file>ToolBar.qml</file>
+        <file>TabButton.qml</file>
+        <file>TabBar.qml</file>
+        <file>Page.qml</file>
+        <file>Pane.qml</file>
+        <file>Label.qml</file>
+        <file>ToolButton.qml</file>
+        <file>ApplicationWindow.qml</file>
+        <file>qmldir</file>
+        <file>ProgressBar.qml</file>
+        <file>Button.qml</file>
+        <file>impl/ElevationEffect.qml</file>
+        <file>impl/qmldir</file>
+        <file>impl/StatusLayer.qml</file>
+        <file>ComboBox.qml</file>
+        <file>Chip.qml</file>
+        <file>Menu.qml</file>
+        <file>MenuItem.qml</file>
+        <file>ScrollIndicator.qml</file>
+        <file>Dialog.qml</file>
+        <file>DialogButtonBox.qml</file>
+        <file>Slider.qml</file>
+        <file>IconLabel.qml</file>
+        <file>impl/SliderHandle.qml</file>
+        <file>BusyIndicator.qml</file>
+        <file>ToolSeparator.qml</file>
+        <file>Frame.qml</file>
+        <file>TextField.qml</file>
+        <file>impl/CursorDelegate.qml</file>
+    </qresource>
+    <qresource prefix="/"/>
+</RCC>

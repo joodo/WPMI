@@ -1,0 +1,91 @@
+import QtQuick
+import QtQuick.Templates as T
+import QtQuick.Controls.impl
+import QtQuick.Controls.Material
+import QtQuick.Controls.Material.impl
+import MaterialYou
+
+T.Button {
+    id: control
+
+    enum ButtonType {
+        Elevated,
+        Filled,
+        Tonal,
+        Outlined,
+        Text
+    }
+
+    property int type: Button.Filled
+
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: 40
+
+    spacing: 8
+
+    icon.width: 18
+    icon.height: 18
+
+    Material.elevation: [
+        control.hovered? 1 : 0,  // Elevated
+        control.hovered && !control.down? 2 : 0,  // Filled
+        control.hovered && !control.down? 2 : 0,  // Tonal
+        0,  // Outlined
+        0  // Text
+    ][type]
+
+    contentItem: IconLabel {
+        spacing: control.spacing
+        mirrored: control.mirrored
+        // display: control.display
+
+        readonly property color _foregroundColor: MaterialYou.color(!control.enabled? MaterialYou.OnSurface : [
+                                                                                          MaterialYou.Primary,  // Elevated
+                                                                                          MaterialYou.OnPrimary,  // Filled
+                                                                                          MaterialYou.OnSurface,  // Tonal
+                                                                                          MaterialYou.Primary,  // Outlined
+                                                                                          MaterialYou.Primary  // Text
+                                                                                      ][flat? 4 : control.type])
+
+        icon { width: control.icon.width; height: control.icon.height; color: _foregroundColor }
+        text: control.text
+        font: control.font
+        color: _foregroundColor
+    }
+
+    background: Rectangle {
+        implicitWidth: 64
+        implicitHeight: control.implicitHeight
+
+        radius: height
+        color: MaterialYou.color([
+                                     control.enabled? MaterialYou.Surface : MaterialYou.OnSurface,  // Elevated
+                                     control.enabled? MaterialYou.Primary : MaterialYou.OnSurface,  // Filled
+                                     control.enabled? MaterialYou.SecondaryContainer : MaterialYou.OnSurface,  // Tonal
+                                     MaterialYou.Transparent,  // Outlined
+                                     MaterialYou.Transparent  // Text
+                                 ][flat? 4 : control.type])
+        opacity: enabled? 1 : 0.12
+        border { width: control.type==Button.Outlined? 1 : 0; color: MaterialYou.color(MaterialYou.Outline) }
+
+        // The layer is disabled when the button color is transparent so you can do
+        // Material.background: "transparent" and get a proper flat button without needing
+        // to set Material.elevation as well
+        layer.enabled: control.enabled && control.type===Button.Elevated && !control.flat
+        layer.effect: ElevationEffect {
+            elevation: 1
+        }
+
+        Ripple {
+            clipRadius: parent.radius
+            width: parent.width
+            height: parent.height
+            pressed: control.pressed
+            anchor: control
+            active: enabled && (control.down || control.visualFocus || control.hovered)
+
+            // color: control.flat && control.highlighted ? control.Material.highlightedRippleColor : control.Material.rippleColor
+        }
+    }
+}
