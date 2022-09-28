@@ -82,7 +82,7 @@ T.Button {
             anchors.fill: parent
             radius: parent.radius
             status: control.down? MaterialYou.Press : control.hovered? MaterialYou.Hover : control.visualFocus? MaterialYou.Focus : MaterialYou.Normal
-            colorRole: [
+            MaterialYou.foregroundColor: [
                 MaterialYou.Primary,  // Elevated
                 MaterialYou.OnPrimary,  // Filled
                 MaterialYou.onFromBackground(control.tunedRole),  // Tonal

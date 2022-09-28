@@ -21,5 +21,9 @@
         <file>smartphone.svg</file>
         <file>i18n/en_US.qm</file>
         <file>i18n/zh_CN.qm</file>
+        <file>minimize.svg</file>
+        <file>maximize.svg</file>
+        <file>close.svg</file>
+        <file>normalize.svg</file>
     </qresource>
 </RCC>

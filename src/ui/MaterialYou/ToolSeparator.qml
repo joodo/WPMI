@@ -10,8 +10,6 @@ T.ToolSeparator {
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
-    horizontalPadding: vertical ? 12 : 5
-    verticalPadding: vertical ? 5 : 12
 
     MaterialYou.foregroundColor: MaterialYou.OnSurfaceVariant
 

@@ -3,7 +3,6 @@ QT += quick webenginequick network svg xml
 SOURCES += \
     backend.cpp \
     main.cpp \
-    platform.mm \
     ui/MaterialYou/materialyou.cpp
 
 RESOURCES += \
@@ -22,6 +21,7 @@ RESOURCES += \
     ui/CardMoive.qml \
     ui/StackSearch.qml \
     ui/FieldSearch.qml \
+    ui/HandleWindows.qml \
     ui/HandlerWindowDrag.qml \
     ui/ProgressNetwork.qml \
     ui/PaneBlur.qml \
@@ -46,8 +46,6 @@ HEADERS += \
     platform.h \
     ui/MaterialYou/materialyou.h
 
-ICON = WPMI.icns
-
 # i18n
 QM_FILES_RESOURCE_PREFIX = "i18n"
 DEFINES += QM_FILES_RESOURCE_PREFIX=\\\":/$$QM_FILES_RESOURCE_PREFIX\\\"
@@ -60,4 +58,19 @@ system("git describe") {
     DEFINES += APP_VERSION=\"\\\"$${system(git describe)}\\\"\"
 } else {
     DEFINES += APP_VERSION=\\\"0.0.0\\\"
+}
+
+# Platform
+
+macx {
+    ICON = WPMI.icns
+
+    OBJECTIVE_SOURCES += \
+    platform.macos.mm
+
+    LIBS += -framework Foundation
+}
+
+win32 {
+    RC_ICONS = WPMI.ico
 }

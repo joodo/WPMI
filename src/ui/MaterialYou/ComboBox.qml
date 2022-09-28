@@ -64,7 +64,7 @@ T.ComboBox {
             anchors.fill: parent
             radius: parent.radius
             status: control.down? MaterialYou.Press : control.hovered? MaterialYou.Hover : control.visualFocus? MaterialYou.Focus : MaterialYou.Normal
-            colorRole: MaterialYou.OnSurface
+            MaterialYou.foregroundColor: MaterialYou.OnSurface
         }
     }
 

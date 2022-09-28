@@ -2,7 +2,6 @@
 
 import QtQuick
 import QtQuick.Templates as T
-import QtQuick.Controls
 import QtQuick.Controls.impl
 import MaterialYou
 import MaterialYou.impl
@@ -15,13 +14,16 @@ T.ToolButton {
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
-    padding: 8
-    spacing: 4
+    bottomInset: 8; topInset: 8; leftInset: 8; rightInset: 8
+
+    MaterialYou.radius: 40
+    MaterialYou.foregroundColor: MaterialYou.OnSurfaceVariant
+    MaterialYou.backgroundColor: MaterialYou.Primary
 
     icon.width: 24
     icon.height: 24
     icon.color: !control.enabled ? MaterialYou.color(MaterialYou.OnSurface) :
-                                   control.checked || control.highlighted ? MaterialYou.color(MaterialYou.Primary) : MaterialYou.color(MaterialYou.OnSurfaceVariant)
+                                   control.checked || control.highlighted ? control.MaterialYou.backgroundColor : control.MaterialYou.foregroundColor
 
     contentItem: IconLabel {
         spacing: control.spacing
@@ -32,19 +34,14 @@ T.ToolButton {
         text: control.text
         font: control.font
         color: !control.enabled ? MaterialYou.color(MaterialYou.OnSurface) :
-                                  control.checked || control.highlighted ? MaterialYou.color(MaterialYou.Primary) : MaterialYou.color(MaterialYou.OnSurfaceVariant)
+                                  control.checked || control.highlighted ? control.MaterialYou.backgroundColor : control.MaterialYou.foregroundColor
     }
 
-    background: Item {
-        implicitWidth: 48
-        implicitHeight: 48
+    background: StatusLayer {
+        implicitWidth: 40; implicitHeight: 40
+        radius: control.MaterialYou.radius
 
-        StatusLayer {
-            anchors.centerIn: parent
-            implicitWidth: 40; implicitHeight: 40; radius: 40
-
-            colorRole: control.checked? MaterialYou.Primary : MaterialYou.OnSurfaceVariant
-            status: control.down? MaterialYou.Press : control.hovered? MaterialYou.Hover : control.visualFocus? MaterialYou.Focus : MaterialYou.Normal
-        }
+        MaterialYou.foregroundColor: control.checked? control.MaterialYou.backgroundColor : control.MaterialYou.foregroundColor
+        status: control.down? MaterialYou.Press : control.hovered? MaterialYou.Hover : control.visualFocus? MaterialYou.Focus : MaterialYou.Normal
     }
 }

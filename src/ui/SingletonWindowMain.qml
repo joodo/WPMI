@@ -18,8 +18,12 @@ ApplicationWindow {
     onVisibleChanged: if (visible) Backend.hideWindowTitleBar(this)
 
     header: Item {
-        height: Qt.platform.os==="osx"? 30 : 0
-        HandlerWindowDrag { anchors.fill: parent; z: 100 }
+        height: 30
+        HandlerWindowDrag { anchors.fill: parent }
+        HandleWindows {
+            visible: Qt.platform.os === "windows"
+            anchors.right: parent.right
+        }
     }
 
     RowLayout {
@@ -29,7 +33,7 @@ ApplicationWindow {
         ToolBar {
             rightPadding: 0
             Layout.fillHeight: true; Layout.preferredWidth: tabBar.implicitWidth
-            background: Item {}
+            MaterialYou.backgroundColor: "transparent"
 
             HandlerWindowDrag { anchors.fill: parent }
 

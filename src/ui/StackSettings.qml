@@ -77,6 +77,7 @@ ScrollView {
             Layout.fillWidth: true
             Layout.rightMargin: 32
             Layout.topMargin: 16
+            Layout.bottomMargin: 8
         }
         Label {
             text: qsTr("Network")
@@ -139,6 +140,7 @@ ScrollView {
             Layout.fillWidth: true
             Layout.rightMargin: 32
             Layout.topMargin: 16
+            Layout.bottomMargin: 8
         }
         Label {
             text: qsTr("About")

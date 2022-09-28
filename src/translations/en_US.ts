@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
+    <name>LabelRequireRestart</name>
+    <message>
+        <location filename="../ui/LabelRequireRestart.qml" line="8"/>
+        <source>Restart WPMI to apply this change.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/LabelRequireRestart.qml" line="13"/>
+        <source>&lt;a href=&apos;restart&apos;&gt;Restart Now&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ProgressNetwork</name>
     <message>
         <location filename="../ui/ProgressNetwork.qml" line="25"/>
@@ -30,42 +43,42 @@
 <context>
     <name>SingletonWindowPlayer</name>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="130"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="127"/>
         <source>Volume: %1%</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="275"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="272"/>
         <source>Other devices</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="291"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="288"/>
         <source>Visit link below to watch this video on any device&apos;s browser:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="307"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="304"/>
         <source>Copied!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="307"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="304"/>
         <source>Copy to Clipboard</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="321"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="318"/>
         <source>Copy m3u8</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="328"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="325"/>
         <source>Help</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="340"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="337"/>
         <source>**Double Click Screen**: Fullscreen
 
 **Space**: Play / Pause
@@ -160,17 +173,17 @@
 <context>
     <name>StackSettings</name>
     <message>
-        <location filename="../ui/StackSettings.qml" line="11"/>
+        <location filename="../ui/StackSettings.qml" line="13"/>
         <source>Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="16"/>
+        <location filename="../ui/StackSettings.qml" line="18"/>
         <source>Interface</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="25"/>
+        <location filename="../ui/StackSettings.qml" line="27"/>
         <source>Language</source>
         <translation></translation>
     </message>
@@ -180,14 +193,8 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="32"/>
-        <location filename="../ui/StackSettings.qml" line="55"/>
-        <source>Restart WPMI to apply this change.</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../ui/StackSettings.qml" line="65"/>
-        <location filename="../ui/StackSettings.qml" line="89"/>
+        <location filename="../ui/StackSettings.qml" line="99"/>
         <source>System</source>
         <translation></translation>
     </message>
@@ -202,37 +209,37 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="74"/>
+        <location filename="../ui/StackSettings.qml" line="83"/>
         <source>Network</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="80"/>
+        <location filename="../ui/StackSettings.qml" line="89"/>
         <source>Proxy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="88"/>
+        <location filename="../ui/StackSettings.qml" line="98"/>
         <source>No Proxy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="90"/>
+        <location filename="../ui/StackSettings.qml" line="100"/>
         <source>HTTP</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="111"/>
+        <location filename="../ui/StackSettings.qml" line="122"/>
         <source>Resource Server</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="115"/>
+        <location filename="../ui/StackSettings.qml" line="127"/>
         <source>Server to search videos.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="125"/>
+        <location filename="../ui/StackSettings.qml" line="146"/>
         <source>About</source>
         <translation></translation>
     </message>

@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>LabelRequireRestart</name>
+    <message>
+        <location filename="../ui/LabelRequireRestart.qml" line="8"/>
+        <source>Restart WPMI to apply this change.</source>
+        <translation>若想使设置生效，需重启 WPMI。</translation>
+    </message>
+    <message>
+        <location filename="../ui/LabelRequireRestart.qml" line="13"/>
+        <source>&lt;a href=&apos;restart&apos;&gt;Restart Now&lt;/a&gt;</source>
+        <translation>&lt;a href=&apos;restart&apos;&gt;立即重启&lt;/a&gt;</translation>
+    </message>
+</context>
+<context>
     <name>ProgressNetwork</name>
     <message>
         <location filename="../ui/ProgressNetwork.qml" line="25"/>
@@ -31,42 +44,42 @@
 <context>
     <name>SingletonWindowPlayer</name>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="130"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="127"/>
         <source>Volume: %1%</source>
         <translation>音量：%1%</translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="275"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="272"/>
         <source>Other devices</source>
         <translation>其他设备</translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="291"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="288"/>
         <source>Visit link below to watch this video on any device&apos;s browser:</source>
         <translation>用设备的浏览器访问下面的地址以观看此视频：</translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="307"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="304"/>
         <source>Copied!</source>
         <translation>已复制！</translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="307"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="304"/>
         <source>Copy to Clipboard</source>
         <translation>复制到剪切板</translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="321"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="318"/>
         <source>Copy m3u8</source>
         <translation>复制 m8u8</translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="328"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="325"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="340"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="337"/>
         <source>**Double Click Screen**: Fullscreen
 
 **Space**: Play / Pause
@@ -169,17 +182,17 @@
 <context>
     <name>StackSettings</name>
     <message>
-        <location filename="../ui/StackSettings.qml" line="11"/>
+        <location filename="../ui/StackSettings.qml" line="13"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="16"/>
+        <location filename="../ui/StackSettings.qml" line="18"/>
         <source>Interface</source>
         <translation>界面</translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="25"/>
+        <location filename="../ui/StackSettings.qml" line="27"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
@@ -189,14 +202,12 @@
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="32"/>
-        <location filename="../ui/StackSettings.qml" line="55"/>
         <source>Restart WPMI to apply this change.</source>
-        <translation>若想使设置生效，需重启 WPMI。</translation>
+        <translation type="vanished">若想使设置生效，需重启 WPMI。</translation>
     </message>
     <message>
         <location filename="../ui/StackSettings.qml" line="65"/>
-        <location filename="../ui/StackSettings.qml" line="89"/>
+        <location filename="../ui/StackSettings.qml" line="99"/>
         <source>System</source>
         <translation>跟随系统</translation>
     </message>
@@ -211,37 +222,37 @@
         <translation>黑暗</translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="74"/>
+        <location filename="../ui/StackSettings.qml" line="83"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="80"/>
+        <location filename="../ui/StackSettings.qml" line="89"/>
         <source>Proxy</source>
         <translation>代理</translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="88"/>
+        <location filename="../ui/StackSettings.qml" line="98"/>
         <source>No Proxy</source>
         <translation>无代理</translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="90"/>
+        <location filename="../ui/StackSettings.qml" line="100"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="111"/>
+        <location filename="../ui/StackSettings.qml" line="122"/>
         <source>Resource Server</source>
         <translation>资源服务器</translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="115"/>
+        <location filename="../ui/StackSettings.qml" line="127"/>
         <source>Server to search videos.</source>
         <translation>搜索影片的服务器。</translation>
     </message>
     <message>
-        <location filename="../ui/StackSettings.qml" line="125"/>
+        <location filename="../ui/StackSettings.qml" line="146"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
