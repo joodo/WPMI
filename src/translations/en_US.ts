@@ -43,7 +43,7 @@
 <context>
     <name>SingletonWindowPlayer</name>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="127"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="128"/>
         <source>Volume: %1%</source>
         <translation></translation>
     </message>
@@ -51,6 +51,11 @@
         <location filename="../ui/SingletonWindowPlayer.qml" line="272"/>
         <source>Other devices</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="281"/>
+        <source>Watch on Web</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SingletonWindowPlayer.qml" line="288"/>
@@ -78,6 +83,11 @@
         <translation></translation>
     </message>
     <message>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="331"/>
+        <source>Usage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../ui/SingletonWindowPlayer.qml" line="337"/>
         <source>**Double Click Screen**: Fullscreen
 
@@ -94,27 +104,27 @@
 <context>
     <name>StackHistory</name>
     <message>
-        <location filename="../ui/StackHistory.qml" line="27"/>
-        <source>History</source>
-        <translation></translation>
+        <location filename="../ui/StackHistory.qml" line="24"/>
+        <source>Last Watched</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/StackHistory.qml" line="33"/>
+        <location filename="../ui/StackHistory.qml" line="30"/>
         <source>Clear</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackHistory.qml" line="38"/>
+        <location filename="../ui/StackHistory.qml" line="35"/>
         <source>Clear history?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackHistory.qml" line="44"/>
+        <location filename="../ui/StackHistory.qml" line="41"/>
         <source>This will clean all porn you&apos;ve watched. It&apos;s nice to be reborn.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/StackHistory.qml" line="80"/>
+        <location filename="../ui/StackHistory.qml" line="77"/>
         <source>Remove</source>
         <translation></translation>
     </message>

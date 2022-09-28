@@ -3,12 +3,12 @@ QT += quick webenginequick network svg xml
 SOURCES += \
     backend.cpp \
     main.cpp \
-    platform.windows.cpp \
     ui/MaterialYou/materialyou.cpp
 
 RESOURCES += \
     assets/assets.qrc \
     qtquickcontrols2.conf \
+    translations/translations.qrc \
     ui/SingletonWindowMain.qml \
     ui/SingletonWindowPlayer.qml \
     ui/SingletonState.qml \
@@ -48,15 +48,13 @@ HEADERS += \
     ui/MaterialYou/materialyou.h
 
 # i18n
-QM_FILES_RESOURCE_PREFIX = "i18n"
-DEFINES += QM_FILES_RESOURCE_PREFIX=\\\":/$$QM_FILES_RESOURCE_PREFIX\\\"
 TRANSLATIONS = \
     translations/en_US.ts \
     translations/zh_CN.ts
 
 # Version
-system("git describe") {
-    DEFINES += APP_VERSION=\"\\\"$${system(git describe)}\\\"\"
+system("git describe --tags") {
+    DEFINES += APP_VERSION=\"\\\"$${system(git describe --tags)}\\\"\"
 } else {
     DEFINES += APP_VERSION=\\\"0.0.0\\\"
 }

@@ -34,12 +34,18 @@ int main(int argc, char *argv[])
 
 
     // Localization
-    QTranslator translator;
     QSettings settings;
     auto langName = settings.value("language").toString();
     if (langName.isEmpty()) langName = QLocale::system().name();
-    if (translator.load(langName, QM_FILES_RESOURCE_PREFIX)) {
+
+    QTranslator translator;
+    if (translator.load(langName, ":/translations")) {
         app.installTranslator(&translator);
+    }
+
+    QTranslator qtTranslator;
+    if (qtTranslator.load("qtbase_" + langName, ":/translations/qt/")) {  // should copy from Qt dir manually
+        app.installTranslator(&qtTranslator);
     }
 
     // QML

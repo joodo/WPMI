@@ -14,8 +14,6 @@ T.ToolButton {
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
-    bottomInset: 8; topInset: 8; leftInset: 8; rightInset: 8
-
     MaterialYou.radius: 40
     MaterialYou.foregroundColor: MaterialYou.OnSurfaceVariant
     MaterialYou.backgroundColor: MaterialYou.Primary

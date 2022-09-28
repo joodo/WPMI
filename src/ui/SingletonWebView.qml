@@ -51,7 +51,7 @@ WebEngineView {
     }
     Timer {
         id: timerTimeOut
-        interval: 3000; running: false; repeat: false
+        interval: 5000; running: false; repeat: false
         onTriggered: {
             // print("Stop!!")
             root.stop()

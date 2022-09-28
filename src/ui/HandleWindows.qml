@@ -11,7 +11,6 @@ RowLayout {
         icon.width: 16; icon.height: 16
         MaterialYou.radius: 0
         implicitHeight: 24
-        bottomInset: 0; topInset: 0; leftInset: 0; rightInset: 0
         onClicked: Window.window.showMinimized()
     }
     ToolSeparator { Layout.preferredHeight: 24; opacity: 0.2 }
@@ -20,7 +19,6 @@ RowLayout {
         icon.width: 16; icon.height: 16
         MaterialYou.radius: 0
         implicitHeight: 24
-        bottomInset: 0; topInset: 0; leftInset: 0; rightInset: 0
         states: [
             State {
                 name: "maximize"
@@ -48,7 +46,6 @@ RowLayout {
         icon.width: 16; icon.height: 20
         MaterialYou.radius: 0
         implicitHeight: 24
-        bottomInset: 0; topInset: 0; leftInset: 0; rightInset: 0
         MaterialYou.backgroundColor: MaterialYou.Error
         checked: hovered
         onClicked: Window.window.close()

@@ -24,8 +24,7 @@
     <message>
         <location filename="../ui/ProgressNetwork.qml" line="25"/>
         <source>Can&apos;t seem to load right now.</source>
-        <translatorcomment>似乎目前无法加载。</translatorcomment>
-        <translation></translation>
+        <translation>似乎目前无法加载。</translation>
     </message>
     <message>
         <location filename="../ui/ProgressNetwork.qml" line="35"/>
@@ -44,7 +43,7 @@
 <context>
     <name>SingletonWindowPlayer</name>
     <message>
-        <location filename="../ui/SingletonWindowPlayer.qml" line="127"/>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="128"/>
         <source>Volume: %1%</source>
         <translation>音量：%1%</translation>
     </message>
@@ -52,6 +51,11 @@
         <location filename="../ui/SingletonWindowPlayer.qml" line="272"/>
         <source>Other devices</source>
         <translation>其他设备</translation>
+    </message>
+    <message>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="281"/>
+        <source>Watch on Web</source>
+        <translation>在网页上观看</translation>
     </message>
     <message>
         <location filename="../ui/SingletonWindowPlayer.qml" line="288"/>
@@ -71,12 +75,17 @@
     <message>
         <location filename="../ui/SingletonWindowPlayer.qml" line="318"/>
         <source>Copy m3u8</source>
-        <translation>复制 m8u8</translation>
+        <translation>复制 m3u8</translation>
     </message>
     <message>
         <location filename="../ui/SingletonWindowPlayer.qml" line="325"/>
         <source>Help</source>
         <translation>帮助</translation>
+    </message>
+    <message>
+        <location filename="../ui/SingletonWindowPlayer.qml" line="331"/>
+        <source>Usage</source>
+        <translation>使用</translation>
     </message>
     <message>
         <location filename="../ui/SingletonWindowPlayer.qml" line="337"/>
@@ -95,7 +104,7 @@
 
 **左 / 右键**：后退 / 前进 10 秒
 
-**上 / 下 键，鼠标滚轮**：增加 / 减少音量
+**上 / 下键，鼠标滚轮**：增加 / 减少音量
 
 **ESC**：退出全屏</translation>
     </message>
@@ -103,27 +112,31 @@
 <context>
     <name>StackHistory</name>
     <message>
-        <location filename="../ui/StackHistory.qml" line="27"/>
         <source>History</source>
-        <translation>历史</translation>
+        <translation type="vanished">历史</translation>
     </message>
     <message>
-        <location filename="../ui/StackHistory.qml" line="33"/>
+        <location filename="../ui/StackHistory.qml" line="24"/>
+        <source>Last Watched</source>
+        <translation>上次观看</translation>
+    </message>
+    <message>
+        <location filename="../ui/StackHistory.qml" line="30"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
     <message>
-        <location filename="../ui/StackHistory.qml" line="38"/>
+        <location filename="../ui/StackHistory.qml" line="35"/>
         <source>Clear history?</source>
         <translation>清除历史记录？</translation>
     </message>
     <message>
-        <location filename="../ui/StackHistory.qml" line="44"/>
+        <location filename="../ui/StackHistory.qml" line="41"/>
         <source>This will clean all porn you&apos;ve watched. It&apos;s nice to be reborn.</source>
         <translation>这将清除你浏览记录中的所有小电影儿。重生的感觉真好。</translation>
     </message>
     <message>
-        <location filename="../ui/StackHistory.qml" line="80"/>
+        <location filename="../ui/StackHistory.qml" line="77"/>
         <source>Remove</source>
         <translation>删除</translation>
     </message>

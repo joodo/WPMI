@@ -14,7 +14,8 @@ T.Page {
                              + (implicitHeaderHeight > 0 ? implicitHeaderHeight + spacing : 0)
                              + (implicitFooterHeight > 0 ? implicitFooterHeight + spacing : 0))
 
+    MaterialYou.backgroundColor: MaterialYou.Surface
     background: Rectangle {
-        color: MaterialYou.color(MaterialYou.Surface)
+        color: control.MaterialYou.backgroundColor
     }
 }

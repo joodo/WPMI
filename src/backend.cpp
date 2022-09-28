@@ -40,7 +40,7 @@ QJsonArray Backend::supportedLanguages() const
     auto currentLang = settings.value("language").toString();
 
     QJsonArray array;
-    QDir langDir(QM_FILES_RESOURCE_PREFIX);
+    QDir langDir(":/translations");
     for (const auto &filename : langDir.entryList(QDir::Files)) {
         QJsonObject object;
         auto code = filename.left(5);

@@ -40,7 +40,6 @@ ApplicationWindow {
             ColumnLayout {
                 id: tabBar
                 anchors.bottom: parent.bottom
-                implicitWidth: childrenRect.width
                 //ButtonGroup { buttons: tabBar.children }
                 ToolButton {
                     visible: false
@@ -49,6 +48,7 @@ ApplicationWindow {
                 }
                 ToolButton {
                     id: buttonSettings
+                    Layout.margins: 8
                     checkable: true
                     icon.source: checked? "qrc:/settings_fill.svg" : "qrc:/settings.svg"
                     onClicked: {

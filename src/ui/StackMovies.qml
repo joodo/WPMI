@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Window
+import MaterialYou
 
 StackView {
     id: root
@@ -16,10 +17,9 @@ StackView {
     }
 
     initialItem: Page {
-        background: Item {}
+        MaterialYou.backgroundColor: "transparent"
         header: Control {
             implicitHeight: fieldSearch.implicitHeight
-            rightPadding: 16
             HandlerWindowDrag {
                 z: -1
                 anchors.fill: parent

@@ -202,7 +202,6 @@ Window {
 
                 RowLayout {
                     anchors.centerIn: parent
-                    spacing: -12
                     ToolButton {
                         id: buttonReplay10
                         icon.height: 20; icon.width: 20
@@ -279,7 +278,7 @@ Window {
                                     parent: root.contentItem
                                     anchors.centerIn: parent
                                     alignment: Dialog.AlignCenter
-                                    title: "Watch on Web"
+                                    title: qsTr("Watch on Web")
                                     standardButtons: Dialog.Ok
                                     modal: true
                                     ColumnLayout {
@@ -329,7 +328,7 @@ Window {
                                 Dialog {
                                     id: dialogHelp
                                     parent: root.contentItem
-                                    title: "Usage"
+                                    title: qsTr("Usage")
                                     standardButtons: Dialog.Ok
                                     anchors.centerIn: parent
                                     modal: true
