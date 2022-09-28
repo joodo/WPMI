@@ -3,6 +3,7 @@ QT += quick webenginequick network svg xml
 SOURCES += \
     backend.cpp \
     main.cpp \
+    platform.windows.cpp \
     ui/MaterialYou/materialyou.cpp
 
 RESOURCES += \
@@ -65,12 +66,13 @@ system("git describe") {
 macx {
     ICON = WPMI.icns
 
-    OBJECTIVE_SOURCES += \
-    platform.macos.mm
+    OBJECTIVE_SOURCES += platform.macos.mm
 
     LIBS += -framework Foundation
 }
 
 win32 {
     RC_ICONS = WPMI.ico
+
+    SOURCES += platform.windows.cpp
 }

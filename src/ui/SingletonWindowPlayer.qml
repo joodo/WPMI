@@ -62,6 +62,7 @@ Window {
                     Backend.setScreensaverEnabled(true)
                 }
             }
+            onErrorOccurred: (err, errorString) => print(err, errorString)
         }
         Timer {
             running: mediaPlayer.playbackState === MediaPlayer.PlayingState
