@@ -25,6 +25,7 @@ RESOURCES += \
     ui/HandlerWindowDrag.qml \
     ui/ProgressNetwork.qml \
     ui/PaneBlur.qml \
+    ui/LabelRequireRestart.qml \
     ui/QRCode/QRCode.qml \
     ui/QRCode/qrcode.js \
     ui/MaterialYou/resources.qrc
@@ -58,5 +59,5 @@ TRANSLATIONS = \
 system("git describe") {
     DEFINES += APP_VERSION=\"\\\"$${system(git describe)}\\\"\"
 } else {
-    DEFINES += APP_VERSION=\\\"1.0\\\"
+    DEFINES += APP_VERSION=\\\"0.0.0\\\"
 }

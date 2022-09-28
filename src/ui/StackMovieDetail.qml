@@ -158,7 +158,7 @@ Page {
                                                                      timestamp: Date.now(),
                                                                      playlistID: comboBoxPlaylists.currentIndex,
                                                                      episodeID: index,
-                                                                     position: root._history? root._history.position : 0
+                                                                     position: highlighted && root._history? root._history.position : 0
                                                                  })
 
                                     SingletonWindowPlayer.title = `${SingletonState.movieCardData.get(root.movieID).title} - ${modelData.title}`

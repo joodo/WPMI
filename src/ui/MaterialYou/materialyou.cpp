@@ -31,6 +31,7 @@ static const QRgb colorsLight[] = {
     0xeae2cf,  // surface-variant-light
     0x4b4639,  // on-surface-variant-light
     0x7d7767,  // outline-light
+    0xcec6b4,  // outline-variant-light
     0xf6f0e7,  // inverse-on-surface-light
     0x33302a,  // inverse-surface-light
     0xe6c449,  // inverse-primary-light
@@ -62,6 +63,7 @@ static const QRgb colorsDark[] = {
     0x4b4639,  // surface-variant-dark
     0xcec6b4,  // on-surface-variant-dark
     0x979080,  // outline-dark
+    0x4b4639,  // outline-variant-dark
     0x1d1b16,  // inverse-on-surface-dark
     0xe8e2d9,  // inverse-surface-dark
     0x715c00,  // inverse-primary-dark

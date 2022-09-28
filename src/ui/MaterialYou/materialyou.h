@@ -47,6 +47,7 @@ public:
         SurfaceVariant,
         OnSurfaceVariant,
         Outline,
+        OutlineVariant,
         InverseOnSurface,
         InverseSurface,
         InversePrimary,

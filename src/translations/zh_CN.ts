@@ -76,7 +76,15 @@
 **Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down
 
 **Esc**: Quit Fullscreen</source>
-        <translation>**双击屏幕**：全屏\n\n**空格**：播放 / 暂停\n\n**左 / 右键**：后退 / 前进 10 秒\n\n**上 / 下 键，鼠标滚轮**：增加 / 减少音量\n\n**ESC**：退出全屏</translation>
+        <translation>**双击屏幕**：全屏
+
+**空格**：播放 / 暂停
+
+**左 / 右键**：后退 / 前进 10 秒
+
+**上 / 下 键，鼠标滚轮**：增加 / 减少音量
+
+**ESC**：退出全屏</translation>
     </message>
 </context>
 <context>

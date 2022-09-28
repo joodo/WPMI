@@ -5,7 +5,9 @@ import MaterialYou
 import Qt.labs.settings
 
 ScrollView {
+    contentWidth: availableWidth
     ColumnLayout {
+        anchors.fill: parent
         spacing: 8
         Label {
             text: qsTr("Settings")
@@ -25,17 +27,15 @@ ScrollView {
                 text: qsTr("Language")
                 MaterialYou.fontRole: MaterialYou.TitleSmall
             }
-            Label {
+            LabelRequireRestart {
                 property string _initValue
                 Component.onCompleted: _initValue = settings.language
                 visible: _initValue !== comboBoxLanguage.currentValue
-                text: qsTr("Restart WPMI to apply this change.")
-                MaterialYou.foregroundColor: MaterialYou.Primary
-                MaterialYou.fontRole: MaterialYou.LabelSmall
             }
         }
         ComboBox {
             id: comboBoxLanguage
+            Layout.leftMargin: 12
             textRole: "text"
             valueRole: "value"
             implicitWidth: 250
@@ -50,15 +50,15 @@ ScrollView {
                 text: qsTr("Theme")
                 MaterialYou.fontRole: MaterialYou.TitleSmall
             }
-            Label {
-                visible: settingsMY.theme !== comboBoxTheme.currentValue
-                text: qsTr("Restart WPMI to apply this change.")
-                MaterialYou.foregroundColor: MaterialYou.Primary
-                MaterialYou.fontRole: MaterialYou.LabelSmall
+            LabelRequireRestart {
+                property int _initValue
+                Component.onCompleted: _initValue = settingsMY.theme
+                visible: _initValue !== comboBoxTheme.currentValue
             }
         }
         ComboBox {
             id: comboBoxTheme
+            Layout.leftMargin: 12
             textRole: "key"
             valueRole: "value"
             model: ListModel {
@@ -67,9 +67,17 @@ ScrollView {
                 ListElement { key: qsTr("Dark"); value: MaterialYou.Dark }
             }
             Component.onCompleted: comboBoxTheme.currentIndex = settingsMY.theme
+            onActivated: settingsMY.theme = currentIndex
         }
         Item { Layout.preferredHeight: 16; Layout.preferredWidth: 1 }
 
+
+        ToolSeparator {
+            orientation: Qt.Horizontal
+            Layout.fillWidth: true
+            Layout.rightMargin: 32
+            Layout.topMargin: 16
+        }
         Label {
             text: qsTr("Network")
             MaterialYou.fontRole: MaterialYou.HeadlineSmall
@@ -82,6 +90,7 @@ ScrollView {
         }
         ComboBox {
             id: comboBoxProxy
+            Layout.leftMargin: 12
             textRole: "key"
             valueRole: "value"
             model: ListModel {
@@ -100,6 +109,7 @@ ScrollView {
         }
         TextField {
             id: fieldProxy
+            Layout.leftMargin: 12
             visible: comboBoxProxy.currentValue === 2
             Layout.preferredWidth: 300
             text: ""
@@ -112,24 +122,35 @@ ScrollView {
             MaterialYou.fontRole: MaterialYou.TitleSmall
         }
         Label {
+            Layout.leftMargin: 12
             text: qsTr("Server to search videos.")
         }
         TextField {
+            Layout.leftMargin: 12
             id: fieldResourceServer
             Layout.preferredWidth: 300
             text: "www.dandanzan10.top"
         }
         Item { Layout.preferredHeight: 16; Layout.preferredWidth: 1 }
 
+
+        ToolSeparator {
+            orientation: Qt.Horizontal
+            Layout.fillWidth: true
+            Layout.rightMargin: 32
+            Layout.topMargin: 16
+        }
         Label {
             text: qsTr("About")
             MaterialYou.fontRole: MaterialYou.HeadlineSmall
             MaterialYou.foregroundColor: MaterialYou.Secondary
         }
         Label {
+            Layout.leftMargin: 12
             text: `WPMI - Watch Pirated Movies Illegally  ${APP_VERSION}\nBy Joodo`
         }
         Label {
+            Layout.leftMargin: 12
             text: `<a href='https://github.com/joodo/WPMI'>GitHub</a>`
             onLinkActivated: Qt.openUrlExternally(link)
             MouseArea {
@@ -151,9 +172,5 @@ ScrollView {
         property alias resourceServer: fieldResourceServer.text
         property alias proxyType: comboBoxProxy.currentIndex
         property alias language: comboBoxLanguage.currentValue
-    }
-
-    Component.onDestruction: {
-        settingsMY.theme = comboBoxTheme.currentIndex
     }
 }

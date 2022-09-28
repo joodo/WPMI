@@ -13,11 +13,11 @@ T.ToolSeparator {
     horizontalPadding: vertical ? 12 : 5
     verticalPadding: vertical ? 5 : 12
 
-    MaterialYou.foregroundColor: MaterialYou.Outline
+    MaterialYou.foregroundColor: MaterialYou.OnSurfaceVariant
 
     contentItem: Rectangle {
         implicitWidth: control.vertical ? 1 : 38
         implicitHeight: control.vertical ? 38 : 1
-        color: MaterialYou.foregroundColor
+        color: control.MaterialYou.foregroundColor
     }
 }

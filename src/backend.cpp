@@ -34,11 +34,6 @@ void Backend::copyStringToClipboard(const QString &text)
     qGuiApp->clipboard()->setText(text);
 }
 
-void Backend::openWebsiteInBrowser(const QString &url)
-{
-    (new QProcess(this))->start("open", QStringList(url));
-}
-
 QJsonArray Backend::supportedLanguages() const
 {
     QSettings settings;
@@ -46,9 +41,7 @@ QJsonArray Backend::supportedLanguages() const
 
     QJsonArray array;
     QDir langDir(QM_FILES_RESOURCE_PREFIX);
-    qDebug() << langDir.path();
     for (const auto &filename : langDir.entryList(QDir::Files)) {
-        qDebug() << filename;
         QJsonObject object;
         auto code = filename.left(5);
         object["value"] = code;
@@ -66,10 +59,8 @@ QJsonArray Backend::supportedLanguages() const
 
 void Backend::setProxy(const QString &host)
 {
-    qDebug() << "set proxy" << host;
     if (host == "[System]")
     {
-        qDebug() << "set proxy system";
         QNetworkProxyFactory::setUseSystemConfiguration(true);
         return;
     }
@@ -86,6 +77,16 @@ void Backend::setProxy(const QString &host)
     auto h = list.at(0);
     auto p = list.length() > 1? list.at(1).toUInt(nullptr) : 0;
     auto proxy = QNetworkProxy(QNetworkProxy::HttpProxy, h, p);
-    qDebug() << proxy;
     QNetworkProxy::setApplicationProxy(proxy);
+}
+
+void Backend::hideWindowTitleBar(QQuickWindow *window)
+{
+    Platform::hideTitleBar(window);
+}
+
+void Backend::restartApplication()
+{
+    qApp->quit();
+    QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
 }

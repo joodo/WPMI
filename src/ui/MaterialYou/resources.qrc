@@ -29,6 +29,8 @@
         <file>Frame.qml</file>
         <file>TextField.qml</file>
         <file>impl/CursorDelegate.qml</file>
+        <file>ScrollView.qml</file>
+        <file>ScrollBar.qml</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

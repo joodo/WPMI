@@ -83,20 +83,17 @@ Window {
         anchors.fill: parent
         Rectangle {
             anchors.fill: parent
-            color: MaterialYou.color(MaterialYou.Primary)
+            color: MaterialYou.color(MaterialYou.OnPrimary)
             opacity: 0.1
         }
         BusyIndicator {
             width: parent.width
-            type: BusyIndicator.Linear
             running: true
-            opacity: 0.6
-            y: parent.opacity === 1? 0 : -height
-            Behavior on y { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+            anchors.centerIn: parent
         }
         opacity: _listeningM3u8 ||
                  mediaPlayer.mediaStatus < MediaPlayer.BufferedMedia? 1: 0
-        Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: 500; easing.type: Easing.OutCubic } }
     }
 
     MouseArea {
@@ -113,7 +110,7 @@ Window {
         onMouseXChanged: showCursor()
         onMouseYChanged: showCursor()
         onWheel: wheel => {
-            audioOutput.volume -= wheel.angleDelta.y / 250
+            audioOutput.volume -= wheel.angleDelta.y / 1500
             wheel.accepted = true
             timerHideVolumePopup.restart()
         }

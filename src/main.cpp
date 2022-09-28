@@ -7,7 +7,6 @@
 #include <QLocale>
 
 #include "backend.h"
-#include "platform.h"
 #include "ui/MaterialYou/materialyou.h"
 
 #include <QDebug>
@@ -51,17 +50,6 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
-
-#ifdef Q_OS_MACOS
-    // Hide window title bar under macOS
-    const auto rootObject = engine.rootObjects().constFirst();
-    const auto window = rootObject->property("mainWindow").value<QQuickWindow*>();
-    Platform::hideTitleBar(window);
-
-    // Fix Chinese characters have no effect by bold enabled
-    // https://bugreports.qt.io/browse/QTBUG-106880
-    // QGuiApplication::setFont(QFont("STHeiti"));
-#endif
 
     return app.exec();
 }

@@ -15,6 +15,8 @@ ApplicationWindow {
     title: qsTr("Watch Pirated Movies Illegally!") + " :D"
     MaterialYou.backgroundColor: MaterialYou.tintSurfaceColor(2)
 
+    onVisibleChanged: if (visible) Backend.hideWindowTitleBar(this)
+
     header: Item {
         height: Qt.platform.os==="osx"? 30 : 0
         HandlerWindowDrag { anchors.fill: parent; z: 100 }
