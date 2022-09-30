@@ -1,5 +1,0 @@
-module MaterialYou.impl
-ElevationEffect 1.0 ElevationEffect.qml
-CursorDelegate 1.0 CursorDelegate.qml
-StatusLayer 1.0 StatusLayer.qml
-SliderHandle 1.0 SliderHandle.qml

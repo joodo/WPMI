@@ -1,4 +1,0 @@
-singleton SingletonWebView 1.0 SingletonWebView.qml
-singleton SingletonWindowPlayer 1.0 SingletonWindowPlayer.qml
-singleton SingletonWindowMain 1.0 SingletonWindowMain.qml
-singleton SingletonState 1.0 SingletonState.qml
