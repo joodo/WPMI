@@ -143,11 +143,11 @@ Page {
                                 type: Button.Tonal
                                 tonedRole: highlighted? MaterialYou.TertiaryContainer : MaterialYou.SecondaryContainer
                                 text: modelData.title
-                                      + (highlighted && root._history.position >= 0.01? qsTr(" (%1% Watched)").arg(parseInt(root._history.position*100)) : "")
+                                      + (highlighted? qsTr(" (%1% Watched)").arg(parseInt(root._history.position*100)) : "")
                                 height: 32
                                 highlighted: (root._history
                                               && root._history.playlistID === comboBoxPlaylists.currentIndex
-                                              && root._history.episodeID === index)
+                                              && root._history.episodeID === index) ? true : false
 
                                 onClicked: {
                                     if (!modelData.script) return

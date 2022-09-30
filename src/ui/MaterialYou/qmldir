@@ -18,6 +18,7 @@ ScrollBar 2.15 ScrollBar.qml
 ScrollIndicator 2.15 ScrollIndicator.qml
 ScrollView 2.15 ScrollView.qml
 Slider 2.15 Slider.qml
+StackView 2.15 StackView.qml
 TextField 2.15 TextField.qml
 ToolBar 2.15 ToolBar.qml
 ToolButton 2.15 ToolButton.qml

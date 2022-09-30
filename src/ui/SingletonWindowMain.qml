@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Window
+import Qt.labs.settings
 import MaterialYou
 
 ApplicationWindow {
@@ -84,5 +85,12 @@ ApplicationWindow {
                 onBack: { stackLayout.pop(); buttonSettings.checked = false }
             }
         }
+    }
+
+    Settings {
+        property alias mainWindowX: window.x
+        property alias mainWindowY: window.y
+        property alias mainWindowWidth: window.width
+        property alias mainWindowHeight: window.height
     }
 }

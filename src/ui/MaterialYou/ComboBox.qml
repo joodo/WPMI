@@ -69,7 +69,7 @@ T.ComboBox {
     }
 
     popup: Menu {
-        y: control.editable ? control.height - 5 : 0
+        y: control.editable ? control.height - 5 : -12 - 48*control.currentIndex
         width: control.width
         height: Math.min(contentItem.implicitHeight+16, control.Window.height - topMargin - bottomMargin)
         transformOrigin: Item.Top

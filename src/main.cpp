@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     if (langName.isEmpty()) langName = QLocale::system().name();
 
     QTranslator translator;
-    if (translator.load(langName, ":/translations")) {
+    if (translator.load(langName, ":/i18n/")) {
         app.installTranslator(&translator);
     }
 

@@ -49,27 +49,26 @@ Pane {
         ScrollView {
             Layout.fillHeight: true; Layout.fillWidth: true
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff; ScrollBar.vertical.policy: ScrollBar.AsNeeded
+            contentWidth: availableWidth
             // To show cards shadows
-            Layout.leftMargin: -flow.anchors.margins; Layout.topMargin: -flow.anchors.topMargin; Layout.bottomMargin: -flow.anchors.topMargin
-            contentWidth: availableWidth; contentHeight: flow.implicitHeight + 3*flow.anchors.margins
-            Flow {
-                id: flow
-                property int _rowCount
+            Layout.leftMargin: -layout.anchors.margins; Layout.topMargin: -layout.anchors.topMargin
+            GridLayout {
+                id: layout
                 // margins to show cards shadows
                 anchors { left: parent.left; right: parent.right; top: parent.top; margins: 16; topMargin: 8 }
-                spacing: 12
-                onWidthChanged: _rowCount = Math.max(4, (width + spacing) / (180 + spacing))
+                columnSpacing: 12; rowSpacing: 12
+                onWidthChanged: columns = Math.max(3, (width + rowSpacing) / (160 + rowSpacing))
                 Repeater {
                     id: repeater
                     model: SingletonState.history
                     delegate: CardMoive {
+                        Layout.fillWidth: true; Layout.alignment: Qt.AlignTop
+                        movieData: SingletonState.movieCardData.get(movieID)
                         onClicked: mouse => {
                                        if (mouse.button === Qt.LeftButton) root.movieSelected(movieID)
                                        else contextMenu.popup()
                                    }
 
-                        movieData: SingletonState.movieCardData.get(movieID)
-                        width: (flow.width - (flow._rowCount-1)*flow.spacing) / flow._rowCount
                         Menu {
                             id: contextMenu
                             MaterialYou.backgroundColor: MaterialYou.tintSurfaceColor(4)
@@ -79,6 +78,10 @@ Pane {
                             }
                         }
                     }
+                }
+                Item {
+                    Layout.columnSpan: parent.columns
+                    Layout.preferredHeight: 16; Layout.fillWidth: true
                 }
             }
         }

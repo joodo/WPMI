@@ -9,7 +9,7 @@ T.Label {
     MaterialYou.fontRole: MaterialYou.BodyMedium
 
     color: MaterialYou.foregroundColor
-    linkColor: MaterialYou.color(MaterialYou.primary)
+    linkColor: MaterialYou.color(MaterialYou.Tertiary)
     font: MaterialYou.font(MaterialYou.fontRole)
     lineHeight: MaterialYou.lineHeight(MaterialYou.fontRole)
 }

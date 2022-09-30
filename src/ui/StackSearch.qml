@@ -35,7 +35,6 @@ Page {
     onQueryChanged: {
         modelMovie.clear()
         const url = `https://${settings.value("resourceServer")}/so/${query}-${query}--.html`;
-        print(url)
         getResultFromSearch(url)
         .then(result => {
                   if ("next" in result) next = result.next
@@ -62,7 +61,7 @@ Page {
 
         ScrollBar.vertical.onPositionChanged: {
             const position = ScrollBar.vertical.position + ScrollBar.vertical.visualSize
-            if (!timerCooldown.running && (1-position) * contentHeight < 50 && root.next) {
+            if (root.next && !timerCooldown.running && (1-position) * contentHeight < 50) {
                 getNextPage(root.next)
                 root.next = ""
             }
@@ -75,35 +74,36 @@ Page {
         }
 
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff; ScrollBar.vertical.policy: ScrollBar.AsNeeded
+        // FIXME: why availableWidth cause binding loop?
+        // contentWidth: availableWidth
+        contentWidth: width
         // To show cards shadows
-        anchors { fill: parent; topMargin: 12; leftMargin: -layout.anchors.margins }
-        contentWidth: availableWidth; contentHeight: layout.implicitHeight + 3*layout.anchors.margins
-        ColumnLayout {
+        anchors { fill: parent; topMargin: 24 - layout.anchors.topMargin; leftMargin: -layout.anchors.leftMargin }
+        GridLayout {
             id: layout
-            spacing: 12
             // margins to show cards shadows
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: 16; topMargin: 12 }
-            Flow {
-                id: flow
-                property int _rowCount
-                Layout.fillWidth: true
-                spacing: 12
-                onWidthChanged: _rowCount = Math.max(4, (width + spacing) / (180 + spacing))
-                Repeater {
-                    model: ListModel { id: modelMovie }
-                    delegate: CardMoive {
-                        onClicked: mouse => {
-                                       if (mouse.button === Qt.LeftButton) root.movieSelected(movieID)
-                                   }
+            anchors { left: parent.left; right: parent.right; top: parent.top; margins: 16; topMargin: 8 }
+            columnSpacing: 12; rowSpacing: 12
+            onWidthChanged: columns = Math.max(3, (width + rowSpacing) / (150 + rowSpacing))
+            Repeater {
+                model: ListModel { id: modelMovie }
+                delegate: CardMoive {
+                    Layout.fillWidth: true; Layout.alignment: Qt.AlignTop
+                    onClicked: mouse => {
+                                   if (mouse.button === Qt.LeftButton) root.movieSelected(movieID)
+                               }
 
-                        movieData: SingletonState.movieCardData.get(movieID)
-                        width: (flow.width - (flow._rowCount-1)*flow.spacing) / flow._rowCount
-                    }
+                    movieData: SingletonState.movieCardData.get(movieID)
                 }
             }
             ProgressNetwork {
                 id: progressNetwork
+                Layout.columnSpan: parent.columns
                 Layout.alignment: Qt.AlignHCenter
+            }
+            Item {
+                Layout.columnSpan: parent.columns
+                Layout.preferredHeight: 16; Layout.fillWidth: true
             }
         }
     }

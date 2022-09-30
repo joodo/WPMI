@@ -6,6 +6,7 @@ import QtQuick.Controls
 import QtQuick.Window
 import QtMultimedia
 import Qt.labs.settings
+import Qt5Compat.GraphicalEffects
 import MaterialYou
 
 Window {
@@ -53,6 +54,7 @@ Window {
 
                     mediaPlayer.play()
                     timerHideCursor.start()
+                    sliderGamma.value = 1
                 }
             }
             onPlaybackStateChanged: {
@@ -75,7 +77,12 @@ Window {
             }
         }
 
-        VideoOutput { id: videoOutput; anchors.fill: parent;  }
+        VideoOutput { id: videoOutput; anchors.fill: parent;
+            layer.enabled: sliderGamma.value !== 1
+            layer.effect: GammaAdjust {
+                gamma: sliderGamma.value * sliderGamma.value
+            }
+        }
         AudioOutput { id: audioOutput }
     }
 
@@ -268,6 +275,33 @@ Window {
                         Menu {
                             id: menu
                             onAboutToShow: timerHideCursor.stop()
+
+                            MenuItem {
+                                text: qsTr("Help")
+                                icon.source: "qrc:/question_mark.svg"
+                                onTriggered: dialogHelp.open()
+                                Dialog {
+                                    id: dialogHelp
+                                    parent: root.contentItem
+                                    title: qsTr("Usage")
+                                    standardButtons: Dialog.Ok
+                                    anchors.centerIn: parent
+                                    modal: true
+                                    Label {
+                                        textFormat: Text.MarkdownText
+                                        text: qsTr("**Double Click Screen**: Fullscreen\n\n**Space**: Play / Pause\n\n**Left / Right Arrow**: Replay / Forward 10 seconds\n\n**Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down\n\n**Esc**: Quit Fullscreen")
+                                    }
+                                }
+                            }
+
+                            MenuItem {
+                                text: qsTr("Copy m3u8")
+                                onTriggered: Backend.copyStringToClipboard(mediaPlayer.source)
+                                enabled: mediaPlayer.source.toString()
+                                leftPadding: 56
+                            }
+
+
                             MenuItem {
                                 text: qsTr("Other devices")
                                 enabled: mediaPlayer.source
@@ -293,10 +327,13 @@ Window {
                                             MaterialYou.backgroundColor: "transparent"
                                             QRCode {
                                                 id: qrCode
-                                                width: 150; height: 150
-                                                text: "https://www.m3u8play.com/?play=" + escape(mediaPlayer.source)
+                                                width: 200; height: 200
                                                 background: "transparent"
                                                 foreground: MaterialYou.color(MaterialYou.OnSurface)
+                                                onVisibleChanged: {
+                                                    if (!visible) return;
+                                                    text = `https://joodo.github.io/WPMI/player.html?title=${encodeURIComponent(Window.window.title)}&url=${encodeURIComponent(mediaPlayer.source)}&position=${parseInt(mediaPlayer.position/1000)}`
+                                                }
                                             }
                                         }
                                         Button {
@@ -314,35 +351,36 @@ Window {
                                     }
                                 }
                             }
-                            MenuItem {
-                                text: qsTr("Copy m3u8")
-                                onTriggered: Backend.copyStringToClipboard(mediaPlayer.source)
-                                enabled: mediaPlayer.source.toString()
-                                leftPadding: 56
-                            }
 
                             MenuItem {
-                                text: qsTr("Help")
-                                icon.source: "qrc:/question_mark.svg"
-                                onTriggered: dialogHelp.open()
-                                Dialog {
-                                    id: dialogHelp
-                                    parent: root.contentItem
-                                    title: qsTr("Usage")
-                                    standardButtons: Dialog.Ok
-                                    anchors.centerIn: parent
-                                    modal: true
-                                    Label {
-                                        textFormat: Text.MarkdownText
-                                        text: qsTr("**Double Click Screen**: Fullscreen\n\n**Space**: Play / Pause\n\n**Left / Right Arrow**: Replay / Forward 10 seconds\n\n**Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down\n\n**Esc**: Quit Fullscreen")
+                                background: Item { implicitWidth: 200; implicitHeight: 48 }
+                                icon.source: "qrc:/brightness.svg"
+                                Slider {
+                                    id: sliderGamma
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    x: 48; width: 110
+                                    from: 0.8; to: 1.2; value: 1
+                                }
+                                ToolButton {
+                                    anchors {
+                                        left: sliderGamma.right
+                                        verticalCenter: parent.verticalCenter
                                     }
+                                    implicitWidth: 36; implicitHeight: 36
+                                    visible: sliderGamma.value !== 1
+                                    icon.source: "qrc:/undo.svg"
+                                    onClicked: sliderGamma.value = 1
                                 }
                             }
                         }
 
                         onClicked: {
-                            menu.x = pressX - menu.width; menu.y = pressY - menu.height
-                            menu.open()
+                            if (menu.visible) {
+                                menu.close()
+                            } else {
+                                menu.x = pressX - menu.width; menu.y = pressY - menu.height
+                                menu.open()
+                            }
                         }
                     }
                 }

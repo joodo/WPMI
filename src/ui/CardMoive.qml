@@ -19,7 +19,7 @@ Pane {
     Item {
         id: paneContentItem
         width: parent.width
-        implicitHeight: layout.implicitHeight
+        implicitHeight: layout.height
 
         ColumnLayout {
             id: layout

@@ -52,8 +52,6 @@ StackView {
 
     Component {
         id: componentMovieDetail
-        StackMovieDetail {
-            StackView.onRemoved: destroy()
-        }
+        StackMovieDetail { }
     }
 }

@@ -9,6 +9,8 @@ RESOURCES += \
     assets/assets.qrc \
     qtquickcontrols2.conf \
     translations/translations.qrc \
+    ui/OrderedMapModel.qml \
+    ui/ListModelWrapper.qml \
     ui/SingletonWindowMain.qml \
     ui/SingletonWindowPlayer.qml \
     ui/SingletonState.qml \
@@ -34,9 +36,6 @@ RESOURCES += \
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = $${PWD}/ui
 
-# Additional import path used to resolve QML modules just for Qt Quick Designer
-QML_DESIGNER_IMPORT_PATH =
-
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
@@ -47,10 +46,11 @@ HEADERS += \
     platform.h \
     ui/MaterialYou/materialyou.h
 
-# i18n
+# Translation
 TRANSLATIONS = \
     translations/en_US.ts \
     translations/zh_CN.ts
+CONFIG += lrelease embed_translations
 
 # Version
 system("git describe --tags") {
@@ -74,3 +74,5 @@ win32 {
 
     SOURCES += platform.windows.cpp
 }
+
+DISTFILES += \
