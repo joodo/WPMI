@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Joining Room...</title>
+
+    <!--css dark mode-->
+    <script>
+        var head = document.getElementsByTagName('head')[0];
+        var link = document.createElement('link');
+        link.type = 'text/css';
+        link.rel = 'stylesheet';
+        if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            link.href = "https://unpkg.com/ant-design-vue@3.2.12/dist/antd.dark.min.css";
+        } else {
+            link.href = "https://unpkg.com/ant-design-vue@3.2.12/dist/antd.min.css";
+        }
+        head.appendChild(link);
+    </script>
+
+    <script src="https://code.bdstatic.com/npm/leancloud-realtime@5.0.0-rc.7/dist/im-browser.min.js"></script>
+
+    <script src="https://unpkg.com/vue@3.2.40/dist/vue.global.prod.js"></script>
+
+    <script src="https://unpkg.com/dayjs/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs/plugin/customParseFormat.js"></script>
+    <script src="https://unpkg.com/dayjs/plugin/weekday.js"></script>
+    <script src="https://unpkg.com/dayjs/plugin/localeData.js"></script>
+    <script src="https://unpkg.com/dayjs/plugin/weekOfYear.js"></script>
+    <script src="https://unpkg.com/dayjs/plugin/weekYear.js"></script>
+    <script src="https://unpkg.com/dayjs/plugin/advancedFormat.js"></script>
+    <script src="https://unpkg.com/ant-design-vue@3.2.12/dist/antd.min.js"></script>
+
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+
+    <style>
+        .box {
+            width: 100%;
+            height: 100;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.1);
+            background-size: cover;
+            position: absolute;
+            top: 0;
+        }
+
+        .track-top {
+            margin-top: 8%;
+        }
+
+        .track {
+            height: 40px;
+            line-height: 40px;
+            margin-bottom: 5px;
+            width: 100%;
+        }
+
+        .child {
+            line-height: 20px;
+            margin-bottom: 10px;
+            transform: translateX(100%);
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+            /*color: brown;
+            text-shadow: 2px 2px 3px rgb(248, 81, 20);*/
+            animation: scrollTo linear 7s
+        }
+
+        @keyframes scrollTo {
+            to {
+                transform: translateX(-100px);
+            }
+        }
+    </style>
+</head>
+
+<body style="padding: 2em;">
+    <div id="app">
+        <a-spin size="large" :tip="spinTip" :spinning="spinning">
+            <a-typography-title :level="2">
+                {{ roomName }}
+            </a-typography-title>
+            <a-typography-paragraph v-if="roomMembers.length">
+                <span v-for="member in roomMembers"><b>{{ member }}</b>, </span>
+                <span>{{ tr("is in room now.") }}</span>
+            </a-typography-paragraph>
+            <a-layout id="player">
+                <a-layout-content style="overflow: hidden; position: relative;">
+                    <video id="my-player" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls
+                        preload="auto">
+                    </video>
+
+                    <div class="box">
+                        <div class="track track-top"></div>
+                        <div class="track" v-for="comment in comments" :key="comment.time">
+                            <a-typography-title class="child" :level="2">
+                                {{ comment.text }}
+                            </a-typography-title>
+                        </div>
+                    </div>
+                </a-layout-content>
+                <a-layout-footer>
+                    <a-row type="flex" :gutter="16">
+                        <a-col flex="auto">
+                            <a-input v-model:value="inputedComment" :placeholder="tr('Press Enter to send')"
+                                @press-enter="sendComment"></a-input>
+                        </a-col>
+                        <a-col flex="1px">
+                            <a-button @click="toggleFullscreen">
+                                +
+                            </a-button>
+                        </a-col>
+                    </a-row>
+                </a-layout-footer>
+            </a-layout>
+        </a-spin>
+        <a-modal v-model:visible="modelVisible" :title="tr('Who are you?')" :closable="false" :maskClosable="false"
+            :keyboard="false" :mask-closable="false">
+            <a-input v-model:value="userName"></a-input>
+            <template #footer>
+                <a-button key="ok" type="primary" @click="submitName" :disabled="userName===''">
+                    {{ tr("Join!") }}
+                </a-button>
+            </template>
+        </a-modal>
+    </div>
+
+    <script>
+        const UrlParams = new URLSearchParams(window.location.search);
+        let Conversation;
+        let Player;
+
+        const Strings = {
+            "zh-CN": {
+                'Who are you?': '你是谁？',
+                "Join!": "加入！",
+                'Press Enter to send': "按回车发送",
+                "is in room now.": "在房间中。",
+                "Now Playing: ": "正在播放：",
+                "Connecting to server...": "正在连接服务器……",
+                "Fetching room information...": "正在获取房间信息……",
+                "Joining room...": "正在加入房间……",
+                "Loading media...": "正在加载媒体……",
+                " joined": " 加入了",
+                " lefted": " 离开了",
+                " played the video": " 播放了视频",
+                " paused the video": " 暂停了视频",
+            }
+        }
+        const LocalStrings = Strings[navigator.language]
+
+        Vue.createApp({
+            data() {
+                return {
+                    userName: "",
+                    modelVisible: false,
+                    roomName: "",
+                    roomMembers: [],
+                    comments: [],
+                    inputedComment: "",
+                    spinning: true,
+                    spinTip: "",
+                }
+            },
+            methods: {
+                showModal() {
+                    this.dialogVisible = true;
+                },
+                submitName() {
+                    this.modelVisible = false;
+                    this.login();
+                },
+                tr(s) {
+                    return LocalStrings[s] || s;
+                },
+                login() {
+                    this.spinTip = this.tr("Connecting to server...");
+
+                    const realtime = new AV.Realtime({
+                        appId: 'rnC1ehKEjnxdhaYDUyZ3lg4p-MdYXbMMI',
+                        appKey: UrlParams.get("key"),
+                    });
+
+                    realtime.createIMClient(this.userName).then(user => {
+                        this.spinTip = this.tr("Fetching room information...");
+
+                        user.on(AV.Event.MESSAGE, (message, conversation) => {
+                            this.showComment(message.text);
+                        });
+                        user.on(AV.Event.MEMBERS_JOINED, (payload, conversation) => {
+                            if (conversation.id === Conversation.id) {
+                                antd.message.success(payload.members.toString() + this.tr(" joined"));
+                                for (let member of payload.members) {
+                                    if (member === this.userName) continue;
+                                    this.roomMembers.push(member);
+                                }
+                            }
+                        });
+                        user.on(AV.Event.MEMBERS_LEFT, (payload, conversation) => {
+                            if (conversation.id === Conversation.id) {
+                                antd.message.info(payload.members.toString() + this.tr(" lefted"));
+                                for (let leftMember of payload.members) {
+                                    for (let i in this.roomMembers) {
+                                        if (this.roomMembers[i] === leftMember) {
+                                            this.roomMembers.splice(i, 1);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        user.on(AV.Event.CONVERSATION_INFO_UPDATED, payload => {
+                            console.log(payload);
+                            if (payload.updatedBy !== this.userName) {
+                                if (Conversation.get("videoState") === "play") {
+                                    antd.message.open({ content: payload.updatedBy + this.tr(" played the video") });
+                                } else if (Conversation.get("videoState") === "pause") {
+                                    antd.message.open({ content: payload.updatedBy + this.tr(" paused the video") });
+                                }
+                                this.syncConversationState();
+                            }
+                        });
+
+                        return user.getConversation(UrlParams.get("room"))
+                    }).then(conversation => {
+                        this.spinTip = this.tr("Joining room...");
+                        return conversation.join();
+                    }).then(conversation => {
+                        this.spinTip = this.tr("Loading media...");
+
+                        Conversation = conversation;
+                        this.roomName = this.tr("Now Playing: ") + conversation.name;
+                        this.roomMembers = conversation.members;
+                        document.title = this.roomName
+
+                        Player = videojs('my-player', {
+                            "userActions": { "doubleClick": false },
+                            "controlBar": { "fullscreenToggle": false }
+                        });
+                        Player.src({
+                            src: conversation.get('videoUrl'),
+                            type: "application/x-mpegURL"
+                        });
+                        Player.ready(() => {
+                            this.syncConversationState();
+                            Player.on("play", () => {
+                                if (Conversation.get("videoState") !== "play") {
+                                    Conversation.set("videoState", "play");
+                                    Conversation.save();
+                                }
+                            });
+                            Player.on("pause", () => {
+                                if (Conversation.get("videoState") !== "pause") {
+                                    Conversation.set("videoState", "pause");
+                                    Conversation.set("videoPosition", Player.currentTime());
+                                    Conversation.save();
+                                }
+                            });
+
+                            this.spinning = false;
+                        });
+                    }).catch(console.error);
+                },
+                toggleFullscreen() {
+                    if (!document.fullscreenElement) {
+                        document.getElementById("player").requestFullscreen().then(() => {
+                        }).catch((err) => {
+                            alert(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+                        });
+                    } else {
+                        document.exitFullscreen();
+                    }
+                },
+                showComment(commentText) {
+                    for (let i in this.comments) {
+                        if (Date.now() - this.comments[i].time >= 7000) {
+                            this.comments.splice(i, 1, {
+                                time: Date.now(),
+                                text: commentText,
+                            })
+                            return;
+                        }
+                    }
+                    this.comments.push({
+                        time: Date.now(),
+                        text: commentText,
+                    });
+                },
+                sendComment() {
+                    if (this.inputedComment) {
+                        this.showComment(this.inputedComment);
+                        Conversation.send(new AV.TextMessage(this.inputedComment)).catch(console.error);
+                        this.inputedComment = "";
+                    }
+                },
+                syncConversationState() {
+                    Player.currentTime(Conversation.get("videoPosition"));
+                    if (Conversation.get("videoState") === "play") {
+                        Player.play();
+                    } else if (Conversation.get("videoState") === "pause") {
+                        Player.pause();
+                    }
+                },
+            },
+            mounted() {
+                if (!UrlParams.has("user")) {
+                    this.modelVisible = true;
+                } else {
+                    this.userName = UrlParams.get("user");
+                    this.login();
+                }
+            },
+        }).use(antd).mount('#app')
+
+        window.onbeforeunload = event => {
+            Conversation.quit();
+        }
+    </script>
+</body>
+
+</html>
