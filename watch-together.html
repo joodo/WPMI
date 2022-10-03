@@ -212,7 +212,8 @@
                     this.login();
                 },
                 tr(s) {
-                    return LocalStrings[s] || s;
+                    if (LocalStrings && LocalStrings[s]) return LocalStrings[s];
+                    return s;
                 },
                 login() {
                     this.spinTip = this.tr("Connecting to server...");
@@ -222,6 +223,7 @@
                         appKey: UrlParams.get("key"),
                     });
 
+                    this.userName = this.userName.trim();
                     realtime.createIMClient(this.userName).then(user => {
                         this.spinTip = this.tr("Fetching room information...");
 
