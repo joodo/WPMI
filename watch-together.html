@@ -60,9 +60,11 @@
 
         .child {
             line-height: 20px;
+            font-size: 32px;
             margin-bottom: 10px;
             transform: translateX(100%);
             /*text-stroke: 1px black;
+            font-weight: normal !important;
             -webkit-text-stroke: 1px black;
             color: brown;
             text-shadow: 2px 2px 3px rgb(248, 81, 20);*/
@@ -125,9 +127,9 @@
                     <div class="box event-through">
                         <div class="track track-top event-through"></div>
                         <div class="track event-through" v-for="comment in comments" :key="comment.time">
-                            <a-typography-title :class="`child user-${comment.userIndex} event-through`" :level="2">
+                            <div :class="`child user-${comment.userIndex} event-through`" :level="2">
                                 {{ comment.text }}
-                            </a-typography-title>
+                            </div>
                         </div>
                     </div>
                 </a-layout-content>
