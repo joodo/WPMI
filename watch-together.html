@@ -139,7 +139,7 @@
                         </a-col>
                         <a-col flex="1px">
                             <a-button @click="toggleFullscreen">
-                                +
+                                {{ fullscreened? "－" : "＋" }}
                             </a-button>
                         </a-col>
                     </a-row>
@@ -198,6 +198,7 @@
                     inputedComment: "",
                     spinning: true,
                     spinTip: "",
+                    fullscreened: false,
                 }
             },
             methods: {
@@ -380,6 +381,9 @@
                 },
             },
             mounted() {
+                document.getElementById("player").addEventListener('fullscreenchange', event => {
+                    this.fullscreened = document.fullscreenElement ? true : false;
+                });
                 if (!UrlParams.has("user")) {
                     this.modelVisible = true;
                 } else {
