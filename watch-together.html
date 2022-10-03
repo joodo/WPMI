@@ -37,6 +37,10 @@
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 
     <style>
+        #app {
+            width: 800px;
+            margin: auto;
+        }
         .box {
             width: 100%;
             height: 100;
@@ -121,7 +125,7 @@
             <a-layout id="player">
                 <a-layout-content style="overflow: hidden; position: relative;">
                     <video id="my-player" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls
-                        preload="auto">
+                        preload="auto" :style="`margin-top: ${fullscreened? 32 : 0}px;`">
                     </video>
 
                     <div class="box event-through">
@@ -133,7 +137,7 @@
                         </div>
                     </div>
                 </a-layout-content>
-                <a-layout-footer>
+                <a-layout-footer style="padding: 8px 50px;">
                     <a-row type="flex" :gutter="16">
                         <a-col flex="auto">
                             <a-input v-model:value="inputedComment" :placeholder="tr('Press Enter to send')"
