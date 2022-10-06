@@ -42,38 +42,17 @@
             margin: auto;
         }
 
-        .box {
-            width: 100%;
-            height: 100;
-            margin: 0 auto;
-            overflow: hidden;
-            background-size: cover;
-            position: absolute;
-            top: 0;
-        }
-
-        .track-top {
-            margin-top: 8%;
-        }
-
-        .track {
-            height: 40px;
-            line-height: 40px;
-            margin-bottom: 5px;
-            width: 100%;
-        }
-
         .child {
             line-height: 20px;
             font-size: 32px;
             margin-bottom: 10px;
-            transform: translateX(100%);
+            position: relative;
+            left: 100%;
+            position: absolute;
             /*text-stroke: 1px black;
-            font-weight: normal !important;
             -webkit-text-stroke: 1px black;
-            color: brown;
-            text-shadow: 2px 2px 3px rgb(248, 81, 20);*/
-            animation: scrollTo linear 7s
+            animation: scrollTo linear 1s infinite forwards;
+            */
         }
 
         .event-through {
@@ -123,35 +102,30 @@
                 <span v-for="(member, i) in roomMembers"><b :class="`user-${i}`">{{ member }}</b>, </span>
                 <span>{{ tr("is in room now.") }}</span>
             </a-typography-paragraph>
-            <a-layout id="player">
-                <a-layout-content style="overflow: hidden; position: relative;">
-                    <video id="my-player" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls
-                        preload="auto" :style="`margin-top: ${fullscreened? 32 : 0}px;`">
-                    </video>
-
-                    <div class="box event-through">
-                        <div class="track track-top event-through"></div>
-                        <div class="track event-through" v-for="comment in comments" :key="comment.time">
-                            <div :class="`child user-${comment.userIndex} event-through`" :level="2">
-                                {{ comment.text }}
-                            </div>
-                        </div>
+            <div id="player">
+                <div style="height: 100%;">
+                    <div id="video-container"
+                        style="overflow: hidden; height: calc(100% - 72px); margin-top: 24px; position: relative;">
+                        <video id="my-player" style="min-height: 480px;"
+                            class="video-js vjs-default-skin vjs-big-play-centered vjs-fill" controls preload="auto">
+                        </video>
                     </div>
-                </a-layout-content>
-                <a-layout-footer style="padding: 8px 50px;">
-                    <a-row type="flex" :gutter="16">
-                        <a-col flex="auto">
-                            <a-input v-model:value="inputedComment" :placeholder="tr('Press Enter to send')"
-                                @press-enter="sendComment"></a-input>
-                        </a-col>
-                        <a-col flex="1px">
-                            <a-button @click="toggleFullscreen">
-                                {{ fullscreened? "－" : "＋" }}
-                            </a-button>
-                        </a-col>
-                    </a-row>
-                </a-layout-footer>
-            </a-layout>
+                    <div style="padding: 8px 50px;">
+                        <a-row type="flex" :gutter="16">
+                            <a-col flex="auto">
+                                <a-input v-model:value="inputedComment" :placeholder="tr('Press Enter to send')"
+                                    @press-enter="sendComment">
+                                </a-input>
+                            </a-col>
+                            <a-col flex="1px">
+                                <a-button @click="toggleFullscreen">
+                                    {{ fullscreened? "－" : "＋" }}
+                                </a-button>
+                            </a-col>
+                        </a-row>
+                    </div>
+                </div>
+            </div>
         </a-spin>
         <a-modal v-model:visible="modelVisible" :title="tr('Who are you?')" :closable="false" :maskClosable="false"
             :keyboard="false" :mask-closable="false">
@@ -189,6 +163,9 @@
             }
         }
         const LocalStrings = Strings[navigator.language]
+
+        const AudioNewMessage = new Audio("https://lc-gluttony.s3.amazonaws.com/rnC1ehKEjnxd/LlNb883xU2ggHcHMnzwQlPiRrOikEPRx/new_message.ogg");
+        const AudioMemberJoined = new Audio("https://lc-gluttony.s3.amazonaws.com/rnC1ehKEjnxd/W21QmrEYPBrAtYtcw83ogCtKQKQrxWiI/member_joined.ogg");
 
         antd.message.config({
             top: '50px',
@@ -234,10 +211,16 @@
                         this.spinTip = this.tr("Fetching room information...");
 
                         user.on(AV.Event.MESSAGE, (message, conversation) => {
+                            if (Player.paused()) {
+                                AudioNewMessage.play();
+                            }
                             this.showComment(message.text, message.from);
                         });
                         user.on(AV.Event.MEMBERS_JOINED, (payload, conversation) => {
                             if (conversation.id === Conversation.id) {
+                                if (Player.paused()) {
+                                    AudioMemberJoined.play();
+                                }
                                 antd.message.success(payload.members.toString() + this.tr(" joined"));
                                 for (let member of payload.members) {
                                     if (member === this.userName) continue;
@@ -359,21 +342,35 @@
                         if (this.roomMembers[userIndex] === from) break;
                     }
 
+                    const e = document.createElement("span");
+                    const container = document.getElementById("video-container")
+                    e.classList.add("child", "user-" + userIndex);
+                    e.style.left = container.offsetWidth + "px";
+                    e.innerHTML = commentText;
+
+                    let inserted = false;
                     for (let i in this.comments) {
-                        if (Date.now() - this.comments[i].time >= 7000) {
-                            this.comments.splice(i, 1, {
-                                time: Date.now(),
-                                text: commentText,
-                                userIndex,
-                            })
-                            return;
+                        if (!this.comments[i].parentElement) {
+                            e.style.top = `calc(20% + ${40 * i}px)`;
+                            this.comments[i] = e;
+                            inserted = true;
+                            break;
                         }
                     }
-                    this.comments.push({
-                        time: Date.now(),
-                        text: commentText,
-                        userIndex,
+                    if (!inserted) {
+                        e.style.top = `calc(20% + ${40 * this.comments.length}px)`;
+                        this.comments.push(e);
+                    }
+
+                    requestAnimationFrame(function render() {
+                        e.style.left = parseInt(e.style.left) - 2 + 'px';
+                        if (e.offsetLeft + e.offsetWidth < 0) {
+                            e.remove();
+                        } else {
+                            requestAnimationFrame(render);
+                        }
                     });
+                    container.appendChild(e);
                 },
                 sendComment() {
                     if (this.inputedComment) {
