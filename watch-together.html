@@ -5,21 +5,6 @@
     <meta charset="utf-8">
     <title>Joining Room...</title>
 
-    <!--css dark mode-->
-    <script>
-        var head = document.getElementsByTagName('head')[0];
-        var link = document.createElement('link');
-        link.type = 'text/css';
-        link.rel = 'stylesheet';
-        /*if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            link.href = "https://unpkg.com/ant-design-vue@3.2.12/dist/antd.dark.min.css";
-        } else {
-            link.href = "https://unpkg.com/ant-design-vue@3.2.12/dist/antd.min.css";
-        }*/
-        link.href = "https://unpkg.com/ant-design-vue@3.2.12/dist/antd.dark.min.css";
-        head.appendChild(link);
-    </script>
-
     <script src="https://code.bdstatic.com/npm/leancloud-realtime@5.0.0-rc.7/dist/im-browser.min.js"></script>
 
     <script src="https://unpkg.com/vue@3.2.40/dist/vue.global.prod.js"></script>
@@ -32,6 +17,7 @@
     <script src="https://unpkg.com/dayjs/plugin/weekYear.js"></script>
     <script src="https://unpkg.com/dayjs/plugin/advancedFormat.js"></script>
     <script src="https://unpkg.com/ant-design-vue@3.2.12/dist/antd.min.js"></script>
+    <link href="https://unpkg.com/ant-design-vue@3.2.12/dist/antd.dark.min.css" rel="stylesheet" />
 
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
@@ -42,20 +28,11 @@
             margin: auto;
         }
 
-        .child {
+        .comment {
             line-height: 20px;
             font-size: 32px;
-            margin-bottom: 10px;
-            position: relative;
-            left: 100%;
             position: absolute;
-            /*text-stroke: 1px black;
-            -webkit-text-stroke: 1px black;
-            animation: scrollTo linear 1s infinite forwards;
-            */
-        }
-
-        .event-through {
+            white-space: nowrap;
             pointer-events: none;
         }
 
@@ -82,12 +59,6 @@
         .user-4 {
             color: #FFF0C4 !important;
             text-shadow: 0 0 5px #9D780C;
-        }
-
-        @keyframes scrollTo {
-            to {
-                transform: translateX(-100px);
-            }
         }
     </style>
 </head>
@@ -160,9 +131,14 @@
                 " played the video": " 播放了视频",
                 " paused the video": " 暂停了视频",
                 " adjusted video progress": " 调整了视频进度",
+                "Failed to send. Please refresh and try again.": "发送失败。请刷新并重试。",
             }
         }
-        const LocalStrings = Strings[navigator.language]
+        function Tr(s) {
+            const localStrings = Strings[navigator.language];
+            if (localStrings && localStrings[s]) return localStrings[s];
+            return s;
+        }
 
         const AudioNewMessage = new Audio("https://lc-gluttony.s3.amazonaws.com/rnC1ehKEjnxd/LlNb883xU2ggHcHMnzwQlPiRrOikEPRx/new_message.ogg");
         const AudioMemberJoined = new Audio("https://lc-gluttony.s3.amazonaws.com/rnC1ehKEjnxd/W21QmrEYPBrAtYtcw83ogCtKQKQrxWiI/member_joined.ogg");
@@ -194,12 +170,8 @@
                     this.modelVisible = false;
                     this.login();
                 },
-                tr(s) {
-                    if (LocalStrings && LocalStrings[s]) return LocalStrings[s];
-                    return s;
-                },
                 login() {
-                    this.spinTip = this.tr("Connecting to server...");
+                    this.spinTip = Tr("Connecting to server...");
 
                     const realtime = new AV.Realtime({
                         appId: 'rnC1ehKEjnxdhaYDUyZ3lg4p-MdYXbMMI',
@@ -208,7 +180,7 @@
 
                     this.userName = this.userName.trim();
                     realtime.createIMClient(this.userName).then(user => {
-                        this.spinTip = this.tr("Fetching room information...");
+                        this.spinTip = Tr("Fetching room information...");
 
                         user.on(AV.Event.MESSAGE, (message, conversation) => {
                             if (Player.paused()) {
@@ -221,7 +193,7 @@
                                 if (Player.paused()) {
                                     AudioMemberJoined.play();
                                 }
-                                antd.message.success(payload.members.toString() + this.tr(" joined"));
+                                antd.message.success(payload.members.toString() + Tr(" joined"));
                                 for (let member of payload.members) {
                                     if (member === this.userName) continue;
                                     this.roomMembers.push(member);
@@ -230,7 +202,7 @@
                         });
                         user.on(AV.Event.MEMBERS_LEFT, (payload, conversation) => {
                             if (conversation.id === Conversation.id) {
-                                antd.message.info(payload.members.toString() + this.tr(" lefted"));
+                                antd.message.info(payload.members.toString() + Tr(" lefted"));
                                 for (let leftMember of payload.members) {
                                     for (let i in this.roomMembers) {
                                         if (this.roomMembers[i] === leftMember) {
@@ -246,12 +218,12 @@
                             if (payload.updatedBy !== this.userName) {
                                 if (Conversation.get("videoState") === "play") {
                                     if (Player.paused()) {
-                                        antd.message.open({ content: payload.updatedBy + this.tr(" played the video") });
+                                        antd.message.open({ content: payload.updatedBy + Tr(" played the video") });
                                     } else if (!this.videoPositionMatched()) {
-                                        antd.message.open({ content: payload.updatedBy + this.tr(" adjusted video progress") });
+                                        antd.message.open({ content: payload.updatedBy + Tr(" adjusted video progress") });
                                     }
                                 } else if (Conversation.get("videoState") === "pause") {
-                                    antd.message.open({ content: payload.updatedBy + this.tr(" paused the video") });
+                                    antd.message.open({ content: payload.updatedBy + Tr(" paused the video") });
                                 }
                                 this.syncConversationState();
                             }
@@ -259,13 +231,13 @@
 
                         return user.getConversation(UrlParams.get("room"))
                     }).then(conversation => {
-                        this.spinTip = this.tr("Joining room...");
+                        this.spinTip = Tr("Joining room...");
                         return conversation.join();
                     }).then(conversation => {
-                        this.spinTip = this.tr("Loading media...");
+                        this.spinTip = Tr("Loading media...");
 
                         Conversation = conversation;
-                        this.roomName = this.tr("Now Playing: ") + conversation.name;
+                        this.roomName = Tr("Now Playing: ") + conversation.name;
                         document.title = this.roomName
 
                         for (let member of conversation.members) {
@@ -314,7 +286,7 @@
                                 this.spinning = false;
                             });
                             Player.on("error", () => {
-                                this.spinTip = this.tr("Unable to load media.");
+                                this.spinTip = Tr("Unable to load media.");
                             });
                         });
                     }).catch(console.error);
@@ -342,9 +314,9 @@
                         if (this.roomMembers[userIndex] === from) break;
                     }
 
-                    const e = document.createElement("span");
+                    const e = document.createElement("div");
                     const container = document.getElementById("video-container")
-                    e.classList.add("child", "user-" + userIndex);
+                    e.classList.add("comment", "user-" + userIndex);
                     e.style.left = container.offsetWidth + "px";
                     e.innerHTML = commentText;
 
@@ -373,10 +345,16 @@
                     container.appendChild(e);
                 },
                 sendComment() {
-                    if (this.inputedComment) {
-                        this.showComment(this.inputedComment);
-                        Conversation.send(new AV.TextMessage(this.inputedComment)).catch(console.error);
-                        this.inputedComment = "";
+                    let comment = this.inputedComment.trim();
+                    this.inputedComment = "";
+
+                    if (comment) {
+                        Conversation.send(new AV.TextMessage(comment)).then(() => {
+                            this.showComment(comment);
+                        }).catch(err => {
+                            console.error(err);
+                            antd.message.error(Tr("Failed to send. Please refresh and try again."));
+                        });
                     }
                 },
                 syncConversationState() {
@@ -389,6 +367,9 @@
                         Player.pause();
                         Player.currentTime(Conversation.get("videoPosition"));
                     }
+                },
+                tr(string) {
+                    return Tr(string);
                 },
             },
             mounted() {
