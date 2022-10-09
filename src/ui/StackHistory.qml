@@ -63,7 +63,10 @@ Pane {
                     model: SingletonState.history
                     delegate: CardMoive {
                         Layout.fillWidth: true; Layout.alignment: Qt.AlignTop
-                        movieData: SingletonState.movieCardData.get(movieID)
+                        property var movieData: SingletonState.movieCardData.get(movieID)
+                        thumbSource: movieData.thumbSource
+                        title: movieData.title
+                        brief: `${movieData.country}   ${movieData.year}`
                         onClicked: mouse => {
                                        if (mouse.button === Qt.LeftButton) root.movieSelected(movieID)
                                        else contextMenu.popup()

@@ -93,17 +93,20 @@ Page {
                                    if (mouse.button === Qt.LeftButton) root.movieSelected(movieID)
                                }
 
-                    movieData: SingletonState.movieCardData.get(movieID)
+                    property var movieData: SingletonState.movieCardData.get(movieID)
+                    thumbSource: movieData.thumbSource
+                    title: movieData.title
+                    brief: `${movieData.country}   ${movieData.year}`
                 }
+            }
+            Item {
+                Layout.columnSpan: parent.columns
+                Layout.preferredHeight: 16; Layout.fillWidth: true
             }
             ProgressNetwork {
                 id: progressNetwork
                 Layout.columnSpan: parent.columns
                 Layout.alignment: Qt.AlignHCenter
-            }
-            Item {
-                Layout.columnSpan: parent.columns
-                Layout.preferredHeight: 16; Layout.fillWidth: true
             }
         }
     }

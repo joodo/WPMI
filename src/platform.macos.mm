@@ -1,7 +1,6 @@
 #import "platform.h"
 
 #import <Cocoa/Cocoa.h>
-
 #import <IOKit/pwr_mgt/IOPMLib.h>
 
 using namespace Platform;
@@ -14,6 +13,8 @@ void Platform::hideTitleBar(QQuickWindow *w)
     window.styleMask = window.styleMask | NSWindowStyleMaskFullSizeContentView;
     window.titlebarAppearsTransparent = YES;
     window.titleVisibility = NSWindowTitleHidden;
+
+    //auto button = [window standardWindowButton:NSWindowMiniaturizeButton];
 }
 
 int Platform::setScreensaverEnabled(bool enable)

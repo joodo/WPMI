@@ -29,6 +29,8 @@ QtObject {
         dataList.map(value => movieCardData.set(value.movieID, value))
     }
 
+    property ObjectModel backableItemStack: ObjectModel {}
+
 
     Component.onCompleted: {
         const storageState = JSON.parse(settings.state)

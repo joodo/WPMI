@@ -7,6 +7,7 @@
 #include <QLocale>
 
 #include "backend.h"
+#include "httprequest.h"
 #include "ui/MaterialYou/materialyou.h"
 
 #include <QDebug>
@@ -22,14 +23,21 @@ int main(int argc, char *argv[])
     app.setOrganizationName("Joodo");
     app.setOrganizationDomain("https://github.com/joodo/WPMI");
     app.setApplicationName("WPMI");
+    app.setApplicationVersion(APP_VERSION);
 
 
     // QML
     qmlRegisterUncreatableType<MaterialYou>("MaterialYou", 1, 0, "MaterialYou", "MaterialYou is an attached property");
+    qmlRegisterType<HttpRequest>("WPMI.impl", 1, 0, "HttpRequestImpl");
+    qmlRegisterSingletonType<HttpManager>("WPMI", 1, 0, "HttpManager", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
+        Q_UNUSED(engine)
+        Q_UNUSED(scriptEngine)
+
+        return HttpManager::instance();
+    });
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("Backend", new Backend);
-    engine.rootContext()->setContextProperty("APP_VERSION", APP_VERSION);
     engine.addImportPath("qrc:/");
 
 

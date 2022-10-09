@@ -14,21 +14,6 @@ Page {
     //on_MovieDetailDataChanged: print(JSON.stringify(_movieDetailData))
 
     function renderMovieDetail(url) {
-        const scriptIntercept = `
-        const intercept = (urlmatch, callback) => {
-        let send = XMLHttpRequest.prototype.send;
-        XMLHttpRequest.prototype.send = function() {
-        this.addEventListener('readystatechange', function() {
-        if (this.responseURL.includes(urlmatch) && this.readyState === 4) {
-        callback(this);
-        }
-        }, false);
-        send.apply(this, arguments);
-        };
-        };
-
-        intercept("https://www.dandanzan10.top/url.php", response => alert("m3u8: " + response.responseText))
-        `
         const scriptGetPlaylists = `
         let r = [];
         let titleDOMs = document.querySelectorAll("div.playlists > header > dl > dt");
@@ -49,17 +34,16 @@ Page {
 
         let re = {
         "playlists": r,
-        "fullTitle": document.querySelector("h1.product-title").childNodes[0].nodeValue.trim(),
-        "genre": document.querySelectorAll("div.product-excerpt > span")[2].querySelector("a").innerHTML,
-        "director": document.querySelectorAll("div.product-excerpt > span")[0].querySelector("a").innerHTML,
-        "alias": document.querySelectorAll("div.product-excerpt > span")[4].innerHTML,
-        "description": document.querySelectorAll("div.product-excerpt > span")[5].innerHTML,
+        "oTitle": document.querySelector("meta[property$=otitle]").content,
+        "genre": document.querySelector("meta[property$=class]").content,
+        "director": document.querySelector("meta[property$=director]").content,
+        "alias": document.querySelector("meta[property$=alias]").content,
+        "description": document.querySelector("meta[property$=description]").content,
         };
         re;
         `
 
         return SingletonWebView.loadUrl(url)
-        .then(() => SingletonWebView.runScript(scriptIntercept))
         .then(() => SingletonWebView.runScript(scriptGetPlaylists))
         .then(result => _movieDetailData = result)
         .catch(err => progressNetwork.retryWork = () => renderMovieDetail(url));
@@ -94,7 +78,7 @@ Page {
                 Label {
                     visible: text
                     Layout.fillWidth: true
-                    text: root._movieDetailData? root._movieDetailData.fullTitle.replace(labelTitle.text, "").trim() : ""
+                    text: root._movieDetailData? root._movieDetailData.oTitle : ""
                     MaterialYou.fontRole: MaterialYou.TitleMedium
                     color: MaterialYou.color(MaterialYou.OnSurfaceVariant)
                     wrapMode: Text.Wrap
@@ -161,9 +145,9 @@ Page {
                                                                      position: highlighted && root._history? root._history.position : 0
                                                                  })
 
-                                    SingletonWindowPlayer.title = `${SingletonState.movieCardData.get(root.movieID).title} - ${modelData.title}`
-                                    SingletonWindowPlayer.movieID = root.movieID
-                                    SingletonWindowPlayer.listenM3u8()
+                                    WindowPlayer.title = `${SingletonState.movieCardData.get(root.movieID).title} - ${modelData.title}`
+                                    WindowPlayer.movieID = root.movieID
+                                    WindowPlayer.load(SingletonWebView.waitM3u8())
                                 }
                             }
                         }
@@ -195,37 +179,50 @@ Page {
 
                     GridLayout {
                         visible: root._movieDetailData
-                        Layout.fillWidth: true; Layout.margins: 16; Layout.topMargin: 12
+                        Layout.fillWidth: true
+                        Layout.margins: 16; Layout.topMargin: 12
                         columns: 2
                         columnSpacing: 8
-                        Label {
-                            Layout.alignment: Qt.AlignBaseline | Qt.AlignRight
-                            visible: labelAlias.visible
-                            MaterialYou.fontRole: MaterialYou.LabelMedium
-                            text: qsTr("Alias")
+
+                        Repeater {
+                            model: [
+                                qsTr("Alias"),
+                                qsTr("Director"),
+                                qsTr("Year"),
+                                qsTr("Country"),
+                                qsTr("Genre"),
+                            ]
+
+                            Label {
+                                visible: repeaterValue.model[index]
+                                Layout.row: index; Layout.column: 0
+                                Layout.alignment: Qt.AlignBaseline | Qt.AlignRight
+                                MaterialYou.fontRole: MaterialYou.LabelMedium
+                                text: modelData
+                            }
                         }
-                        Label {
-                            id: labelAlias
-                            visible: text
-                            Layout.alignment: Qt.AlignBaseline; Layout.fillWidth: true
-                            text: root._movieDetailData? root._movieDetailData.alias : ""
-                            wrapMode: Text.Wrap
+
+                        Repeater {
+                            id: repeaterValue
+                            model: root._movieDetailData? [
+                                                              root._movieDetailData.alias,
+                                                              root._movieDetailData.director,
+                                                              SingletonState.movieCardData.get(root.movieID).year,
+                                                              SingletonState.movieCardData.get(root.movieID).country,
+                                                              root._movieDetailData.genre,
+                                                          ] : ["", "", "", "", ""]
+                            Label {
+                                visible: text
+                                Layout.row: index; Layout.column: 1
+                                Layout.alignment: Qt.AlignBaseline; Layout.fillWidth: true
+                                Layout.rightMargin: 16
+                                text: modelData
+                                wrapMode: Text.Wrap
+                            }
                         }
 
-                        Label { Layout.alignment: Qt.AlignBaseline | Qt.AlignRight; text: qsTr("Director"); MaterialYou.fontRole: MaterialYou.LabelMedium }
-                        Label { Layout.alignment: Qt.AlignBaseline; text: root._movieDetailData? root._movieDetailData.director : "" }
-
-                        Label { Layout.alignment: Qt.AlignBaseline | Qt.AlignRight; text: qsTr("Year"); MaterialYou.fontRole: MaterialYou.LabelMedium }
-                        Label { Layout.alignment: Qt.AlignBaseline; text: SingletonState.movieCardData.get(root.movieID).year }
-
-                        Label { Layout.alignment: Qt.AlignBaseline | Qt.AlignRight; text: qsTr("Country"); MaterialYou.fontRole: MaterialYou.LabelMedium }
-                        Label { Layout.alignment: Qt.AlignBaseline; text: SingletonState.movieCardData.get(root.movieID).country }
-
-                        Label { Layout.alignment: Qt.AlignBaseline | Qt.AlignRight; text: qsTr("Genre"); MaterialYou.fontRole: MaterialYou.LabelMedium }
-                        Label { Layout.alignment: Qt.AlignBaseline; text: root._movieDetailData? root._movieDetailData.genre : "" }
-
-                        Item { Layout.preferredHeight: 1; Layout.preferredWidth: 1 }
                         Label {
+                            Layout.row: 5; Layout.column: 1
                             text: `<a href='${SingletonState.movieCardData.get(root.movieID).url}'>` + qsTr("Original Website") + "</a>"
                             onLinkActivated: Qt.openUrlExternally(link)
                             MouseArea {

@@ -7,15 +7,6 @@ import MaterialYou
 StackView {
     id: root
 
-    property bool backable: depth>1 || stackLayout.currentIndex>0
-    function back() {
-        if (depth > 1) {
-            pop()
-        } else if (stackLayout.currentIndex > 0) {
-            stackLayout.currentIndex -= 1
-        }
-    }
-
     initialItem: Page {
         MaterialYou.backgroundColor: "transparent"
         header: Control {
@@ -46,12 +37,29 @@ StackView {
             StackSearch {
                 id: stackSearch
                 onMovieSelected: movieID => root.push(componentMovieDetail.createObject(stackLayout, { movieID }))
+
+                StackLayout.onIsCurrentItemChanged: {
+                    if (StackLayout.isCurrentItem) {
+                        SingletonState.backableItemStack.append(this)
+                    } else {
+                        SingletonState.backableItemStack.remove(SingletonState.backableItemStack.count - 1)
+                    }
+                }
+                function back() {
+                    stackLayout.currentIndex -= 1
+                }
             }
         }
     }
 
     Component {
         id: componentMovieDetail
-        StackMovieDetail { }
+        StackMovieDetail {
+            StackView.onActivated: SingletonState.backableItemStack.append(this)
+            StackView.onDeactivated: SingletonState.backableItemStack.remove(SingletonState.backableItemStack.count - 1)
+            function back() {
+                root.pop()
+            }
+        }
     }
 }

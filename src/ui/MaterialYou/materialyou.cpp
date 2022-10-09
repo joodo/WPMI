@@ -321,3 +321,16 @@ void MaterialYou::setForegroundColor(const QVariant &newForegroundColor)
     m_foregroundColor = newColor;
     emit foregroundColorChanged();
 }
+
+int MaterialYou::animDuration() const
+{
+    return m_animDuration;
+}
+
+void MaterialYou::setAnimDuration(int newAnimDuration)
+{
+    if (m_animDuration == newAnimDuration)
+        return;
+    m_animDuration = newAnimDuration;
+    emit animDurationChanged();
+}

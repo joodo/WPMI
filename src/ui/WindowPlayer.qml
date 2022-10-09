@@ -18,20 +18,17 @@ Window {
         mediaPlayer.pause()
     }
 
-    property bool _listeningM3u8: false
-    function listenM3u8() {
-        _listeningM3u8 = true
+    function load(m3u8) {
+        mediaPlayer.source = ""
         visible = true
         raise()
-    }
-    Connections {
-        target: SingletonWebView
-        function onM3u8Intercepted(m3u8) {
-            if (root._listeningM3u8) {
-                _listeningM3u8 = false
-                mediaPlayer.source = m3u8
-                // Backend.openVideo(m3u8)
-            }
+        // A promise
+        if (m3u8.then) {
+            m3u8.then(url => mediaPlayer.source = url)
+        }
+        // A string
+        if (typeof m3u8 === "string") {
+            mediaPlayer.source = m3u8
         }
     }
 
@@ -65,6 +62,11 @@ Window {
                 }
             }
             onErrorOccurred: (err, errorString) => print(err, errorString)
+            onPositionChanged: {
+                if (!mouseAreaProgressBar.pressed) {
+                    rectAnchor.x = rectAnchor.parent.width * mediaPlayer.position / duration - rectAnchor.width / 2
+                }
+            }
         }
         Timer {
             running: mediaPlayer.playbackState === MediaPlayer.PlayingState
@@ -99,7 +101,7 @@ Window {
             running: true
             anchors.centerIn: parent
         }
-        opacity: _listeningM3u8 ||
+        opacity: !mediaPlayer.source ||
                  mediaPlayer.mediaStatus < MediaPlayer.BufferedMedia? 1: 0
         Behavior on opacity { NumberAnimation { duration: 500; easing.type: Easing.OutCubic } }
     }
@@ -181,7 +183,7 @@ Window {
         id: pane
         visible: mouseArea.cursorShape === Qt.ArrowCursor
         anchors { bottom: parent.bottom; horizontalCenter: parent.horizontalCenter }
-        width: Math.min(500, Window.width - 32); height: 64
+        width: Math.min(600, Window.width - 72); height: 64
         MaterialYou.backgroundColor: MaterialYou.tintSurfaceColor(2)
         topPadding: 0; horizontalPadding: 16; bottomPadding: 8
         blurItem: rectScreen
@@ -210,10 +212,10 @@ Window {
                 RowLayout {
                     anchors.centerIn: parent
                     ToolButton {
-                        id: buttonReplay10
+                        id: buttonReplay5
                         icon.height: 20; icon.width: 20
-                        icon.source: "qrc:/replay_10.svg"
-                        onClicked: mediaPlayer.position -= 10000
+                        icon.source: "qrc:/replay_5.svg"
+                        onClicked: mediaPlayer.position -= 5000
                     }
                     ToolButton {
                         visible: false
@@ -251,10 +253,10 @@ Window {
                         onReleased: mediaPlayer.playbackRate = 1
                     }
                     ToolButton {
-                        id: buttonForward10
+                        id: buttonForward5
                         icon.height: 20; icon.width: 20
-                        icon.source: "qrc:/forward_10.svg"
-                        onClicked: mediaPlayer.position += 10000
+                        icon.source: "qrc:/forward_5.svg"
+                        onClicked: mediaPlayer.position += 5000
                     }
                 }
 
@@ -265,8 +267,8 @@ Window {
                         icon.source: "qrc:/list.svg"
                         icon.height: 20; icon.width: 20
                         onClicked: {
-                            SingletonWindowMain.show()
-                            SingletonWindowMain.raise()
+                            WindowMain.show()
+                            WindowMain.raise()
                         }
                     }
                     ToolButton {
@@ -415,27 +417,40 @@ Window {
 
                     ProgressBar {
                         anchors.fill: parent
-                        value: mediaPlayer.position
-                        to: mediaPlayer.duration
+                        value: rectAnchor.x + rectAnchor.width / 2
+                        to: parent.width
                         MaterialYou.backgroundColor: MaterialYou.tintSurfaceColor(3)
                         MaterialYou.radius: 10
                         opacity: 0.7
-                    }
-                    Rectangle {
-                        anchors.verticalCenter: parent.verticalCenter
-                        x: parent.width * mediaPlayer.position / mediaPlayer.duration - width / 2
-                        width: 4
-                        radius: 4
-                        height: 16
-                        color: MaterialYou.color(MaterialYou.OnPrimary)
                     }
                     MouseArea {
                         id: mouseAreaProgressBar
                         property real hoveredMs: mouseX / width * mediaPlayer.duration
                         anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
-                        onClicked: mediaPlayer.setPosition(hoveredMs)
+                        cursorShape: pressed? Qt.ClosedHandCursor : Qt.ArrowCursor
+                        onMouseXChanged: {
+                            if (!pressed) return;
+                            rectAnchor.x = Math.max(0, Math.min(parent.width - rectAnchor.width, mouseX - rectAnchor.width/2))
+                        }
+                        onPressed: mouseXChanged(null)
+                        onReleased: mediaPlayer.position = mouseAreaProgressBar.hoveredMs
+                    }
+                    Rectangle {
+                        id: rectAnchor
+                        anchors.verticalCenter: parent.verticalCenter
+                        z: 1
+                        width: 4
+                        radius: 4
+                        height: 16
+                        color: MaterialYou.color(MaterialYou.OnPrimary)
+                        MouseArea {
+                            anchors.fill: parent
+                            anchors.margins: -2
+                            hoverEnabled: true
+                            cursorShape: mouseAreaProgressBar.pressed? Qt.ClosedHandCursor : Qt.OpenHandCursor
+                            acceptedButtons: Qt.NoButton
+                        }
                     }
                     Label {
                         id: labelSeekHint
@@ -463,8 +478,8 @@ Window {
         focus: true
         onFocusChanged: focus = true
         Keys.onSpacePressed: { buttonPlay.clicked(); showCursor() }
-        Keys.onLeftPressed: { buttonReplay10.clicked(); showCursor() }
-        Keys.onRightPressed: { buttonForward10.clicked(); showCursor() }
+        Keys.onLeftPressed: { buttonReplay5.clicked(); showCursor() }
+        Keys.onRightPressed: { buttonForward5.clicked(); showCursor() }
         Keys.onUpPressed: { audioOutput.volume += 0.1; showCursor() }
         Keys.onDownPressed: { audioOutput.volume -= 0.1; showCursor() }
         Keys.onEscapePressed: root.visibility = Window.Windowed

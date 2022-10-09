@@ -1,46 +1,12 @@
-/****************************************************************************
-**
-** Copyright (C) 2017 The Qt Company Ltd.
-** Contact: https://www.qt.io/licensing/
-**
-** This file is part of the Qt Quick Controls 2 module of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:LGPL$
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see https://www.qt.io/terms-conditions. For further
-** information use the contact form at https://www.qt.io/contact-us.
-**
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 3 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPL3 included in the
-** packaging of this file. Please review the following information to
-** ensure the GNU Lesser General Public License version 3 requirements
-** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
-**
-** GNU General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 2.0 or (at your option) the GNU General
-** Public license version 3 or any later version approved by the KDE Free
-** Qt Foundation. The licenses are as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
-** included in the packaging of this file. Please review the following
-** information to ensure the GNU General Public License requirements will
-** be met: https://www.gnu.org/licenses/gpl-2.0.html and
-** https://www.gnu.org/licenses/gpl-3.0.html.
-**
-** $QT_END_LICENSE$
-**
-****************************************************************************/
+/*
+ * https://m3.material.io/components/text-fields/overview
+ * TODO: Filled type, Leading icon, Supporting text, Trailing icon, error status
+ */
 
 import QtQuick
 import QtQuick.Templates as T
 import QtQuick.Controls.impl
-import QtQuick.Controls.Material
+import QtQuick.Shapes
 import MaterialYou
 import MaterialYou.impl
 
@@ -54,7 +20,6 @@ T.TextField {
                              placeholder.implicitHeight + topPadding + bottomPadding)
 
     topPadding: 8; bottomPadding: 8
-    leftPadding: 16; rightPadding: 16
 
     selectByMouse: true
 
@@ -69,32 +34,209 @@ T.TextField {
     MaterialYou.fontRole: MaterialYou.BodyLarge
     font: MaterialYou.font(MaterialYou.fontRole)
 
+    MaterialYou.animDuration: 250
+
     cursorDelegate: CursorDelegate { }
 
-    PlaceholderText {
-        id: placeholder
-        x: control.leftPadding
-        y: control.topPadding
-        width: control.width - (control.leftPadding + control.rightPadding)
-        height: control.height - (control.topPadding + control.bottomPadding)
-        text: control.placeholderText
-        font: control.font
+
+    property string prefix: ""
+    property string sufix: ""
+    Text {
+        id: textPrefix
+        visible: !placeholder.visible || placeholder.state === "positioned"
+        rightPadding: 2
+        anchors { left: parent.left; leftMargin: 16; verticalCenter: parent.verticalCenter }
+        text: control.prefix
         color: control.placeholderTextColor
+        font: parent.font
+    }
+    Text {
+        id: textSufix
+        visible: !placeholder.visible || placeholder.state === "positioned"
+        leftPadding: 2
+        anchors { right: parent.right; rightMargin: 16; verticalCenter: parent.verticalCenter }
+        text: control.sufix
+        color: control.placeholderTextColor
+        font: parent.font
+    }
+    leftPadding: 16 + textPrefix.implicitWidth
+    rightPadding: 16 + textSufix.implicitWidth
+
+
+    property bool placeholderPositionable: true
+    Text {
+        id: placeholder
+        text: control.placeholderText
         verticalAlignment: control.verticalAlignment
-        elide: Text.ElideRight
         renderType: control.renderType
-        visible: !control.length && !control.preeditText && (!control.activeFocus || control.horizontalAlignment !== Qt.AlignHCenter)
+        // TODO: AlignHCenter case
+        // visible: !control.length && !control.preeditText && (!control.activeFocus || control.horizontalAlignment !== Qt.AlignHCenter)
+        Behavior on font.pointSize {
+            NumberAnimation {
+                duration: control.MaterialYou.animDuration
+                easing.type: Easing.OutCubic
+            }
+        }
+        states: [
+            State {
+                name: "positioned"
+                when: (control.placeholderPositionable
+                       && control.placeholderText
+                       && (control.activeFocus || control.length || control.preeditText))
+                PropertyChanges {
+                    target: placeholder
+                    x: textPositioned.x
+                    y: textPositioned.y
+                    width: textPositioned.width
+                    height: textPositioned.height
+                    font: textPositioned.font
+                    color: shape.borderColor
+                    opacity: control.background.opacity
+                }
+                PropertyChanges {
+                    target: shape
+                    state: "positioned"
+                }
+            },
+            State {
+                name: "hidden"
+                extend: "normal"
+                when: !control.placeholderText || !control.placeholderPositionable && (control.length
+                                                                                       || control.preeditText
+                                                                                       || (control.activeFocus && (control.prefix || control.sufix)))
+                PropertyChanges {
+                    target: placeholder
+                    visible: false
+                }
+            },
+            State {
+                name: "normal"
+                when: true
+                PropertyChanges {
+                    target: placeholder
+                    x: 16
+                    y: control.topPadding
+                    width: control.width - (control.leftPadding + control.rightPadding)
+                    height: control.height - (control.topPadding + control.bottomPadding)
+                    font: control.font
+                    color: control.placeholderTextColor
+                }
+                PropertyChanges {
+                    target: shape
+                    state: "normal"
+                }
+            }
+        ]
+        state: "normal"
+        transitions: Transition {
+            NumberAnimation {
+                properties: "x, y, width, height"
+                duration: control.MaterialYou.animDuration
+                easing.type: Easing.OutCubic
+            }
+            ColorAnimation {
+                property: "color"
+                duration: control.MaterialYou.animDuration
+            }
+        }
     }
 
-    background: Rectangle {
-        implicitWidth: 120
+    background: Item {
+        implicitWidth: 200
         implicitHeight: 56
-        color: "transparent"
-        radius: 4
-        border.width: control.activeFocus ? 2 : 1
-        border.color: control.activeFocus ? MaterialYou.color(MaterialYou.Primary) :
-                                            !control.enabled || control.hovered? MaterialYou.color(MaterialYou.OnSurface) :
-                                                                                 MaterialYou.color(MaterialYou.Outline)
         opacity: control.enabled? 1 : 0.12/control.opacity
+
+        Text {
+            id: textPositioned
+            x: 16
+            anchors.verticalCenter: parent.top
+            font: MaterialYou.font(MaterialYou.BodySmall)
+            text: control.placeholderText
+            color: "transparent"
+        }
+
+        Item {
+            anchors { fill: parent; margins: -10 }
+            layer { enabled: true; smooth: true; samples: 8 }
+            Shape {
+                id: shape
+                anchors { fill: parent; margins: 10 }
+                property color borderColor: control.activeFocus ? MaterialYou.color(MaterialYou.Primary) :
+                                                                  !control.enabled || control.hovered? MaterialYou.color(MaterialYou.OnSurface) :
+                                                                                                       MaterialYou.color(MaterialYou.Outline)
+                readonly property int radius: 4
+                property int positionWidth
+                Behavior on positionWidth {
+                    NumberAnimation {
+                        duration: control.MaterialYou.animDuration
+                        easing.type: Easing.OutCubic
+                    }
+                }
+                states: [
+                    State {
+                        name: "normal"
+                        PropertyChanges {
+                            target: shape
+                            positionWidth: 0
+                        }
+                    },
+                    State {
+                        name: "positioned"
+                        PropertyChanges {
+                            target: shape
+                            positionWidth: textPositioned.width + 8
+                        }
+                    }
+                ]
+
+                ShapePath {
+                    startX: shape.radius; startY: 0
+                    strokeColor: shape.borderColor
+                    Behavior on strokeColor { ColorAnimation { duration: control.MaterialYou.animDuration } }
+                    strokeWidth: control.activeFocus ? 2 : 1
+                    Behavior on strokeWidth { NumberAnimation { duration: control.MaterialYou.animDuration } }
+                    fillColor: "transparent"
+                    capStyle: ShapePath.FlatCap
+
+                    PathLine {
+                        x: 16 + (textPositioned.width)/2 - shape.positionWidth/2
+                    }
+                    PathMove {
+                        relativeX: shape.positionWidth
+                    }
+                    PathLine {
+                        x: shape.width - shape.radius
+                    }
+                    PathArc {
+                        relativeX: shape.radius; relativeY: shape.radius
+                        radiusX: shape.radius; radiusY: shape.radius
+                    }
+                    PathLine {
+                        relativeX: 0
+                        relativeY: shape.height - 2*shape.radius
+                    }
+                    PathArc {
+                        relativeX: -shape.radius; relativeY: shape.radius
+                        radiusX: shape.radius; radiusY: shape.radius
+                    }
+                    PathLine {
+                        relativeX: -shape.width + 2*shape.radius
+                        relativeY: 0
+                    }
+                    PathArc {
+                        relativeX: -shape.radius; relativeY: -shape.radius
+                        radiusX: shape.radius; radiusY: shape.radius
+                    }
+                    PathLine {
+                        relativeX: 0
+                        relativeY: -shape.height + 2*shape.radius
+                    }
+                    PathArc {
+                        relativeX: shape.radius; relativeY: -shape.radius
+                        radiusX: shape.radius; radiusY: shape.radius
+                    }
+                }
+            }
+        }
     }
 }

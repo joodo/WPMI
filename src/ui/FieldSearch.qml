@@ -12,6 +12,8 @@ Pane {
 
     property alias placeholderText: textPlaceholder.text
 
+    //MaterialYou.backgroundColor: MaterialYou.tintSurfaceColor(2)
+
     RowLayout {
         anchors.fill: parent
         spacing: 0

@@ -11,7 +11,9 @@ Pane {
     implicitHeight: paneContentItem.implicitHeight
 
     signal clicked(var mouse)
-    property var movieData
+    property alias thumbSource: image.source
+    property alias title: labelTitle.text
+    property alias brief: labelBrief.text
 
     padding: 0
     MaterialYou.elevation: mouseArea.containsMouse && !mouseArea.pressed? 4 : 2
@@ -26,26 +28,26 @@ Pane {
             width: parent.width
             spacing: 0
             Image {
+                id: image
                 Layout.margins: 1
                 Layout.fillWidth: true
                 Layout.preferredHeight: width / sourceSize.width * sourceSize.height
-                source: root.movieData.thumbSource
                 fillMode: Image.PreserveAspectFit
             }
 
             Label {
+                id: labelTitle
                 Layout.fillWidth: true
                 Layout.leftMargin: 16; Layout.rightMargin: 16; Layout.topMargin: 12
-                text: root.movieData.title
                 elide: Text.ElideRight
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
                 MaterialYou.fontRole: MaterialYou.TitleSmall
             }
             Label {
+                id: labelBrief
                 Layout.fillWidth: true
                 Layout.margins: 16; Layout.topMargin: 0
-                text: `${root.movieData.country}   ${root.movieData.year}`
                 elide: Text.ElideRight
                 MaterialYou.fontRole: MaterialYou.LabelSmall
                 color: MaterialYou.color(MaterialYou.OnSurfaceVariant)

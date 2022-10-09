@@ -2,22 +2,24 @@ QT += quick webenginequick network svg xml
 
 SOURCES += \
     backend.cpp \
+    httprequest.cpp \
     main.cpp \
     ui/MaterialYou/materialyou.cpp
 
 RESOURCES += \
     assets/assets.qrc \
     qtquickcontrols2.conf \
-    translations/translations.qrc \
+    ui/SiteDandanzan.qml \
+    ui/WindowMain.qml \
+    ui/WindowPlayer.qml \
+    ui/qmldir \
+    ui/Object.qml \
+    ui/Main.qml \
+    ui/HttpRequest.qml \
     ui/OrderedMapModel.qml \
     ui/ListModelWrapper.qml \
-    ui/SingletonWindowMain.qml \
-    ui/SingletonWindowPlayer.qml \
     ui/SingletonState.qml \
-    ui/qmldir \
-    ui/Main.qml \
     ui/SingletonWebView.qml \
-    ui/StackMovies.qml \
     ui/StackHistory.qml \
     ui/StackMovieDetail.qml \
     ui/StackSettings.qml \
@@ -28,9 +30,9 @@ RESOURCES += \
     ui/HandlerWindowDrag.qml \
     ui/ProgressNetwork.qml \
     ui/PaneBlur.qml \
-    ui/LabelRequireRestart.qml \
     ui/QRCode/QRCode.qml \
     ui/QRCode/qrcode.js \
+    ui/SiteJable.qml \
     ui/MaterialYou/resources.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -43,14 +45,19 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     backend.h \
+    httprequest.h \
     platform.h \
     ui/MaterialYou/materialyou.h
 
 # Translation
+CONFIG += lrelease embed_translations
+
 TRANSLATIONS = \
     translations/en_US.ts \
     translations/zh_CN.ts
-CONFIG += lrelease embed_translations
+
+RESOURCES += \
+    translations/qt/qtbase_zh_CN.qm
 
 # Version
 system("git describe --tags") {

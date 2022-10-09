@@ -12,6 +12,7 @@ class MaterialYou : public QObject
     Q_PROPERTY(FontRole fontRole READ fontRole WRITE setFontRole NOTIFY fontRoleChanged)
     Q_PROPERTY(int radius READ radius WRITE setRadius NOTIFY radiusChanged)
     Q_PROPERTY(int elevation READ elevation WRITE setElevation NOTIFY elevationChanged)
+    Q_PROPERTY(int animDuration READ animDuration WRITE setAnimDuration NOTIFY animDurationChanged)
     Q_PROPERTY(QVariant backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
     Q_PROPERTY(QVariant foregroundColor READ foregroundColor WRITE setForegroundColor NOTIFY foregroundColorChanged)
 
@@ -115,6 +116,9 @@ public:
     const QColor &foregroundColor() const;
     void setForegroundColor(const QVariant &newForegroundColor);
 
+    int animDuration() const;
+    void setAnimDuration(int newAnimDuration);
+
 signals:
 
     void fontRoleChanged();
@@ -127,6 +131,8 @@ signals:
 
     void foregroundColorChanged();
 
+    void animDurationChanged();
+
 private:
     bool m_isDarkSystemTheme() const;
 
@@ -136,6 +142,7 @@ private:
     int m_elevation = 0;
     QColor m_backgroundColor;
     QColor m_foregroundColor;
+    int m_animDuration;
 };
 
 QML_DECLARE_TYPEINFO(MaterialYou, QML_HAS_ATTACHED_PROPERTIES)

@@ -1,27 +1,107 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
+import WPMI
 
-QtObject {
-    property var mainWindow
-    property var playerWindow
+Object {
     Component.onCompleted: {
-        mainWindow = SingletonWindowMain
-        playerWindow = SingletonWindowPlayer
+        children.push(WindowMain)
+        children.push(WindowPlayer)
+
+        HttpManager.timeout = 5000;
     }
 
-    property var webViewWindow:  Window {
+    Window {
+        id: windowWebView
         //visible: true
         width: 600; height: 480
         Component.onCompleted: SingletonWebView.parent = contentItem
     }
 
-    property var testWindow: Window {
+    Window {
         //visible: true
+        width: 600; height: 480
 
-
-        Button {
+        ColumnLayout {
             anchors.centerIn: parent
-            onClicked: text = text === "aaaaaaaaaaaaaaaaaaaaaa" ? "a" : "aaaaaaaaaaaaaaaaaaaaaa"
+            TextField {
+                placeholderText: "PlaceholderText"
+                placeholderPositionable: true
+                prefix: "prefix"
+                sufix: "sufix"
+            }
+            TextField {
+                placeholderText: "PlaceholderText"
+                placeholderPositionable: false
+                prefix: "prefix"
+                sufix: "sufix"
+            }
+        }
+    }
+
+    HttpRequest {
+        id: updateChecker
+        url: "http://127.0.0.1:8080/update_macos.json"
+        Component.onCompleted: {
+            const NewFeaturesFileName = "newfeatures.txt"
+
+            // remove old exe file
+            Backend.removeFile("old")
+
+            // show new feature
+            const versionChangeLog = Backend.readFile(NewFeaturesFileName)
+            if (versionChangeLog) {
+                Backend.removeFile(NewFeaturesFileName)
+                const o = JSON.parse(versionChangeLog)
+                let content = ""
+                o.features.map(feature => content += `- ${feature}\n`)
+                WindowMain.showDialog(content, qsTr("Updated to Version %1").arg(o.version), Dialog.Ok)
+            }
+
+            // check update
+            get().then(response => {
+                           for (let info of response.versions) {
+                               const currentVersion = Qt.application.version
+                               if (currentVersion >= info.after && currentVersion < info.version) {
+                                   const targetVersion = info.version
+                                   get(info.url).then(newFile => {
+                                                          // change permission
+                                                          if (!Backend.setFilePermissions(newFile, 0x7555)) {
+                                                              Backend.removeFile(newFile)
+                                                              console.error("Update: Failed to change download file permission.")
+                                                              return
+                                                          }
+
+                                                          // replace file
+                                                          const exeName = Qt.application.arguments[0]
+                                                          if (!Backend.removeFile(exeName)) {
+                                                              if (!Backend.moveFile(exeName, "old")) {
+                                                                  Backend.removeFile(newFile)
+                                                                  console.error("Update: Failed to remove old exe.")
+                                                                  return
+                                                              }
+                                                          }
+
+                                                          Backend.moveFile(newFile, exeName)
+
+                                                          // create new feature file
+                                                          let newFeatures = []
+                                                          for (let change of response.changelog) {
+                                                              if (targetVersion < change.version) continue
+                                                              if (currentVersion >= change.version) break
+                                                              newFeatures.unshift(...change.new_features)
+                                                          }
+
+                                                          const content = {
+                                                              version: targetVersion,
+                                                              features: newFeatures,
+                                                          }
+                                                          Backend.writeFile(NewFeaturesFileName, JSON.stringify(content))
+                                                      })
+                                   break
+                               }
+                           }
+                       })
         }
     }
 }

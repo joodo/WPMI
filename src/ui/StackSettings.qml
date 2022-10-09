@@ -8,17 +8,12 @@ ScrollView {
     contentWidth: availableWidth
     ColumnLayout {
         anchors.fill: parent
+        anchors.leftMargin: 24
         spacing: 8
-        Label {
-            text: qsTr("Settings")
-            MaterialYou.fontRole: MaterialYou.DisplaySmall
-        }
 
-        Label {
-            text: qsTr("Interface")
-            MaterialYou.fontRole: MaterialYou.HeadlineSmall
-            MaterialYou.foregroundColor: MaterialYou.Secondary
-        }
+        LabelH1 { text: qsTr("Settings") }
+
+        LabelH2 { text: qsTr("Interface") }
 
         RowLayout {
             spacing: 8
@@ -35,20 +30,18 @@ ScrollView {
         }
         ComboBox {
             id: comboBoxLanguage
-            Layout.leftMargin: 12
             textRole: "text"
             valueRole: "value"
             implicitWidth: 250
             model: Backend.supportedLanguages()
         }
-        Item { Layout.preferredHeight: 16; Layout.preferredWidth: 1 }
+        SeparatorH3 {}
 
         RowLayout {
             spacing: 8
-            Label {
+            LabelH3 {
                 Layout.alignment: Qt.AlignBaseline
                 text: qsTr("Theme")
-                MaterialYou.fontRole: MaterialYou.TitleSmall
             }
             LabelRequireRestart {
                 property int _initValue
@@ -58,7 +51,6 @@ ScrollView {
         }
         ComboBox {
             id: comboBoxTheme
-            Layout.leftMargin: 12
             textRole: "key"
             valueRole: "value"
             model: ListModel {
@@ -69,29 +61,15 @@ ScrollView {
             Component.onCompleted: comboBoxTheme.currentIndex = settingsMY.theme
             onActivated: settingsMY.theme = currentIndex
         }
-        Item { Layout.preferredHeight: 16; Layout.preferredWidth: 1 }
+        SeparatorH3 {}
 
 
-        ToolSeparator {
-            orientation: Qt.Horizontal
-            Layout.fillWidth: true
-            Layout.rightMargin: 32
-            Layout.topMargin: 16
-            Layout.bottomMargin: 8
-        }
-        Label {
-            text: qsTr("Network")
-            MaterialYou.fontRole: MaterialYou.HeadlineSmall
-            MaterialYou.foregroundColor: MaterialYou.Secondary
-        }
+        SeparatorH2 {}
+        LabelH2 { text: qsTr("Network") }
 
-        Label {
-            text: qsTr("Proxy")
-            MaterialYou.fontRole: MaterialYou.TitleSmall
-        }
+        LabelH3 { text: qsTr("Proxy") }
         ComboBox {
             id: comboBoxProxy
-            Layout.leftMargin: 12
             textRole: "key"
             valueRole: "value"
             model: ListModel {
@@ -107,52 +85,33 @@ ScrollView {
                 default: ;
                 }
             }
+            Component.onCompleted: activated(currentIndex)
         }
         TextField {
             id: fieldProxy
-            Layout.leftMargin: 12
             visible: comboBoxProxy.currentValue === 2
             Layout.preferredWidth: 300
             text: ""
+            prefix: "http://"
             onEditingFinished: comboBoxProxy.activated(comboBoxProxy.currentIndex)
         }
-        Item { Layout.preferredHeight: 16; Layout.preferredWidth: 1 }
+        SeparatorH3 {}
 
-        Label {
-            text: qsTr("Resource Server")
-            MaterialYou.fontRole: MaterialYou.TitleSmall
-        }
-        Label {
-            Layout.leftMargin: 12
-            text: qsTr("Server to search videos.")
-        }
+        LabelH3 { text: qsTr("Resource Server") }
+        Label { text: qsTr("Server to search videos.") }
         TextField {
-            Layout.leftMargin: 12
             id: fieldResourceServer
             Layout.preferredWidth: 300
+            prefix: "http://"
             text: "www.dandanzan10.top"
         }
-        Item { Layout.preferredHeight: 16; Layout.preferredWidth: 1 }
+        SeparatorH3 {}
 
 
-        ToolSeparator {
-            orientation: Qt.Horizontal
-            Layout.fillWidth: true
-            Layout.rightMargin: 32
-            Layout.topMargin: 16
-            Layout.bottomMargin: 8
-        }
+        SeparatorH2 {}
+        LabelH2 { text: qsTr("About") }
+        Label { text: `WPMI - Watch Pirated Movies Illegally  ${Qt.application.version}\nBy Joodo` }
         Label {
-            text: qsTr("About")
-            MaterialYou.fontRole: MaterialYou.HeadlineSmall
-            MaterialYou.foregroundColor: MaterialYou.Secondary
-        }
-        Label {
-            Layout.leftMargin: 12
-            text: `WPMI - Watch Pirated Movies Illegally  ${APP_VERSION}\nBy Joodo`
-        }
-        Label {
-            Layout.leftMargin: 12
             text: `<a href='https://github.com/joodo/WPMI'>GitHub</a>`
             onLinkActivated: Qt.openUrlExternally(link)
             MouseArea {
@@ -161,8 +120,9 @@ ScrollView {
                 cursorShape: Qt.PointingHandCursor
             }
         }
-        Item { Layout.preferredHeight: 16; Layout.preferredWidth: 1 }
+        SeparatorH3 {}
     }
+
 
     Settings {
         id: settingsMY
@@ -173,6 +133,50 @@ ScrollView {
         id: settings
         property alias resourceServer: fieldResourceServer.text
         property alias proxyType: comboBoxProxy.currentIndex
+        property alias proxyAddress: fieldProxy.text
         property alias language: comboBoxLanguage.currentValue
+    }
+
+
+    component LabelH1: Label {
+        MaterialYou.fontRole: MaterialYou.DisplaySmall
+        Layout.leftMargin: -24
+    }
+    component LabelH2: Label {
+        MaterialYou.fontRole: MaterialYou.HeadlineSmall
+        MaterialYou.foregroundColor: MaterialYou.Secondary
+        Layout.leftMargin: -12
+    }
+    component SeparatorH2: ToolSeparator {
+        orientation: Qt.Horizontal
+        Layout.fillWidth: true
+        Layout.rightMargin: 32
+        Layout.topMargin: 16
+        Layout.bottomMargin: 8
+        Layout.leftMargin: -24
+    }
+    component LabelH3: Label {
+        MaterialYou.fontRole: MaterialYou.TitleSmall
+    }
+    component SeparatorH3: Item {
+        Layout.preferredHeight: 16
+        Layout.preferredWidth: 1
+    }
+    component LabelRequireRestart: RowLayout {
+        Label {
+            text: qsTr("Restart WPMI to apply this change.")
+            MaterialYou.foregroundColor: MaterialYou.OnSurfaceVariant
+            MaterialYou.fontRole: MaterialYou.LabelSmall
+        }
+        Label {
+            text: qsTr("<a href='restart'>Restart Now</a>")
+            onLinkActivated: Backend.restartApplication()
+            MaterialYou.fontRole: MaterialYou.LabelSmall
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.NoButton
+                cursorShape: Qt.PointingHandCursor
+            }
+        }
     }
 }
