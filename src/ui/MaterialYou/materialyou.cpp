@@ -141,8 +141,15 @@ static const qreal fontLineHeight[] = {
     1.27,  // title-large
 };
 
-QColor MaterialYou::color(MaterialYou::ColorRole role) const
+QColor MaterialYou::color(const QVariant &c) const
 {
+    if (c.userType() != QMetaType::Int)
+    {
+        return c.value<QColor>();
+    }
+
+    auto role = c.value<MaterialYou::ColorRole>();
+
     // FIXME: clean it
     if (role == ColorRole::Transparent) return QColor("transparent");
 

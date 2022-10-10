@@ -50,6 +50,11 @@ T.DialogButtonBox {
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              contentHeight + topPadding + bottomPadding)
 
+    visible: count > 0
+
+    padding: 24
+    bottomPadding: 12
+
     spacing: 8
     alignment: Qt.AlignRight
     buttonLayout: T.DialogButtonBox.AndroidLayout

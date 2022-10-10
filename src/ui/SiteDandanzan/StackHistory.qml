@@ -29,20 +29,9 @@ Pane {
                 Layout.alignment: Qt.AlignBaseline
                 text: qsTr("Clear")
                 flat: true
-                onClicked: dialogConfirmClearHistory.open()
-                Dialog {
-                    id: dialogConfirmClearHistory
-                    title: qsTr("Clear history?")
-                    standardButtons: Dialog.Ok | Dialog.Cancel
-                    modal: true
-
-                    Label {
-                        MaterialYou.foregroundColor: MaterialYou.OnSurfaceVariant
-                        text: qsTr("This will clean all porn you've watched. It's nice to be reborn.")
-                    }
-
-                    onAccepted: SingletonState.history.clear()
-                }
+                onClicked: WindowMain.showDialog(qsTr("This will clean all porn you've watched. It's nice to be reborn."),
+                                                 qsTr("Clear history?"),
+                                                 Dialog.Ok | Dialog.Cancel).then(Session.history.clear)
             }
         }
 
@@ -60,24 +49,22 @@ Pane {
                 onWidthChanged: columns = Math.max(3, (width + rowSpacing) / (160 + rowSpacing))
                 Repeater {
                     id: repeater
-                    model: SingletonState.history
+                    model: Session.history
                     delegate: CardMoive {
                         Layout.fillWidth: true; Layout.alignment: Qt.AlignTop
-                        property var movieData: SingletonState.movieCardData.get(movieID)
+                        property var movieData: Session.movieCardData.get(movieID)
                         thumbSource: movieData.thumbSource
                         title: movieData.title
                         brief: `${movieData.country}   ${movieData.year}`
-                        onClicked: mouse => {
-                                       if (mouse.button === Qt.LeftButton) root.movieSelected(movieID)
-                                       else contextMenu.popup()
-                                   }
+                        onLeftClicked: root.movieSelected(movieID)
+                        onRightClicked: contextMenu.popup()
 
                         Menu {
                             id: contextMenu
                             MaterialYou.backgroundColor: MaterialYou.tintSurfaceColor(4)
                             MenuItem {
                                 text: qsTr("Remove")
-                                onTriggered: SingletonState.history.remove(index)
+                                onTriggered: Session.history.remove(index)
                             }
                         }
                     }

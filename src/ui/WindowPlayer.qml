@@ -9,14 +9,12 @@ import Qt.labs.settings
 import Qt5Compat.GraphicalEffects
 import MaterialYou
 
-Window {
+ApplicationWindow {
     id: root
 
     property string movieID: ""
 
-    onClosing: {
-        mediaPlayer.pause()
-    }
+    onClosing: mediaPlayer.pause()
 
     function load(m3u8) {
         mediaPlayer.source = ""
@@ -44,7 +42,7 @@ Window {
             videoOutput: videoOutput; audioOutput: audioOutput
             onMediaStatusChanged: {
                 if (mediaStatus === MediaPlayer.LoadedMedia) {
-                    let history = SingletonState.history.get(SingletonState.historyIndexOf(root.movieID))
+                    let history = Session.history.get(Session.historyIndexOf(root.movieID))
                     if (history && history.position < 1) {
                         mediaPlayer.position = Math.max(0, history.position * duration - 10 * 1000)
                     }
@@ -62,20 +60,15 @@ Window {
                 }
             }
             onErrorOccurred: (err, errorString) => print(err, errorString)
-            onPositionChanged: {
-                if (!mouseAreaProgressBar.pressed) {
-                    rectAnchor.x = rectAnchor.parent.width * mediaPlayer.position / duration - rectAnchor.width / 2
-                }
-            }
         }
         Timer {
             running: mediaPlayer.playbackState === MediaPlayer.PlayingState
             interval: 1000; repeat: true
             onTriggered: {
-                let historyIndex = SingletonState.historyIndexOf(root.movieID)
+                let historyIndex = Session.historyIndexOf(root.movieID)
                 if (historyIndex < 0) return
 
-                SingletonState.history.setProperty(historyIndex, "position", mediaPlayer.position / mediaPlayer.duration)
+                Session.history.setProperty(historyIndex, "position", mediaPlayer.position / mediaPlayer.duration)
             }
         }
 
@@ -86,6 +79,7 @@ Window {
             }
         }
         AudioOutput { id: audioOutput }
+        Settings { property alias volume: audioOutput.volume }
     }
 
     Item {
@@ -164,8 +158,7 @@ Window {
         mouseArea.cursorShape = Qt.ArrowCursor
         if (!pane.hovered
                 && !menu.visible
-                && (mediaPlayer.playbackState === MediaPlayer.PlayingState
-                    || mediaPlayer.playbackState === MediaPlayer.PausedState)) {
+                && mediaPlayer.playbackState !== MediaPlayer.StoppedState) {
             timerHideCursor.restart()
         }
     }
@@ -286,7 +279,6 @@ Window {
                                     id: dialogHelp
                                     parent: root.contentItem
                                     title: qsTr("Usage")
-                                    standardButtons: Dialog.Ok
                                     anchors.centerIn: parent
                                     modal: true
                                     Label {
@@ -315,7 +307,6 @@ Window {
                                     anchors.centerIn: parent
                                     alignment: Dialog.AlignCenter
                                     title: qsTr("Watch on Web")
-                                    standardButtons: Dialog.Ok
                                     modal: true
                                     ColumnLayout {
                                         spacing: 8
@@ -426,31 +417,26 @@ Window {
                     MouseArea {
                         id: mouseAreaProgressBar
                         property real hoveredMs: mouseX / width * mediaPlayer.duration
+                        property bool playerJustPlayed
                         anchors.fill: parent
                         hoverEnabled: true
-                        cursorShape: pressed? Qt.ClosedHandCursor : Qt.ArrowCursor
-                        onMouseXChanged: {
-                            if (!pressed) return;
-                            rectAnchor.x = Math.max(0, Math.min(parent.width - rectAnchor.width, mouseX - rectAnchor.width/2))
+                        onMouseXChanged: pressed && (mediaPlayer.position = hoveredMs)
+                        onPressed: {
+                            playerJustPlayed = mediaPlayer.playbackState === MediaPlayer.PlayingState
+                            mediaPlayer.pause()
+                            mouseXChanged(null)
                         }
-                        onPressed: mouseXChanged(null)
-                        onReleased: mediaPlayer.position = mouseAreaProgressBar.hoveredMs
+                        onReleased: playerJustPlayed && mediaPlayer.play()
                     }
                     Rectangle {
                         id: rectAnchor
                         anchors.verticalCenter: parent.verticalCenter
+                        x: parent.width * mediaPlayer.position / mediaPlayer.duration - width / 2
                         z: 1
                         width: 4
                         radius: 4
                         height: 16
                         color: MaterialYou.color(MaterialYou.OnPrimary)
-                        MouseArea {
-                            anchors.fill: parent
-                            anchors.margins: -2
-                            hoverEnabled: true
-                            cursorShape: mouseAreaProgressBar.pressed? Qt.ClosedHandCursor : Qt.OpenHandCursor
-                            acceptedButtons: Qt.NoButton
-                        }
                     }
                     Label {
                         id: labelSeekHint
@@ -483,10 +469,5 @@ Window {
         Keys.onUpPressed: { audioOutput.volume += 0.1; showCursor() }
         Keys.onDownPressed: { audioOutput.volume -= 0.1; showCursor() }
         Keys.onEscapePressed: root.visibility = Window.Windowed
-    }
-
-    Settings {
-        id: settings
-        property alias volume: audioOutput.volume
     }
 }

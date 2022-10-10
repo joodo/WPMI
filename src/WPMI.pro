@@ -9,7 +9,8 @@ SOURCES += \
 RESOURCES += \
     assets/assets.qrc \
     qtquickcontrols2.conf \
-    ui/SiteDandanzan.qml \
+    ui/DialogRoom.qml \
+    ui/Session.qml \
     ui/WindowMain.qml \
     ui/WindowPlayer.qml \
     ui/qmldir \
@@ -18,22 +19,27 @@ RESOURCES += \
     ui/HttpRequest.qml \
     ui/OrderedMapModel.qml \
     ui/ListModelWrapper.qml \
-    ui/SingletonState.qml \
     ui/SingletonWebView.qml \
-    ui/StackHistory.qml \
-    ui/StackMovieDetail.qml \
     ui/StackSettings.qml \
     ui/CardMoive.qml \
-    ui/StackSearch.qml \
+    ui/SiteDandanzan/StackSearch.qml \
     ui/FieldSearch.qml \
     ui/HandleWindows.qml \
     ui/HandlerWindowDrag.qml \
     ui/ProgressNetwork.qml \
-    ui/PaneBlur.qml \
+    ui/MaterialYou/resources.qrc \
+    ui/MediaPlayer/MediaPlayer.qml \
+    ui/MediaPlayer/PaneBlur.qml \
     ui/QRCode/QRCode.qml \
     ui/QRCode/qrcode.js \
-    ui/SiteJable.qml \
-    ui/MaterialYou/resources.qrc
+    ui/LeanCloud/av-min.js \
+    ui/LeanCloud/im-browser.min.js \
+    ui/LeanCloud/LeanCloud.html \
+    ui/LeanCloud/LeanCloud.qml \
+    ui/SiteDandanzan/SiteDandanzan.qml \
+    ui/SiteDandanzan/StackHistory.qml \
+    ui/SiteDandanzan/StackMovieDetail.qml \
+    ui/SiteJable/SiteJable.qml
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = $${PWD}/ui
@@ -82,4 +88,4 @@ win32 {
     SOURCES += platform.windows.cpp
 }
 
-DISTFILES += \
+DISTFILES +=

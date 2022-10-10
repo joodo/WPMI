@@ -2,14 +2,15 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
+import Qt.labs.settings
 import MaterialYou
 
 Page {
     id: root
 
     property string movieID: ""
-    property var _history: SingletonState.history.get(SingletonState.historyIndexOf(root.movieID))
-    property var _movieListData: SingletonState.movieCardData.get(movieID)
+    property var _history: Session.history.get(Session.historyIndexOf(root.movieID))
+    property var _movieListData: Session.movieCardData.get(movieID)
     property var _movieDetailData: null
     //on_MovieDetailDataChanged: print(JSON.stringify(_movieDetailData))
 
@@ -25,7 +26,7 @@ Page {
         };
         let as = playlistDOMs[i + 1].querySelectorAll("ul > li > a");
         for (let a of as) p.episodes.push({
-        title: a.innerHTML,
+        title: a.innerHTML.trim(),
         script: a.attributes["onclick"].value
         });
         if (p.episodes.length === 1 && p.episodes[0].title === "暂无资源") continue;
@@ -55,6 +56,11 @@ Page {
 
     background: Item {}
 
+    DialogRoom {
+        id: dialogRoom
+        anchors.fill: parent
+    }
+
     ScrollView {
         anchors { fill: parent; topMargin: 8 }
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff; ScrollBar.vertical.policy: ScrollBar.AsNeeded
@@ -71,7 +77,7 @@ Page {
                 Label {
                     id: labelTitle
                     Layout.fillWidth: true
-                    text: SingletonState.movieCardData.get(root.movieID).title
+                    text: Session.movieCardData.get(root.movieID).title
                     MaterialYou.fontRole: MaterialYou.TitleLarge
                     wrapMode: Text.Wrap
                 }
@@ -106,10 +112,10 @@ Page {
                     valueRole: "episodes"
                     popup.MaterialYou.backgroundColor: MaterialYou.Surface
                     onModelChanged: {
-                        let index = SingletonState.historyIndexOf(root.movieID)
+                        let index = Session.historyIndexOf(root.movieID)
                         if (index < 0) return
 
-                        currentIndex = SingletonState.history.get(index).playlistID
+                        currentIndex = Session.history.get(index).playlistID
                     }
                 }
 
@@ -124,30 +130,83 @@ Page {
                         Repeater {
                             model: comboBoxPlaylists.currentValue
                             delegate: Button {
+                                id: buttonEpisode
                                 type: Button.Tonal
                                 tonedRole: highlighted? MaterialYou.TertiaryContainer : MaterialYou.SecondaryContainer
-                                text: modelData.title
-                                      + (highlighted? qsTr(" (%1% Watched)").arg(parseInt(root._history.position*100)) : "")
                                 height: 32
                                 highlighted: (root._history
                                               && root._history.playlistID === comboBoxPlaylists.currentIndex
                                               && root._history.episodeID === index) ? true : false
 
-                                onClicked: {
-                                    if (!modelData.script) return
-                                    SingletonWebView.runScript(modelData.script)
+                                states: [
+                                    State {
+                                        name: "macos"
+                                        when: Qt.platform.os === "osx"
+                                        PropertyChanges {
+                                            target: buttonEpisode
+                                            text: modelData.title
+                                                  + (highlighted? qsTr(" (%1% Watched)").arg(parseInt(root._history.position*100)) : "")
+                                            onClicked: {
+                                                if (!modelData.script) return
+                                                SingletonWebView.runScript(modelData.script)
 
-                                    SingletonState.updateHistory({
-                                                                     movieID: root.movieID,
-                                                                     timestamp: Date.now(),
-                                                                     playlistID: comboBoxPlaylists.currentIndex,
-                                                                     episodeID: index,
-                                                                     position: highlighted && root._history? root._history.position : 0
-                                                                 })
+                                                Session.updateHistory({
+                                                                          movieID: root.movieID,
+                                                                          timestamp: Date.now(),
+                                                                          playlistID: comboBoxPlaylists.currentIndex,
+                                                                          episodeID: index,
+                                                                          position: highlighted && root._history? root._history.position : 0
+                                                                      })
 
-                                    WindowPlayer.title = `${SingletonState.movieCardData.get(root.movieID).title} - ${modelData.title}`
-                                    WindowPlayer.movieID = root.movieID
-                                    WindowPlayer.load(SingletonWebView.waitM3u8())
+                                                WindowPlayer.title = `${Session.movieCardData.get(root.movieID).title} - ${modelData.title}`
+                                                WindowPlayer.movieID = root.movieID
+                                                WindowPlayer.load(SingletonWebView.waitM3u8())
+                                            }
+                                        }
+                                    },
+                                    State {
+                                        name: "windows"
+                                        when: Qt.platform.os === "windows"
+                                        PropertyChanges {
+                                            target: buttonEpisode
+                                            text: modelData.title
+                                            onClicked: {
+                                                if (!modelData.script) return
+                                                SingletonWebView.runScript(modelData.script)
+                                                SingletonWebView.waitM3u8()
+                                                .then(source => {
+                                                          const title = `${Session.movieCardData.get(root.movieID).title} - ${modelData.title}`
+                                                          Qt.openUrlExternally(`https://joodo.github.io/WPMI/player.html?title=${encodeURIComponent(title)}&url=${encodeURIComponent(source)}`)
+                                                      });
+
+                                                Session.updateHistory({
+                                                                          movieID: root.movieID,
+                                                                          timestamp: Date.now(),
+                                                                          playlistID: comboBoxPlaylists.currentIndex,
+                                                                          episodeID: index,
+                                                                      })
+                                            }
+                                        }
+                                    }
+                                ]
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    acceptedButtons: Qt.RightButton
+                                    onClicked: menuEpisode.popup()
+                                    Menu {
+                                        id: menuEpisode
+                                        MenuItem {
+                                            text: qsTr("Watch together")
+                                            onClicked: {
+                                                const roomName = `${Session.movieCardData.get(root.movieID).title} - ${modelData.title}`
+
+                                                SingletonWebView.runScript(modelData.script)
+
+                                                dialogRoom.create(roomName, SingletonWebView.waitM3u8())
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -174,7 +233,7 @@ Page {
                         Layout.preferredWidth: 250
                         Layout.preferredHeight: width / sourceSize.width * sourceSize.height
                         Layout.alignment: Qt.AlignTop
-                        source: SingletonState.movieCardData.get(root.movieID).thumbSource
+                        source: Session.movieCardData.get(root.movieID).thumbSource
                     }
 
                     GridLayout {
@@ -207,8 +266,8 @@ Page {
                             model: root._movieDetailData? [
                                                               root._movieDetailData.alias,
                                                               root._movieDetailData.director,
-                                                              SingletonState.movieCardData.get(root.movieID).year,
-                                                              SingletonState.movieCardData.get(root.movieID).country,
+                                                              Session.movieCardData.get(root.movieID).year,
+                                                              Session.movieCardData.get(root.movieID).country,
                                                               root._movieDetailData.genre,
                                                           ] : ["", "", "", "", ""]
                             Label {
@@ -223,7 +282,7 @@ Page {
 
                         Label {
                             Layout.row: 5; Layout.column: 1
-                            text: `<a href='${SingletonState.movieCardData.get(root.movieID).url}'>` + qsTr("Original Website") + "</a>"
+                            text: `<a href='${Session.movieCardData.get(root.movieID).url}'>` + qsTr("Original Website") + "</a>"
                             onLinkActivated: Qt.openUrlExternally(link)
                             MouseArea {
                                 anchors.fill: parent

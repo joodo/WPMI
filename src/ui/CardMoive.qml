@@ -10,7 +10,8 @@ Pane {
     id: root
     implicitHeight: paneContentItem.implicitHeight
 
-    signal clicked(var mouse)
+    signal leftClicked()
+    signal rightClicked()
     property alias thumbSource: image.source
     property alias title: labelTitle.text
     property alias brief: labelBrief.text
@@ -75,6 +76,15 @@ Pane {
         hoverEnabled: true
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
-        onClicked: mouse => root.clicked(mouse)
+        onClicked: mouse => {
+                       switch (mouse.button) {
+                       case Qt.LeftButton:
+                           root.leftClicked()
+                           break
+                       case Qt.RightButton:
+                           root.rightClicked()
+                           break
+                       }
+                   }
     }
 }

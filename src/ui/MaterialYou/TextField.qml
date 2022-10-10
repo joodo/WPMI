@@ -128,15 +128,31 @@ T.TextField {
             }
         ]
         state: "normal"
-        transitions: Transition {
-            NumberAnimation {
-                properties: "x, y, width, height"
-                duration: control.MaterialYou.animDuration
-                easing.type: Easing.OutCubic
-            }
-            ColorAnimation {
-                property: "color"
-                duration: control.MaterialYou.animDuration
+
+        // avoid shake on load
+        Timer {
+            id: timer
+            interval: 100
+            running: true
+        }
+        Connections {
+            target: control
+            function onVisibleChanged() { if (control.visible) timer.restart() }
+        }
+        Binding {
+            target: placeholder
+            property: "transitions"
+            when: !timer.running
+            value: Transition {
+                NumberAnimation {
+                    properties: "x, y, width, height"
+                    duration: control.MaterialYou.animDuration
+                    easing.type: Easing.OutCubic
+                }
+                ColorAnimation {
+                    property: "color"
+                    duration: control.MaterialYou.animDuration
+                }
             }
         }
     }

@@ -38,7 +38,7 @@ Page {
         getResultFromSearch(url)
         .then(result => {
                   if ("next" in result) next = result.next
-                  SingletonState.updateMovieCardDataFromList(result.result)
+                  Session.updateMovieCardDataFromList(result.result)
                   result.result.map(value => modelMovie.append({ movieID : value.movieID }))
               })
         .catch(err => progressNetwork.retryWork = () => queryChanged());
@@ -53,7 +53,7 @@ Page {
             .then(result => {
                       timerCooldown.start()
                       next = result.next
-                      SingletonState.updateMovieCardDataFromList(result.result)
+                      Session.updateMovieCardDataFromList(result.result)
                       result.result.map(value => modelMovie.append({ movieID : value.movieID }))
                   })
             .catch(err => progressNetwork.retryWork = () => getNextPage(url));
@@ -89,11 +89,11 @@ Page {
                 model: ListModel { id: modelMovie }
                 delegate: CardMoive {
                     Layout.fillWidth: true; Layout.alignment: Qt.AlignTop
-                    onClicked: mouse => {
-                                   if (mouse.button === Qt.LeftButton) root.movieSelected(movieID)
-                               }
+                    onLeftClicked: {
+                        root.movieSelected(movieID)
+                    }
 
-                    property var movieData: SingletonState.movieCardData.get(movieID)
+                    property var movieData: Session.movieCardData.get(movieID)
                     thumbSource: movieData.thumbSource
                     title: movieData.title
                     brief: `${movieData.country}   ${movieData.year}`

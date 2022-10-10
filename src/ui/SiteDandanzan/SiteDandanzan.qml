@@ -40,9 +40,9 @@ StackView {
 
                 StackLayout.onIsCurrentItemChanged: {
                     if (StackLayout.isCurrentItem) {
-                        SingletonState.backableItemStack.append(this)
+                        Session.backableItemStack.append(this)
                     } else {
-                        SingletonState.backableItemStack.remove(SingletonState.backableItemStack.count - 1)
+                        Session.backableItemStack.remove(Session.backableItemStack.count - 1)
                     }
                 }
                 function back() {
@@ -55,8 +55,8 @@ StackView {
     Component {
         id: componentMovieDetail
         StackMovieDetail {
-            StackView.onActivated: SingletonState.backableItemStack.append(this)
-            StackView.onDeactivated: SingletonState.backableItemStack.remove(SingletonState.backableItemStack.count - 1)
+            StackView.onActivated: Session.backableItemStack.append(this)
+            StackView.onDeactivated: Session.backableItemStack.remove(Session.backableItemStack.count - 1)
             function back() {
                 root.pop()
             }

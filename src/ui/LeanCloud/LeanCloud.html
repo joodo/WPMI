@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="im-browser.min.js"></script>
+    <script src="av-min.js"></script>
+</head>
+
+<body>
+    LeanCloud
+    <script>
+        let Realtime;
+        let AppKey;
+
+        function init(app, key) {
+            AppKey = key;
+            AV.init({
+                appId: app,
+                appKey: key,
+            });
+            Realtime = new AV.Realtime({
+                appId: app,
+                appKey: key,
+            });
+        }
+
+        function createRoom(userName, roomTitle, videoUrl) {
+            return Realtime.createIMClient(userName).then(user => {
+                return user.createConversation({
+                    members: [],
+                    name: roomTitle,
+                    unique: false,
+                    videoUrl: videoUrl,
+                    videoPosition: 0,
+                    videoTimestampMs: Date.now(),
+                    videoState: "pause",
+                });
+            }).then(conversation => {
+                return conversation.fetch();
+            }).then(conversation => {
+                const roomUrl = `https://joodo.github.io/WPMI/watch-together?room=${conversation.get("roomNumber")}&key=${AppKey}`;
+                return roomUrl;
+            }).catch(console.error);
+        }
+    </script>
+</body>
+
+</html>

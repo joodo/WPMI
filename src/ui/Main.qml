@@ -17,25 +17,18 @@ Object {
         width: 600; height: 480
         Component.onCompleted: SingletonWebView.parent = contentItem
     }
+    Window {
+        //visible: true
+        width: 600; height: 480
+        Component.onCompleted: LeanCloud.parent = contentItem
+    }
 
     Window {
         //visible: true
         width: 600; height: 480
 
-        ColumnLayout {
-            anchors.centerIn: parent
-            TextField {
-                placeholderText: "PlaceholderText"
-                placeholderPositionable: true
-                prefix: "prefix"
-                sufix: "sufix"
-            }
-            TextField {
-                placeholderText: "PlaceholderText"
-                placeholderPositionable: false
-                prefix: "prefix"
-                sufix: "sufix"
-            }
+        DialogRoom {
+            anchors.fill: parent
         }
     }
 
@@ -55,7 +48,7 @@ Object {
                 const o = JSON.parse(versionChangeLog)
                 let content = ""
                 o.features.map(feature => content += `- ${feature}\n`)
-                WindowMain.showDialog(content, qsTr("Updated to Version %1").arg(o.version), Dialog.Ok)
+                WindowMain.showDialog(content, qsTr("Updated to Version %1").arg(o.version))
             }
 
             // check update

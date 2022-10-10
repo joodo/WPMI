@@ -8,11 +8,11 @@ Page {
 
     signal movieSelected(string movieID)
     onMovieSelected: movieID => {
-        const movieData = SingletonState.movieCardData.get(movieID)
+                         const movieData = Session.movieCardData.get(movieID)
 
-        WindowPlayer.title = movieData.title
-        WindowPlayer.load(getM3u8(movieData.url))
-    }
+                         WindowPlayer.title = movieData.title
+                         WindowPlayer.load(getM3u8(movieData.url))
+                     }
 
     property string next: ""
     property string previous: ""
@@ -22,7 +22,7 @@ Page {
         .then(result => {
                   next = result.next
                   previous = result.previous
-                  SingletonState.updateMovieCardDataFromList(result.result)
+                  Session.updateMovieCardDataFromList(result.result)
                   result.result.map(value => modelMovie.append({ movieID : value.movieID }))
               })
         .catch(err => progressNetwork.retryWork = () => addressChanged());
@@ -42,14 +42,14 @@ Page {
         const script = `
         let result = [];
         for (let e of document.querySelectorAll(".video-img-box.mb-e-20")) {
-            let title = e.querySelector("h6>a").innerHTML;
-            result.push({
-              title: title.substring(title.indexOf(" ") + 1),
-              thumbSource: e.querySelector("img").getAttribute("data-src"),
-              url: e.querySelector("h6>a").href,
-              movieID: (url => url.substring(24, url.lastIndexOf('/')))(e.querySelector("a").href),
-              subtitle: e.querySelector(".sub-title").innerText,
-            });
+        let title = e.querySelector("h6>a").innerHTML;
+        result.push({
+        title: title.substring(title.indexOf(" ") + 1),
+        thumbSource: e.querySelector("img").getAttribute("data-src"),
+        url: e.querySelector("h6>a").href,
+        movieID: (url => url.substring(24, url.lastIndexOf('/')))(e.querySelector("a").href),
+        subtitle: e.querySelector(".sub-title").innerText,
+        });
         }
         let nextElement = document.querySelector("span.active").parentNode.nextElementSibling;
         let next = nextElement? nextElement.querySelector("a").href : "";
@@ -91,11 +91,11 @@ Page {
                 model: ListModel { id: modelMovie }
                 delegate: CardMoive {
                     Layout.fillWidth: true; Layout.alignment: Qt.AlignTop
-                    onClicked: mouse => {
-                                   if (mouse.button === Qt.LeftButton) root.movieSelected(movieID)
-                               }
+                    onLeftClicked: {
+                        root.movieSelected(movieID)
+                    }
 
-                    property var movieData: SingletonState.movieCardData.get(movieID)
+                    property var movieData: Session.movieCardData.get(movieID)
                     thumbSource: movieData.thumbSource
                     title: movieData.title
                     brief: `${movieData.watched}   ♥${movieData.hearted}`

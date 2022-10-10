@@ -64,6 +64,7 @@ T.Dialog {
                              + (implicitFooterHeight > 0 ? implicitFooterHeight + spacing : 0))
 
     horizontalPadding: 24
+    bottomPadding: 24
 
     MaterialYou.elevation: 3
     MaterialYou.backgroundColor: MaterialYou.tintSurfaceColor(3)
@@ -101,8 +102,6 @@ T.Dialog {
     }
 
     footer: DialogButtonBox {
-        padding: 24; bottomPadding: 12
-        visible: count > 0
     }
 
     T.Overlay.modal: Rectangle {

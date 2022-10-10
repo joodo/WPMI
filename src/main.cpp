@@ -38,6 +38,8 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("Backend", new Backend);
+    engine.rootContext()->setContextProperty("LEANCLOUD_APP", qgetenv("LEANCLOUD_APP"));
+    engine.rootContext()->setContextProperty("LEANCLOUD_KEY", qgetenv("LEANCLOUD_KEY"));
     engine.addImportPath("qrc:/");
 
 

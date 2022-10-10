@@ -88,7 +88,7 @@ public:
     Q_ENUM(StateRole)
 
 public:
-    Q_INVOKABLE QColor color(MaterialYou::ColorRole role) const;
+    Q_INVOKABLE QColor color(const QVariant& c) const;
     Q_INVOKABLE QColor tintSurfaceColor(int layer) const;
     Q_INVOKABLE QFont font(MaterialYou::FontRole role) const;
     Q_INVOKABLE qreal lineHeight(MaterialYou::FontRole role) const;

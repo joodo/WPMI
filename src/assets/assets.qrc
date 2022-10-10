@@ -28,5 +28,6 @@
         <file>replay_5.svg</file>
         <file>forward_5.svg</file>
         <file>celebration.wav</file>
+        <file>copy.svg</file>
     </qresource>
 </RCC>

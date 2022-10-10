@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Window
 import Qt.labs.settings
-import QtMultimedia
+import QtMultimedia as Multimedia
 import MaterialYou
 import MaterialYou.impl
 
@@ -72,8 +72,8 @@ ApplicationWindow {
                     id: buttonBack
                     anchors.horizontalCenter: parent.horizontalCenter
                     icon.source: "qrc:/arrow_back.svg"
-                    visible: SingletonState.backableItemStack.count
-                    onClicked: SingletonState.backableItemStack.get(SingletonState.backableItemStack.count - 1).back()
+                    visible: Session.backableItemStack.count
+                    onClicked: Session.backableItemStack.get(Session.backableItemStack.count - 1).back()
                 }
 
                 ColumnLayout {
@@ -116,8 +116,8 @@ ApplicationWindow {
                 StackSettings {
                     id: stackSettings
                     visible: false
-                    StackView.onActivated: SingletonState.backableItemStack.append(this)
-                    StackView.onDeactivated: SingletonState.backableItemStack.remove(SingletonState.backableItemStack.count - 1)
+                    StackView.onActivated: Session.backableItemStack.append(this)
+                    StackView.onDeactivated: Session.backableItemStack.remove(Session.backableItemStack.count - 1)
                     function back() {
                         stackLayout.pop()
                         buttonSettings.checked = false
@@ -127,22 +127,33 @@ ApplicationWindow {
         }
     }
 
+
+    // Dialog
     property Dialog dialog: dialog
     Dialog {
         id: dialog
-        property alias content: dialogContent.text
+        property var content
         anchors.centerIn: parent
         modal: true
-        Label {
-            id: dialogContent
-            MaterialYou.foregroundColor: MaterialYou.OnSurfaceVariant
-            textFormat: Text.MarkdownText
+        onAboutToHide: content = null
+        Loader {
+            id: loaderDialogContent
+            sourceComponent: typeof dialog.content === "string"? componentDialogContent : dialog.content
+        }
+
+        Component {
+            id: componentDialogContent
+            Label {
+                MaterialYou.foregroundColor: MaterialYou.OnSurfaceVariant
+                textFormat: Text.MarkdownText
+                text: dialog.content
+            }
         }
     }
     function showDialog(content, title, standardButtons) {
-        dialog.title = title || ""
-        dialog.standardButtons = standardButtons || (Dialog.Ok | Dialog.Cancel)
         dialog.content = content
+        dialog.title = title || ""
+        dialog.standardButtons = standardButtons || Dialog.NoButton
         dialog.open()
         return new Promise((resolve, reject) => {
                                dialog.accepted.connect(() => resolve())
@@ -150,6 +161,8 @@ ApplicationWindow {
                            })
     }
 
+
+    // Drop Items
     DropArea {
         anchors.fill: parent
         keys: ["text/uri-list"]
@@ -166,11 +179,10 @@ ApplicationWindow {
             }
         }
 
-        MediaPlayer {
+        Multimedia.MediaPlayer {
             id: sound
             source: "qrc:/celebration.wav"
-            audioOutput: AudioOutput {}
-            onErrorOccurred: print(sound.errorString)
+            audioOutput: Multimedia.AudioOutput {}
         }
 
         Rectangle {

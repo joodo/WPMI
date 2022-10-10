@@ -6,7 +6,7 @@ import Qt.labs.settings
 QtObject {
     id: root
 
-    readonly property ListModel history: ListModel {}  // key: movieID; value: movieID, timestamp, playlistID, episodeID
+    readonly property ListModel history: ListModel {}  // key: movieID; value: movieID, timestamp, playlistID, episodeID, rooms
     function historyIndexOf(movieID) {
         for (let i = 0; i < history.count; i++) {
             if (history.get(i).movieID === movieID)
