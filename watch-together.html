@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <title>Joining Room...</title>
 
-    <script src="https://code.bdstatic.com/npm/leancloud-realtime@5.0.0-rc.7/dist/im-browser.min.js"></script>
+    <script src="js/im-browser.min.js"></script>
+    <script src="js/av-min.js"></script>
 
     <script src="https://unpkg.com/vue@3.2.40/dist/vue.global.prod.js"></script>
 
@@ -112,6 +113,7 @@
     <script>
         const UrlParams = new URLSearchParams(window.location.search);
         let Conversation;
+        let User;
         let Player;
 
         const Strings = {
@@ -132,6 +134,7 @@
                 " paused the video": " 暂停了视频",
                 " adjusted video progress": " 调整了视频进度",
                 "Failed to send. Please refresh and try again.": "发送失败。请刷新并重试。",
+                "Failed to load. Please refresh and try again.": "载入失败。请刷新并重试。",
             }
         }
         function Tr(s) {
@@ -182,6 +185,8 @@
                     realtime.createIMClient(this.userName).then(user => {
                         this.spinTip = Tr("Fetching room information...");
 
+                        User = user;
+
                         user.on(AV.Event.MESSAGE, (message, conversation) => {
                             if (Player.paused()) {
                                 AudioNewMessage.play();
@@ -229,7 +234,14 @@
                             }
                         });
 
-                        return user.getConversation(UrlParams.get("room"))
+                        return AV.Cloud.run("getConversation", {
+                            roomNumber: UrlParams.get("room")
+                        })
+                    }).then(conversationInfo => {
+                        if (!conversationInfo) {
+                            return Promise.reject(new Error('room no longer exists.'));
+                        }
+                        return User.getConversation(conversationInfo.objectId)
                     }).then(conversation => {
                         this.spinTip = Tr("Joining room...");
                         return conversation.join();
@@ -289,7 +301,10 @@
                                 this.spinTip = Tr("Unable to load media.");
                             });
                         });
-                    }).catch(console.error);
+                    }).catch(err => {
+                        antd.message.error(Tr("Failed to load. Please refresh and try again."));
+                        console.error(err);
+                    });
                 },
                 remoteCurrentTime() {
                     return Conversation.get("videoPosition") + (Date.now() - Conversation.get("videoTimestampMs")) / 1000;
@@ -373,6 +388,11 @@
                 },
             },
             mounted() {
+                AV.init({
+                    appId: "rnC1ehKEjnxdhaYDUyZ3lg4p-MdYXbMMI",
+                    appKey: UrlParams.get("key")
+                });
+
                 document.getElementById("player").addEventListener('fullscreenchange', event => {
                     this.fullscreened = document.fullscreenElement ? true : false;
                 });
