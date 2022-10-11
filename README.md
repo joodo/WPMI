@@ -2,10 +2,9 @@
 
 TODO
 
-- Deploy on Windows
+- Build-in Player for Windows
 - Download
-- 
 
 ## Build
 
-Environment virables for leancloud: `LEANCLOUD_APP` and `LEANCLOUD_KEY`
+Environment variables for leancloud: `LEANCLOUD_APP` and `LEANCLOUD_KEY`
