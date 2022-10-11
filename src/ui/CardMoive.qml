@@ -17,7 +17,7 @@ Pane {
     property alias brief: labelBrief.text
 
     padding: 0
-    MaterialYou.elevation: mouseArea.containsMouse && !mouseArea.pressed? 4 : 2
+    MaterialYou.elevation: mouseArea.containsMouse && !mouseArea.pressed? 2 : 1
 
     Item {
         id: paneContentItem
@@ -30,7 +30,6 @@ Pane {
             spacing: 0
             Image {
                 id: image
-                Layout.margins: 1
                 Layout.fillWidth: true
                 Layout.preferredHeight: width / sourceSize.width * sourceSize.height
                 fillMode: Image.PreserveAspectFit

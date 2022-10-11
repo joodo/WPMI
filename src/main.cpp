@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
     app.setApplicationVersion(APP_VERSION);
 
 
+
     // QML
     qmlRegisterUncreatableType<MaterialYou>("MaterialYou", 1, 0, "MaterialYou", "MaterialYou is an attached property");
     qmlRegisterType<HttpRequest>("WPMI.impl", 1, 0, "HttpRequestImpl");
@@ -38,10 +39,18 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("Backend", new Backend);
-    engine.rootContext()->setContextProperty("LEANCLOUD_APP", qgetenv("LEANCLOUD_APP"));
-    engine.rootContext()->setContextProperty("LEANCLOUD_KEY", qgetenv("LEANCLOUD_KEY"));
     engine.addImportPath("qrc:/");
 
+
+    // LeanCloud
+    if (QString::compare(LEANCLOUD_APP, "") != 0)
+        engine.rootContext()->setContextProperty("LEANCLOUD_APP", LEANCLOUD_APP);
+    else
+        qWarning("env LEANCLOUD_APP unprovided, leancloud won't work.");
+    if (QString::compare(LEANCLOUD_KEY, "") != 0)
+        engine.rootContext()->setContextProperty("LEANCLOUD_KEY", LEANCLOUD_KEY);
+    else
+        qWarning("env LEANCLOUD_KEY unprovided, leancloud won't work.");
 
     // Localization
     QSettings settings;

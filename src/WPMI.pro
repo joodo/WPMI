@@ -55,6 +55,7 @@ HEADERS += \
     platform.h \
     ui/MaterialYou/materialyou.h
 
+
 # Translation
 CONFIG += lrelease embed_translations
 
@@ -65,6 +66,7 @@ TRANSLATIONS = \
 RESOURCES += \
     translations/qt/qtbase_zh_CN.qm
 
+
 # Version
 system("git describe --tags") {
     DEFINES += APP_VERSION=\"\\\"$${system(git describe --tags)}\\\"\"
@@ -72,8 +74,14 @@ system("git describe --tags") {
     DEFINES += APP_VERSION=\\\"0.0.0\\\"
 }
 
-# Platform
 
+# LeanCloud
+DEFINES += \
+    LEANCLOUD_APP=\\\"$$(LEANCLOUD_APP)\\\" \
+    LEANCLOUD_KEY=\\\"$$(LEANCLOUD_KEY)\\\" \
+
+
+# Platform
 macx {
     ICON = WPMI.icns
 
