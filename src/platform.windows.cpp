@@ -7,7 +7,7 @@ using namespace Platform;
 
 void Platform::hideTitleBar(QQuickWindow *w)
 {
-    w->setFlag(Qt::FramelessWindowHint, true);
+    w->setFlag(Qt::CustomizeWindowHint, true);
 }
 
 int Platform::setScreensaverEnabled(bool enable)
