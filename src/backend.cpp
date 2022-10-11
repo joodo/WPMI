@@ -167,3 +167,8 @@ QString Backend::readFile(const QString &path) const
     file.close();
     return result;
 }
+
+QString Backend::fileDirPath(const QString &path) const
+{
+    return QFileInfo(path).absolutePath();
+}

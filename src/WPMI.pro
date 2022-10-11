@@ -10,6 +10,7 @@ RESOURCES += \
     assets/assets.qrc \
     qtquickcontrols2.conf \
     ui/DialogRoom.qml \
+    ui/UpdateChecker.qml \
     ui/Session.qml \
     ui/WindowMain.qml \
     ui/WindowPlayer.qml \

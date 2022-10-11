@@ -25,6 +25,7 @@ public:
     Q_INVOKABLE bool writeFile(const QString& path, const QString& content) const;
     Q_INVOKABLE bool setFilePermissions(const QString& path, int permissions) const;
     Q_INVOKABLE QString readFile(const QString& path) const;
+    Q_INVOKABLE QString fileDirPath(const QString& path) const;
 
 signals:
 };

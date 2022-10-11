@@ -52,6 +52,11 @@ int main(int argc, char *argv[])
     else
         qWarning("env LEANCLOUD_KEY unprovided, leancloud won't work.");
 
+
+    // Dir setting for update download etc.
+    QDir::setCurrent(QFileInfo(argv[0]).absolutePath());
+
+
     // Localization
     QSettings settings;
     auto langName = settings.value("language").toString();
