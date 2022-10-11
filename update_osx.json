@@ -1,14 +1,14 @@
 {
     "versions": [
         {
-            "version": "1.2.0",
+            "version": "1.1.0",
             "after": "0.0.0",
-            "url": "https://lc-gluttony.s3.amazonaws.com/rnC1ehKEjnxd/j3lYAwzyWu7cbK9mrTGORVbOFJYEOt8c/WPMI_1.1.0"
+            "url": ""
         }
     ],
     "changelog": [
         {
-            "version": "1.2.0",
+            "version": "1.1.0",
             "new_features": [
                 "可以邀请朋友一起看视频了",
                 "播放时可以调节视频亮度",
