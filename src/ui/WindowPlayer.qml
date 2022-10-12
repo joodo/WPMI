@@ -461,13 +461,29 @@ ApplicationWindow {
         hoverEnabled: true
         onHoveredChanged: if (hovered) timerHideCursor.stop()
 
-        focus: true
-        onFocusChanged: forceActiveFocus()
-        Keys.onSpacePressed: { buttonPlay.clicked(); showCursor() }
-        Keys.onLeftPressed: { buttonReplay5.clicked(); showCursor() }
-        Keys.onRightPressed: { buttonForward5.clicked(); showCursor() }
-        Keys.onUpPressed: { audioOutput.volume += 0.1; showCursor() }
-        Keys.onDownPressed: { audioOutput.volume -= 0.1; showCursor() }
-        Keys.onEscapePressed: root.visibility = Window.Windowed
+        Shortcut {
+            sequence: "space"
+            onActivated: { buttonPlay.clicked(); showCursor() }
+        }
+        Shortcut {
+            sequence: "left"
+            onActivated: { buttonReplay5.clicked(); showCursor() }
+        }
+        Shortcut {
+            sequence: "right"
+            onActivated: { buttonForward5.clicked(); showCursor() }
+        }
+        Shortcut {
+            sequence: "up"
+            onActivated: { audioOutput.volume += 0.1; showCursor() }
+        }
+        Shortcut {
+            sequence: "down"
+            onActivated: { audioOutput.volume -= 0.1; showCursor() }
+        }
+        Shortcut {
+            sequence: "escape"
+            onActivated: root.visibility = Window.Windowed
+        }
     }
 }
