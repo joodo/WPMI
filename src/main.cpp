@@ -8,7 +8,7 @@
 
 #include "backend.h"
 #include "httprequest.h"
-#include "ui/MaterialYou/materialyou.h"
+#include "modules/MaterialYou/materialyou.h"
 
 #include <QDebug>
 

@@ -1,35 +1,46 @@
 QT += quick webenginequick network svg xml
 
+HEADERS += \
+    src/backend.h \
+    src/httprequest.h \
+    src/platform.h \
+    modules/MaterialYou/materialyou.h
+
 SOURCES += \
-    backend.cpp \
-    httprequest.cpp \
-    main.cpp \
-    ui/MaterialYou/materialyou.cpp
+    src/backend.cpp \
+    src/httprequest.cpp \
+    src/main.cpp \
+    modules/MaterialYou/materialyou.cpp
 
 RESOURCES += \
     assets/assets.qrc \
+    modules/MaterialYou/materialyou.qrc \
     qtquickcontrols2.conf \
-    ui/DialogRoom.qml \
-    ui/UpdateChecker.qml \
-    ui/Session.qml \
-    ui/WindowMain.qml \
-    ui/WindowPlayer.qml \
+    # "ui" is a magic path name
     ui/qmldir \
-    ui/Object.qml \
     ui/Main.qml \
-    ui/HttpRequest.qml \
-    ui/OrderedMapModel.qml \
-    ui/ListModelWrapper.qml \
-    ui/SingletonWebView.qml \
-    ui/StackSettings.qml \
-    ui/CardMoive.qml \
-    ui/SiteDandanzan/StackSearch.qml \
-    ui/FieldSearch.qml \
-    ui/HandleWindows.qml \
-    ui/HandlerWindowDrag.qml \
-    ui/ProgressNetwork.qml \
-    ui/MaterialYou/resources.qrc \
-    ui/MediaPlayer/MediaPlayer.qml \
+    ui/business/UpdateChecker.qml \
+    ui/business/Session.qml \
+    ui/business/Object.qml \
+    ui/business/HttpRequest.qml \
+    ui/business/OrderedMapModel.qml \
+    ui/business/ListModelWrapper.qml \
+    ui/business/SingletonWebView.qml \
+    ui/components/DialogRoom.qml \
+    ui/components/CardMoive.qml \
+    ui/components/FieldSearch.qml \
+    ui/components/HandlerWindowDrag.qml \
+    ui/components/ProgressNetwork.qml \
+    ui/WindowMain/WindowMain.qml \
+    ui/WindowMain/StackSettings.qml \
+    ui/WindowMain/HandleWindows.qml \
+    ui/WindowMain/DialogGlobal.qml \
+    ui/WindowMain/DropAreaKeys.qml \
+    ui/WindowMain/ComboBoxTitle.qml \
+    ui/MediaPlayer/WindowPlayer.qml \
+    ui/MediaPlayer/RectScreen.qml \
+    ui/MediaPlayer/PaneController.qml \
+    ui/MediaPlayer/VideoProgressBar.qml \
     ui/MediaPlayer/PaneBlur.qml \
     ui/QRCode/QRCode.qml \
     ui/QRCode/qrcode.js \
@@ -37,6 +48,7 @@ RESOURCES += \
     ui/LeanCloud/im-browser.min.js \
     ui/LeanCloud/LeanCloud.html \
     ui/LeanCloud/LeanCloud.qml \
+    ui/SiteDandanzan/StackSearch.qml \
     ui/SiteDandanzan/SiteDandanzan.qml \
     ui/SiteDandanzan/StackHistory.qml \
     ui/SiteDandanzan/StackMovieDetail.qml \
@@ -49,12 +61,6 @@ QML_IMPORT_PATH = $${PWD}/ui
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-HEADERS += \
-    backend.h \
-    httprequest.h \
-    platform.h \
-    ui/MaterialYou/materialyou.h
 
 
 # Translation
@@ -84,17 +90,17 @@ DEFINES += \
 
 # Platform
 macx {
-    ICON = WPMI.icns
+    ICON = assets/WPMI.icns
 
-    OBJECTIVE_SOURCES += platform.macos.mm
+    OBJECTIVE_SOURCES += src/platform.macos.mm
 
     LIBS += -framework Foundation
 }
 
 win32 {
-    RC_ICONS = WPMI.ico
+    RC_ICONS = assets/WPMI.ico
 
-    SOURCES += platform.windows.cpp
+    SOURCES += src/platform.windows.cpp
 }
 
 DISTFILES +=
