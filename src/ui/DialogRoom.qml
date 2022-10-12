@@ -40,7 +40,6 @@ Item {
             anchors.centerIn: parent
             title: qsTr("Create Room")
             width: 350
-            modal: true
 
             ColumnLayout {
                 spacing: 16
@@ -101,7 +100,6 @@ Item {
             id: dialogDetail
             anchors.centerIn: parent
             width: 350
-            modal: true
 
             property alias roomUrl: fieldUrl.text
 

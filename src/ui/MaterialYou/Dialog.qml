@@ -81,14 +81,10 @@ T.Dialog {
         NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; easing.type: Easing.OutCubic; duration: 150 }
     }
 
-    background: Rectangle {
-        radius: 20
-        color: control.MaterialYou.backgroundColor
-
-        layer.enabled: control.MaterialYou.elevation > 0
-        layer.effect: ElevationEffect {
-            elevation: control.MaterialYou.elevation
-        }
+    background: Pane {
+        MaterialYou.radius: 20
+        MaterialYou.backgroundColor: control.MaterialYou.backgroundColor
+        MaterialYou.elevation: control.MaterialYou.elevation
     }
 
     header: Label {
@@ -103,6 +99,12 @@ T.Dialog {
 
     footer: DialogButtonBox {
     }
+
+    dim: true
+    // be careful to set modal: true
+    // they have save apparence, but modal dialog will cause background Pane unclickable
+    // that will cause focus problem
+    modal: false
 
     T.Overlay.modal: Rectangle {
         color: "#30000000"

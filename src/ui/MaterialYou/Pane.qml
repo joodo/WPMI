@@ -15,6 +15,8 @@ T.Pane {
     MaterialYou.backgroundColor: MaterialYou.Surface
     padding: 16
 
+    focusPolicy: Qt.ClickFocus
+
     background: Rectangle {
         color: control.MaterialYou.backgroundColor
         radius: control.MaterialYou.radius

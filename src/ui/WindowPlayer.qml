@@ -462,7 +462,7 @@ ApplicationWindow {
         onHoveredChanged: if (hovered) timerHideCursor.stop()
 
         focus: true
-        onFocusChanged: focus = true
+        onFocusChanged: forceActiveFocus()
         Keys.onSpacePressed: { buttonPlay.clicked(); showCursor() }
         Keys.onLeftPressed: { buttonReplay5.clicked(); showCursor() }
         Keys.onRightPressed: { buttonForward5.clicked(); showCursor() }

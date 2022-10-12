@@ -24,7 +24,7 @@ ApplicationWindow {
 
     ColumnLayout {
         anchors.fill: parent
-        Item {
+        Control {
             Layout.preferredHeight: 30; Layout.fillWidth: true
             HandlerWindowDrag { anchors.fill: parent }
             HandleWindows {
@@ -134,7 +134,6 @@ ApplicationWindow {
         id: dialog
         property var content
         anchors.centerIn: parent
-        modal: true
         onAboutToHide: content = null
         Loader {
             id: loaderDialogContent

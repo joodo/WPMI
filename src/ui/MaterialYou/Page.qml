@@ -15,6 +15,8 @@ T.Page {
                              + (implicitFooterHeight > 0 ? implicitFooterHeight + spacing : 0))
 
     MaterialYou.backgroundColor: MaterialYou.Surface
+
+    focusPolicy: Qt.ClickFocus
     background: Rectangle {
         color: control.MaterialYou.backgroundColor
     }

@@ -64,4 +64,20 @@ T.ScrollView {
         width: control.availableWidth
         active: control.ScrollBar.vertical.active
     }
+
+    // Prevent empty place in ScrollView steal click event
+    MouseArea {
+        Component.onCompleted: {
+            const fci = control.contentItem.contentItem.children  // Items in flickable
+            if (fci.length === 2) {
+                if (control.contentHeight === -1)
+                    control.contentHeight = Qt.binding(() => fci[1].implicitHeight)
+                if (control.contentWidth === -1)
+                    control.contentWidth = control.contentWidth || Qt.binding(() => fci[1].implicitWidth)
+            }
+        }
+        anchors.fill: parent
+        propagateComposedEvents: true
+        onClicked: mouse => mouse.accepted = false
+    }
 }

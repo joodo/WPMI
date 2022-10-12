@@ -40,7 +40,7 @@ T.Button {
         control.hovered && !control.down? 1 : 0,  // Tonal
         0,  // Outlined
         0  // Text
-    ][type]
+    ][flat? 4 : control.type]
 
     MaterialYou.foregroundColor: [
         MaterialYou.Primary,  // Elevated
@@ -94,4 +94,6 @@ T.Button {
             MaterialYou.foregroundColor: control.type===Button.Tonal && !flat ? MaterialYou.onFromBackground(control.tunedRole) : control.MaterialYou.foregroundColor
         }
     }
+
+    focusPolicy: Qt.StrongFocus
 }

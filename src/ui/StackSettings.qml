@@ -5,7 +5,9 @@ import MaterialYou
 import Qt.labs.settings
 
 ScrollView {
+    id: root
     contentWidth: availableWidth
+
     ColumnLayout {
         anchors.fill: parent
         anchors.leftMargin: 24

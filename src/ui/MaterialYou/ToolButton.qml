@@ -42,4 +42,6 @@ T.ToolButton {
         MaterialYou.foregroundColor: control.checked? control.MaterialYou.backgroundColor : control.MaterialYou.foregroundColor
         status: control.down? MaterialYou.Press : control.hovered? MaterialYou.Hover : control.visualFocus? MaterialYou.Focus : MaterialYou.Normal
     }
+
+    focusPolicy: Qt.StrongFocus
 }
