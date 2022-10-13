@@ -3,8 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Window
 import QtMultimedia
-import Qt.labs.settings
-import Qt5Compat.GraphicalEffects
 import MaterialYou
 
 PaneBlur {
@@ -107,7 +105,6 @@ PaneBlur {
                     icon.height: 20; icon.width: 20
                     Menu {
                         id: menu
-                        onAboutToShow: timerHideCursor.stop()
 
                         MenuItem {
                             text: qsTr("Help")
@@ -115,10 +112,9 @@ PaneBlur {
                             onTriggered: dialogHelp.open()
                             Dialog {
                                 id: dialogHelp
-                                parent: root.contentItem
+                                parent: root.Window.contentItem
                                 title: qsTr("Usage")
                                 anchors.centerIn: parent
-                                modal: true
                                 Label {
                                     textFormat: Text.MarkdownText
                                     text: qsTr("**Double Click Screen**: Fullscreen\n\n**Space**: Play / Pause\n\n**Left / Right Arrow**: Replay / Forward 10 seconds\n\n**Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down\n\n**Esc**: Quit Fullscreen")
@@ -141,11 +137,10 @@ PaneBlur {
                             onTriggered: dialogQRCode.open()
                             Dialog {
                                 id: dialogQRCode
-                                parent: root.contentItem
+                                parent: root.Window.contentItem
                                 anchors.centerIn: parent
                                 alignment: Dialog.AlignCenter
                                 title: qsTr("Watch on Web")
-                                modal: true
                                 ColumnLayout {
                                     spacing: 8
                                     Label {
@@ -163,6 +158,7 @@ PaneBlur {
                                             foreground: MaterialYou.color(MaterialYou.OnSurface)
                                             onVisibleChanged: {
                                                 if (!visible) return;
+                                                // Avoid property binding, cus mediaPlayer.position change all the time
                                                 text = `https://joodo.github.io/WPMI/player.html?title=${encodeURIComponent(Window.window.title)}&url=${encodeURIComponent(mediaPlayer.source)}&position=${parseInt(mediaPlayer.position/1000)}`
                                             }
                                         }
@@ -253,6 +249,6 @@ PaneBlur {
     }
     Shortcut {
         sequence: "escape"
-        onActivated: Window.window.visibility = Window.Windowed
+        onActivated: root.Window.window.showNormal()
     }
 }

@@ -81,6 +81,8 @@ Item {
                                              fieldRoomName.text,
                                              dialogCreate.videoUrl)
                         .then(roomUrl => {
+                                  if (!dialogCreate.visible) return
+
                                   Qt.openUrlExternally(roomUrl + `&user=${fieldUserName.text}`)
 
                                   dialogCreate.accept()
