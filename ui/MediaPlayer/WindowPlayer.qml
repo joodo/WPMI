@@ -42,7 +42,7 @@ ApplicationWindow {
     RectScreen {
         id: rectScreen
         anchors.fill: parent
-        keepCursor: pane.interacting
+        keepCursor: pane.requestAlwaysShow
         Connections {
             target: rectScreen.player
             function onWatchedAt(position) {
@@ -60,6 +60,8 @@ ApplicationWindow {
         visible: rectScreen.cursorVisible
         mediaPlayer: rectScreen.player
         blurItem: rectScreen
+
+        onShowRequested: rectScreen.state = "showCursor"
 
         width: Math.min(600, Window.width - 72)
         height: 64

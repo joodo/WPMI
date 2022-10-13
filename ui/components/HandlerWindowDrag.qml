@@ -1,16 +1,15 @@
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Window
 
 MouseArea {
     property point pos
     onPressed: mouse => {
-                   forceActiveFocus()
+                   forceActiveFocus()  // No business with dragging, for focus behavior
                    pos = Qt.point(mouse.x, mouse.y)
                }
     onPositionChanged: mouse => {
-        var diff = Qt.point(mouse.x - pos.x, mouse.y - pos.y)
-        ApplicationWindow.window.x += diff.x
-        ApplicationWindow.window.y += diff.y
-    }
+                           if (!pressed) return
+                           const diff = Qt.point(mouse.x - pos.x, mouse.y - pos.y)
+                           Window.window.x += diff.x
+                           Window.window.y += diff.y
+                       }
 }

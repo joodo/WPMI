@@ -12,7 +12,8 @@ PaneBlur {
 
 
     hoverEnabled: true
-    property bool interacting: hovered || menu.visible
+    property bool requestAlwaysShow: hovered || menu.visible
+    signal showRequested()
 
     MaterialYou.backgroundColor: MaterialYou.tintSurfaceColor(2)
 
@@ -117,7 +118,7 @@ PaneBlur {
                                 anchors.centerIn: parent
                                 Label {
                                     textFormat: Text.MarkdownText
-                                    text: qsTr("**Double Click Screen**: Fullscreen\n\n**Space**: Play / Pause\n\n**Left / Right Arrow**: Replay / Forward 10 seconds\n\n**Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down\n\n**Esc**: Quit Fullscreen")
+                                    text: qsTr("**Double Click**: Fullscreen\n\n**Space, Click**: Play / Pause\n\n**Left / Right Arrow**: Replay / Forward 10 seconds\n\n**Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down\n\n**Esc**: Quit Fullscreen")
                                 }
                             }
                         }
@@ -229,23 +230,23 @@ PaneBlur {
 
     Shortcut {
         sequence: "space"
-        onActivated: { buttonPlay.clicked(); showCursor() }
+        onActivated: { buttonPlay.clicked(); showRequested() }
     }
     Shortcut {
         sequence: "left"
-        onActivated: { buttonReplay5.clicked(); showCursor() }
+        onActivated: { buttonReplay5.clicked(); showRequested() }
     }
     Shortcut {
         sequence: "right"
-        onActivated: { buttonForward5.clicked(); showCursor() }
+        onActivated: { buttonForward5.clicked(); showRequested() }
     }
     Shortcut {
         sequence: "up"
-        onActivated: { mediaPlayer.audioOutput.volume += 0.1; showCursor() }
+        onActivated: { mediaPlayer.audioOutput.volume += 0.1; showRequested() }
     }
     Shortcut {
         sequence: "down"
-        onActivated: { mediaPlayer.audioOutput.volume -= 0.1; showCursor() }
+        onActivated: { mediaPlayer.audioOutput.volume -= 0.1; showRequested() }
     }
     Shortcut {
         sequence: "escape"

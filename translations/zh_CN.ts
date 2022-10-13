@@ -62,17 +62,16 @@
 <context>
     <name>PaneController</name>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="110"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="111"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="116"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="117"/>
         <source>Usage</source>
         <translation>使用</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="120"/>
         <source>**Double Click Screen**: Fullscreen
 
 **Space**: Play / Pause
@@ -82,7 +81,7 @@
 **Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down
 
 **Esc**: Quit Fullscreen</source>
-        <translation>**双击屏幕**：全屏
+        <translation type="vanished">**双击屏幕**：全屏
 
 **空格**：播放 / 暂停
 
@@ -93,32 +92,53 @@
 **ESC**：退出全屏</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="126"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="121"/>
+        <source>**Double Click**: Fullscreen
+
+**Space, Click**: Play / Pause
+
+**Left / Right Arrow**: Replay / Forward 10 seconds
+
+**Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down
+
+**Esc**: Quit Fullscreen</source>
+        <translation>**双击**：全屏
+
+**空格，点击**：播放 / 暂停
+
+**左 / 右键**：后退 / 前进 10 秒
+
+**上 / 下键，鼠标滚轮**：增加 / 减少音量
+
+**ESC**：退出全屏</translation>
+    </message>
+    <message>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="127"/>
         <source>Copy m3u8</source>
         <translation>复制 m3u8</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="134"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="135"/>
         <source>Other devices</source>
         <translation>其他设备</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="143"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="144"/>
         <source>Watch on Web</source>
         <translation>在网页上观看</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="148"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="149"/>
         <source>Visit link below to watch this video on any device&apos;s browser:</source>
         <translation>用设备的浏览器访问下面的地址以观看此视频：</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="168"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="169"/>
         <source>Copied!</source>
         <translation>已复制！</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="168"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="169"/>
         <source>Copy to Clipboard</source>
         <translation>复制到剪切板</translation>
     </message>
@@ -144,7 +164,7 @@
 <context>
     <name>RectScreen</name>
     <message>
-        <location filename="../ui/MediaPlayer/RectScreen.qml" line="166"/>
+        <location filename="../ui/MediaPlayer/RectScreen.qml" line="199"/>
         <source>Volume: %1%</source>
         <translation>音量：%1%</translation>
     </message>

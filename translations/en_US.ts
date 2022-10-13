@@ -37,20 +37,20 @@
 <context>
     <name>PaneController</name>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="110"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="111"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="116"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="117"/>
         <source>Usage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="120"/>
-        <source>**Double Click Screen**: Fullscreen
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="121"/>
+        <source>**Double Click**: Fullscreen
 
-**Space**: Play / Pause
+**Space, Click**: Play / Pause
 
 **Left / Right Arrow**: Replay / Forward 10 seconds
 
@@ -60,32 +60,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="126"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="127"/>
         <source>Copy m3u8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="134"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="135"/>
         <source>Other devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="143"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="144"/>
         <source>Watch on Web</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="148"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="149"/>
         <source>Visit link below to watch this video on any device&apos;s browser:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="168"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="169"/>
         <source>Copied!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="168"/>
+        <location filename="../ui/MediaPlayer/PaneController.qml" line="169"/>
         <source>Copy to Clipboard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -111,7 +111,7 @@
 <context>
     <name>RectScreen</name>
     <message>
-        <location filename="../ui/MediaPlayer/RectScreen.qml" line="166"/>
+        <location filename="../ui/MediaPlayer/RectScreen.qml" line="199"/>
         <source>Volume: %1%</source>
         <translation type="unfinished"></translation>
     </message>

@@ -23,17 +23,11 @@ Rectangle {
         State {
             name: "keepCursor"
             when: _keepCursor
-            PropertyChanges {
-                target: root
-                cursorVisible: true
-            }
+            PropertyChanges { root.cursorVisible: true }
         },
         State {
             name: "showCursor"
-            PropertyChanges {
-                target: root
-                cursorVisible: true
-            }
+            PropertyChanges { root.cursorVisible: true }
         },
         State {
             name: "hideCursor"
@@ -60,18 +54,56 @@ Rectangle {
         hoverEnabled: true
         cursorShape: root.cursorVisible? Qt.ArrowCursor : Qt.BlankCursor
 
-        onDoubleClicked: {
-            Window.window.visibility = (Window.window.visibility === Window.FullScreen?
-                                   Window.Windowed : Window.FullScreen)
+        // Window Dragging
+        property point pos
+        property point windowPos
+        onPressed: mouse => {
+                       windowPos = Qt.point(Window.window.x, Window.window.y)
+                       pos = Qt.point(mouse.x, mouse.y)
+                   }
+        onPositionChanged: mouse => {
+                               root.state = "showCursor"
+
+                               if (!pressed) return
+                               const delta = Qt.point(mouse.x - pos.x, mouse.y - pos.y)
+                               Window.window.x += delta.x
+                               Window.window.y += delta.y
+                           }
+
+        onClicked: {
+            // Distinguish single click and drag
+            if (Math.hypot(Window.window.x-windowPos.x, Window.window.y-windowPos.y) < 4) {
+                // Distinguish single and double click
+                timerSingleClick.restart()
+            }
+        }
+        Timer {
+            id: timerSingleClick
+            interval: Qt.styleHints.mouseDoubleClickInterval
+            onTriggered: mediaPlayer.playbackState === MediaPlayer.PlayingState?
+                             mediaPlayer.pause() : mediaPlayer.play()
         }
 
-        onMouseXChanged: root.state = "showCursor"
-        onMouseYChanged: root.state = "showCursor"
-        onWheel: wheel => {
-            audioOutput.volume -= wheel.angleDelta.y / 1500
-            wheel.accepted = true
-            timerHideVolumePopup.restart()
+        // Solve mouse focus problem if use double click directly
+        property bool _isDoubleClick: false
+        onDoubleClicked: {
+            timerSingleClick.stop()
+            _isDoubleClick = true
         }
+        onReleased: {
+            // Will active when a double click release
+            if (_isDoubleClick) {
+                Window.window.visibility = (Window.window.visibility === Window.FullScreen?
+                                                Window.Windowed : Window.FullScreen)
+                _isDoubleClick = false
+            }
+        }
+
+        onWheel: wheel => {
+                     audioOutput.volume -= wheel.angleDelta.y / 1500
+                     wheel.accepted = true
+                     paneVolume.state = "show"
+                 }
     }
 
 
@@ -155,37 +187,51 @@ Rectangle {
         Behavior on opacity { NumberAnimation { duration: 500; easing.type: Easing.OutCubic } }
     }
 
-    PaneBlur {
+
+    // Volume Indicator
+    Pane {
         id: paneVolume
         x: 16; y: 16
-        blurItem: root
-        ColumnLayout {
-            IconLabel {
-                icon.source: "qrc:/volume.svg"
-                icon.width: 36; icon.height: 36
-                text: qsTr("Volume: %1%").arg(parseInt(audioOutput.volume*100))
-                display: IconLabel.TextUnderIcon
-                MaterialYou.fontRole: MaterialYou.LabelLarge
-                MaterialYou.foregroundColor: MaterialYou.OnSurfaceVariant
-            }
+
+        IconLabel {
+            icon.source: "qrc:/volume.svg"
+            icon.width: 36; icon.height: 36
+            text: qsTr("Volume: %1%").arg(parseInt(audioOutput.volume*100))
+            display: IconLabel.TextUnderIcon
+            MaterialYou.fontRole: MaterialYou.LabelLarge
+            MaterialYou.foregroundColor: MaterialYou.OnSurfaceVariant
         }
-        Timer { id: timerHideVolumePopup; interval: 1000 }
+
+        state: "hide"
         states: [
             State {
                 name: "show"
-                when: timerHideVolumePopup.running
                 PropertyChanges { paneVolume.opacity: 1 }
             },
             State {
                 name: "hide"
-                when: !timerHideVolumePopup.running
                 PropertyChanges { paneVolume.opacity: 0 }
             }
         ]
-        transitions: [ Transition {
+        transitions: [
+            Transition {
+                to: "show"
+                onRunningChanged: !running && (paneVolume.state = "hide")
+            },
+            Transition {
                 from: "show"
                 to: "hide"
-                NumberAnimation { property: "opacity"; duration: 250; easing.type: Easing.OutCubic }
-            }]
+                SequentialAnimation {
+                    PauseAnimation { duration: 1000 }
+                    NumberAnimation { property: "opacity"; duration: 250; easing.type: Easing.OutCubic }
+                }
+            }
+        ]
+
+        background: Rectangle {
+            color: paneVolume.MaterialYou.backgroundColor
+            radius: paneVolume.MaterialYou.radius
+            opacity: 0.7
+        }
     }
 }
