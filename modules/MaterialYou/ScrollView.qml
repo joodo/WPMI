@@ -54,7 +54,6 @@ T.ScrollView {
         x: control.mirrored ? 0 : control.width - width
         y: control.topPadding
         height: control.availableHeight
-        active: control.ScrollBar.horizontal.active
     }
 
     ScrollBar.horizontal: ScrollBar {
@@ -66,16 +65,19 @@ T.ScrollView {
     }
 
     // Prevent empty place in ScrollView steal click event
+    contentWidth: {
+        const fci = contentItem.contentItem.children
+        fci.length === 2? fci[1].implicitWidth : -1
+    }
+    contentHeight: {
+        const fci = contentItem.contentItem.children
+        fci.length === 2? fci[1].implicitHeight : -1
+    }
+
+    contentItem.ScrollBar.vertical: control.ScrollBar.vertical
+    contentItem.ScrollBar.horizontal: control.ScrollBar.horizontal
+
     MouseArea {
-        Component.onCompleted: {
-            const fci = control.contentItem.contentItem.children  // Items in flickable
-            if (fci.length === 2) {
-                if (control.contentHeight === -1)
-                    control.contentHeight = Qt.binding(() => fci[1].implicitHeight)
-                if (control.contentWidth === -1)
-                    control.contentWidth = control.contentWidth || Qt.binding(() => fci[1].implicitWidth)
-            }
-        }
         anchors.fill: parent
         propagateComposedEvents: true
         onClicked: mouse => mouse.accepted = false

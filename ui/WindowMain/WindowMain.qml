@@ -47,6 +47,7 @@ ApplicationWindow {
 
     RowLayout {
         anchors.fill: parent
+        spacing: 0
 
         Item {
             Layout.fillHeight: true; Layout.preferredWidth: 56
@@ -55,9 +56,11 @@ ApplicationWindow {
 
             ToolButton {
                 id: buttonBack
+                visible: opacity !== 0
+                opacity: Session.backableItemStack.count
+                Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
                 anchors.horizontalCenter: parent.horizontalCenter
                 icon.source: "qrc:/arrow_back.svg"
-                visible: Session.backableItemStack.count
                 onClicked: Session.backableItemStack.get(Session.backableItemStack.count - 1).back()
             }
 
@@ -99,8 +102,8 @@ ApplicationWindow {
             StackSettings {
                 id: stackSettings
                 visible: false
-                StackView.onActivated: Session.backableItemStack.append(this)
-                StackView.onDeactivated: Session.backableItemStack.remove(Session.backableItemStack.count - 1)
+                StackView.onViewChanged: if (StackView.view) Session.backableItemStack.append(this)
+                StackView.onRemoved: Session.backableItemStack.remove(Session.backableItemStack.count - 1)
                 function back() {
                     stackLayout.pop()
                     buttonSettings.checked = false

@@ -7,59 +7,55 @@ import MaterialYou
 StackView {
     id: root
 
-    initialItem: Page {
-        MaterialYou.backgroundColor: "transparent"
-        header: Control {
-            implicitHeight: fieldSearch.implicitHeight
-            HandlerWindowDrag {
-                z: -1
-                anchors.fill: parent
-            }
-            FieldSearch {
-                id: fieldSearch
-                width: Math.min(parent.width - parent.rightPadding, 300)
-                placeholderText: qsTr("Search movies...")
-                onSearch: query => {
-                              stackLayout.currentIndex = 1
-                              stackSearch.query = query
-                          }
-            }
-        }
+    initialItem: stackHistory
 
-        StackLayout {
-            id: stackLayout
-            anchors.fill: parent
-            StackHistory {
-                id: stackHistory
-                onMovieSelected: movieID => root.push(componentMovieDetail.createObject(stackLayout, { movieID }))
-            }
+    FieldSearch {
+        id: fieldSearch
+        opacity: root.currentItem instanceof StackMovieDetail? 0 : 1
+        visible: opacity !== 0
+        z: 1
+        width: 300
+        anchors { right: parent.right; rightMargin: 16 }
+        placeholderText: qsTr("Search movies...")
+        onSearch: query => {
+                      if (!stackSearch.visible) {
+                          root.replace(stackSearch, { query })
+                      } else {
+                          stackSearch.query = query
+                      }
+                  }
+    }
 
-            StackSearch {
-                id: stackSearch
-                onMovieSelected: movieID => root.push(componentMovieDetail.createObject(stackLayout, { movieID }))
+    StackHistory {
+        id: stackHistory
+        visible: false
+        onMovieSelected: movieID => root.push(componentMovieDetail.createObject(stackLayout, { movieID }))
+    }
 
-                StackLayout.onIsCurrentItemChanged: {
-                    if (StackLayout.isCurrentItem) {
-                        Session.backableItemStack.append(this)
-                    } else {
-                        Session.backableItemStack.remove(Session.backableItemStack.count - 1)
-                    }
-                }
-                function back() {
-                    stackLayout.currentIndex -= 1
-                }
-            }
-        }
+    StackSearch {
+        id: stackSearch
+        visible: false
+        onMovieSelected: movieID => root.push(componentMovieDetail.createObject(stackLayout, { movieID }))
+
+        StackView.onViewChanged: if (StackView.view) Session.backableItemStack.append(this)
+        StackView.onRemoved: Session.backableItemStack.remove(Session.backableItemStack.count - 1)
+        function back() { root.replace(stackHistory) }
     }
 
     Component {
         id: componentMovieDetail
         StackMovieDetail {
-            StackView.onActivated: Session.backableItemStack.append(this)
-            StackView.onDeactivated: Session.backableItemStack.remove(Session.backableItemStack.count - 1)
-            function back() {
-                root.pop()
-            }
+            Component.onCompleted: Session.backableItemStack.append(this)
+            StackView.onRemoved: Session.backableItemStack.remove(Session.backableItemStack.count - 1)
+            function back() { root.pop() }
         }
+    }
+
+    replaceEnter: Transition {
+        NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 200; easing.type: Easing.OutCubic }
+    }
+
+    replaceExit: Transition {
+        NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 200; easing.type: Easing.OutCubic }
     }
 }

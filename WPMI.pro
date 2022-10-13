@@ -31,6 +31,7 @@ RESOURCES += \
     ui/components/FieldSearch.qml \
     ui/components/HandlerWindowDrag.qml \
     ui/components/ProgressNetwork.qml \
+    ui/components/HeaderShadow.qml \
     ui/WindowMain/WindowMain.qml \
     ui/WindowMain/StackSettings.qml \
     ui/WindowMain/HandleWindows.qml \

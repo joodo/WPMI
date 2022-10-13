@@ -112,6 +112,9 @@ T.Dialog {
     }
 
     T.Overlay.modeless: Rectangle {
+        // simulate modal dialog
+        MouseArea { anchors.fill: parent }
+
         color: "#30000000"
         Behavior on opacity { NumberAnimation { duration: 150 } }
     }

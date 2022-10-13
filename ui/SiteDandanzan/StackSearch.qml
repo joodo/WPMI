@@ -44,10 +44,32 @@ Page {
         .catch(err => progressNetwork.retryWork = () => queryChanged());
     }
 
-    background: Item {}
-    leftPadding: 0
+    background: null
+    leftPadding: -16
+
+    header: RowLayout {
+        spacing: 8
+        height: 48
+        Label {
+            text: qsTr("Search")
+            MaterialYou.fontRole: MaterialYou.HeadlineMedium
+        }
+        HandlerWindowDrag {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+    }
+
+    HeaderShadow {
+        z: 10
+        x: -40
+        opacity: scrollView.contentItem.contentY / 56
+    }
 
     ScrollView {
+        id: scrollView
+        anchors.fill: parent
+
         function getNextPage(url) {
             getResultFromSearch(url)
             .then(result => {
@@ -61,7 +83,8 @@ Page {
 
         ScrollBar.vertical.onPositionChanged: {
             const position = ScrollBar.vertical.position + ScrollBar.vertical.visualSize
-            if (root.next && !timerCooldown.running && (1-position) * contentHeight < 50) {
+            if (root.next && !timerCooldown.running
+                    && (1-position) * contentHeight < progressNetwork.height) {
                 getNextPage(root.next)
                 root.next = ""
             }
@@ -75,14 +98,10 @@ Page {
 
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff; ScrollBar.vertical.policy: ScrollBar.AsNeeded
         // FIXME: why availableWidth cause binding loop?
-        // contentWidth: availableWidth
-        contentWidth: width
-        // To show cards shadows
-        anchors { fill: parent; topMargin: 24 - layout.anchors.topMargin; leftMargin: -layout.anchors.leftMargin }
+        contentWidth: availableWidth
         GridLayout {
             id: layout
-            // margins to show cards shadows
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: 16; topMargin: 8 }
+            anchors { left: parent.left; right: parent.right; top: parent.top; margins: 16 }
             columnSpacing: 12; rowSpacing: 12
             onWidthChanged: columns = Math.max(3, (width + rowSpacing) / (150 + rowSpacing))
             Repeater {
@@ -99,14 +118,15 @@ Page {
                     brief: `${movieData.country}   ${movieData.year}`
                 }
             }
+            ProgressNetwork {
+                id: progressNetwork
+                Layout.preferredHeight: 128
+                Layout.columnSpan: parent.columns
+                Layout.alignment: Qt.AlignHCenter
+            }
             Item {
                 Layout.columnSpan: parent.columns
                 Layout.preferredHeight: 16; Layout.fillWidth: true
-            }
-            ProgressNetwork {
-                id: progressNetwork
-                Layout.columnSpan: parent.columns
-                Layout.alignment: Qt.AlignHCenter
             }
         }
     }
