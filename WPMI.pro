@@ -21,6 +21,7 @@ RESOURCES += \
     ui/Main.qml \
     ui/business/UpdateChecker.qml \
     ui/business/Session.qml \
+    ui/business/Settings.qml \
     ui/business/Object.qml \
     ui/business/HttpRequest.qml \
     ui/business/OrderedMapModel.qml \

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtMultimedia
-import Qt.labs.settings
+import Qt.labs.settings as Labs
 import Qt5Compat.GraphicalEffects
 import MaterialYou
 
@@ -159,7 +159,7 @@ Rectangle {
     }
 
     AudioOutput { id: audioOutput }
-    Settings { property alias volume: audioOutput.volume }
+    Labs.Settings { property alias volume: audioOutput.volume }
 
     Timer {
         running: mediaPlayer.playbackState === MediaPlayer.PlayingState

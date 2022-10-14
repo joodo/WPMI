@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Window
-import Qt.labs.settings
+import Qt.labs.settings as Labs
 import MaterialYou
 
 ApplicationWindow {
@@ -15,7 +15,7 @@ ApplicationWindow {
 
     width: 800; height: 600
     minimumWidth: 600; minimumHeight: 480
-    Settings {
+    Labs.Settings {
         property alias mainWindowX: window.x
         property alias mainWindowY: window.y
         property alias mainWindowWidth: window.width

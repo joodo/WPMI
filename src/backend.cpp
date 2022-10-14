@@ -59,7 +59,7 @@ QJsonArray Backend::supportedLanguages() const
 
 void Backend::setProxy(const QString &host)
 {
-    if (host == "[System]")
+    if (host == "[system]")
     {
         QNetworkProxyFactory::setUseSystemConfiguration(true);
         return;
@@ -67,7 +67,7 @@ void Backend::setProxy(const QString &host)
 
     QNetworkProxyFactory::setUseSystemConfiguration(false);
 
-    if (host == "[None]")
+    if (host == "[none]")
     {
         QNetworkProxy::setApplicationProxy(QNetworkProxy::NoProxy);
         return;

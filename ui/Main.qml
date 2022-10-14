@@ -9,6 +9,8 @@ Object {
         children.push(WindowPlayer)
 
         HttpManager.timeout = 5000;
+
+        Backend.setProxy(Settings.proxy)
     }
 
     Window {

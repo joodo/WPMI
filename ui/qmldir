@@ -1,6 +1,6 @@
-singleton SingletonWebView 1.0 SingletonWebView.qml
-singleton WindowPlayer 1.0 WindowPlayer.qml
-singleton WindowMain 1.0 WindowMain.qml
-singleton Session 1.0 Session.qml
-singleton LeanCloud 1.0 LeanCloud.qml
-# singleton MediaPlayer 1.0 MediaPlayer/MediaPlayer.qml
+singleton SingletonWebView SingletonWebView.qml
+singleton WindowPlayer WindowPlayer.qml
+singleton WindowMain WindowMain.qml
+singleton Session Session.qml
+singleton Settings Settings.qml
+singleton LeanCloud LeanCloud.qml

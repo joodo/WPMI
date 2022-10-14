@@ -29,5 +29,6 @@
         <file>forward_5.svg</file>
         <file>celebration.wav</file>
         <file>copy.svg</file>
+        <file>global.svg</file>
     </qresource>
 </RCC>

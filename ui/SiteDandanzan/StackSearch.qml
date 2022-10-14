@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import Qt.labs.settings
 import MaterialYou
 
 Page {
@@ -34,7 +33,7 @@ Page {
     property string query
     onQueryChanged: {
         modelMovie.clear()
-        const url = `https://${settings.value("resourceServer")}/so/${query}-${query}--.html`;
+        const url = `https://${Settings.resourceServer}/so/${query}-${query}--.html`;
         getResultFromSearch(url)
         .then(result => {
                   if ("next" in result) next = result.next
@@ -130,6 +129,4 @@ Page {
             }
         }
     }
-
-    Settings { id: settings }
 }

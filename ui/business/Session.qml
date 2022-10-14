@@ -1,7 +1,6 @@
 pragma Singleton
 
 import QtQuick
-import Qt.labs.settings
 
 QtObject {
     id: root
@@ -33,7 +32,7 @@ QtObject {
 
 
     Component.onCompleted: {
-        const storageState = JSON.parse(settings.state)
+        const storageState = JSON.parse(Settings.state)
         storageState.historyList.map(value => history.append(value))
         storageState.movieCardDataList.map(value => value && movieCardData.set(value.movieID, value))
     }
@@ -44,10 +43,6 @@ QtObject {
             historyList.push(history.get(i))
             movieCardDataList.push(movieCardData.get(history.get(i).movieID))
         }
-        settings.state = JSON.stringify({ historyList, movieCardDataList })
-    }
-
-    property var settings: Settings {
-        property string state: ""
+        Settings.state = JSON.stringify({ historyList, movieCardDataList })
     }
 }

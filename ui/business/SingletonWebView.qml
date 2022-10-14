@@ -27,7 +27,6 @@ WebEngineView {
 
         intercept(window.location.origin + "/url.php", response => alert("m3u8: " + response.responseText))
         `
-        // FIXME: URL shouldn't fix
         const m3u8Injection = WebEngine.script()
         m3u8Injection.name = "m3u8"
         m3u8Injection.injectionPoint = WebEngineScript.Defered

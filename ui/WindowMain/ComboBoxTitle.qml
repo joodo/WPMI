@@ -6,6 +6,7 @@ import MaterialYou.impl
 ComboBox {
     id: comboBoxTitle
 
+    textRole: "key"; valueRole: "value"
     model: [
         { key: "DanDanZan", value: "qrc:/SiteDandanzan.qml" },
         { key: "Jable", value: "qrc:/SiteJable.qml" },
@@ -13,13 +14,15 @@ ComboBox {
 
     indicator: null
 
-    textRole: "key"; valueRole: "value"
-
-    contentItem: Label {
+    contentItem: IconLabel {
         text: comboBoxTitle.displayText
         MaterialYou.fontRole: MaterialYou.LabelSmall
-        horizontalAlignment: Qt.AlignHCenter
-        verticalAlignment: Qt.AlignVCenter
+        spacing: 4
+        icon {
+            source: Settings.proxy !== "[none]"? "qrc:/global.svg" : ""
+            width: 12; height: 12
+            color: MaterialYou.color(MaterialYou.Tertiary)
+        }
     }
 
     background: StatusLayer {

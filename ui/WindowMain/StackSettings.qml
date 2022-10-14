@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import MaterialYou
-import Qt.labs.settings
+import Qt.labs.settings as Labs
 
 Page {
     id: root
@@ -49,8 +49,7 @@ Page {
                 }
                 LabelRequireRestart {
                     property string _initValue
-                    Component.onCompleted: _initValue = settings.language
-                    visible: _initValue !== comboBoxLanguage.currentValue
+                    visible: comboBoxLanguage.currentIndex !== 0
                 }
             }
             ComboBox {
@@ -59,6 +58,7 @@ Page {
                 valueRole: "value"
                 implicitWidth: 250
                 model: Backend.supportedLanguages()
+                onActivated: Settings.language = currentValue
             }
             SeparatorH2 {}
 
@@ -93,32 +93,33 @@ Page {
             LabelH1 { text: qsTr("Network") }
 
             LabelH2 { text: qsTr("Proxy") }
-            ComboBox {
-                id: comboBoxProxy
-                textRole: "key"
-                valueRole: "value"
-                model: ListModel {
-                    ListElement { key: qsTr("No Proxy"); value: 0 }
-                    ListElement { key: qsTr("System"); value: 1 }
-                    ListElement { key: qsTr("HTTP"); value: 2 }
-                }
-                onActivated: {
-                    switch (currentValue) {
-                    case 0: Backend.setProxy("[None]"); break;
-                    case 1: Backend.setProxy("[System]"); break;
-                    case 2: Backend.setProxy(fieldProxy.text); break;
-                    default: ;
+            RowLayout {
+                spacing: 8
+                ComboBox {
+                    id: comboBoxProxy
+                    textRole: "key"; valueRole: "value"
+                    model: ListModel {
+                        ListElement { key: qsTr("No Proxy"); value: "[none]" }
+                        ListElement { key: qsTr("System"); value: "[system]" }
+                        ListElement { key: qsTr("HTTP"); value: "" }
                     }
+                    Component.onCompleted: {
+                        switch(Settings.proxyAddress) {
+                        case "[none]": currentIndex = 0; break
+                        case "[system]": currentIndex = 0; break
+                        default: currentIndex = 2
+                        }
+                    }
+                    onActivated: Settings.proxy = currentIndex === 2? fieldProxy.text : currentValue
                 }
-                Component.onCompleted: activated(currentIndex)
-            }
-            TextField {
-                id: fieldProxy
-                visible: comboBoxProxy.currentValue === 2
-                Layout.preferredWidth: 300
-                text: ""
-                prefix: "http://"
-                onEditingFinished: comboBoxProxy.activated(comboBoxProxy.currentIndex)
+                TextField {
+                    id: fieldProxy
+                    visible: comboBoxProxy.currentIndex === 2
+                    Layout.preferredWidth: 300
+                    prefix: "http://"
+                    Labs.Settings { property alias proxyAddress: fieldProxy.text }
+                    onEditingFinished: if (comboBoxProxy.currentIndex === 2) Settings.proxy = text
+                }
             }
             SeparatorH2 {}
 
@@ -128,7 +129,8 @@ Page {
                 id: fieldResourceServer
                 Layout.preferredWidth: 300
                 prefix: "http://"
-                text: "www.dandanzan10.top"
+                text: Settings.resourceServer
+                onEditingFinished: Settings.resourceServer = text
             }
             SeparatorH2 {}
 
@@ -149,17 +151,10 @@ Page {
         }
 
 
-        Settings {
+        Labs.Settings {
             id: settingsMY
             category: "MaterialYou"
             property int theme: MaterialYou.System
-        }
-        Settings {
-            id: settings
-            property alias resourceServer: fieldResourceServer.text
-            property alias proxyType: comboBoxProxy.currentIndex
-            property alias proxyAddress: fieldProxy.text
-            property alias language: comboBoxLanguage.currentValue
         }
 
         component LabelH1: Label {
