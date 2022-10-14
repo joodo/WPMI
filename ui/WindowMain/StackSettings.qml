@@ -104,9 +104,9 @@ Page {
                         ListElement { key: qsTr("HTTP"); value: "" }
                     }
                     Component.onCompleted: {
-                        switch(Settings.proxyAddress) {
+                        switch(Settings.proxy) {
                         case "[none]": currentIndex = 0; break
-                        case "[system]": currentIndex = 0; break
+                        case "[system]": currentIndex = 1; break
                         default: currentIndex = 2
                         }
                     }
@@ -117,7 +117,7 @@ Page {
                     visible: comboBoxProxy.currentIndex === 2
                     Layout.preferredWidth: 300
                     prefix: "http://"
-                    Labs.Settings { property alias proxyAddress: fieldProxy.text }
+                    TrivialSettings { property alias proxyAddress: fieldProxy.text }
                     onEditingFinished: if (comboBoxProxy.currentIndex === 2) Settings.proxy = text
                 }
             }

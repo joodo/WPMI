@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import Qt.labs.settings as Labs
 import MaterialYou
 
 Item {
@@ -56,7 +55,7 @@ Item {
                     Layout.fillWidth: true
                     placeholderText: qsTr("Your Nickname")
 
-                    Labs.Settings { property alias userName: fieldUserName.text }
+                    TrivialSettings { property alias userName: fieldUserName.text }
                 }
 
                 BusyIndicator {
