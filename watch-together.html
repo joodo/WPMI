@@ -388,11 +388,6 @@
                 },
             },
             mounted() {
-                AV.init({
-                    appId: "rnC1ehKEjnxdhaYDUyZ3lg4p-MdYXbMMI",
-                    appKey: UrlParams.get("key")
-                });
-
                 document.getElementById("player").addEventListener('fullscreenchange', event => {
                     this.fullscreened = document.fullscreenElement ? true : false;
                 });
