@@ -40,11 +40,11 @@ RESOURCES += \
     ui/WindowMain/DialogGlobal.qml \
     ui/WindowMain/DropAreaKeys.qml \
     ui/WindowMain/ComboBoxTitle.qml \
-    ui/MediaPlayer/WindowPlayer.qml \
-    ui/MediaPlayer/RectScreen.qml \
-    ui/MediaPlayer/PaneController.qml \
-    ui/MediaPlayer/VideoProgressBar.qml \
-    ui/MediaPlayer/PaneBlur.qml \
+    ui/WindowPlayer/WindowPlayer.qml \
+    ui/WindowPlayer/RectScreen.qml \
+    ui/WindowPlayer/PaneController.qml \
+    ui/WindowPlayer/VideoProgressBar.qml \
+    ui/WindowPlayer/PaneBlur.qml \
     ui/QRCode/QRCode.qml \
     ui/QRCode/qrcode.js \
     ui/LeanCloud/av-min.js \

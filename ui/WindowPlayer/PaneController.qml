@@ -107,6 +107,9 @@ PaneBlur {
                     Menu {
                         id: menu
 
+                        modal: true
+                        dim: false
+
                         MenuItem {
                             text: qsTr("Help")
                             icon.source: "qrc:/question_mark.svg"
