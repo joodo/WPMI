@@ -67,7 +67,6 @@ Page {
 
     ScrollView {
         id: scrollView
-        anchors.fill: parent
 
         function getNextPage(url) {
             getResultFromSearch(url)
@@ -80,10 +79,23 @@ Page {
             .catch(err => progressNetwork.retryWork = () => getNextPage(url));
         }
 
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+        }
+
+        Timer {
+            interval: 500
+            repeat: true
+            running: visible
+            triggeredOnStart: true
+            onTriggered: scrollView.width = scrollView.parent.width
+        }
+
         ScrollBar.vertical.onPositionChanged: {
             const position = ScrollBar.vertical.position + ScrollBar.vertical.visualSize
             if (root.next && !timerCooldown.running
-                    && (1-position) * contentHeight < progressNetwork.height) {
+                    && (1-position) * contentHeight < progressNetwork.parent.height) {
                 getNextPage(root.next)
                 root.next = ""
             }
@@ -96,17 +108,18 @@ Page {
         }
 
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff; ScrollBar.vertical.policy: ScrollBar.AsNeeded
-        // FIXME: why availableWidth cause binding loop?
         contentWidth: availableWidth
-        GridLayout {
+        Flow {
             id: layout
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: 16 }
-            columnSpacing: 12; rowSpacing: 12
-            onWidthChanged: columns = Math.max(3, (width + rowSpacing) / (150 + rowSpacing))
+            spacing: 12
+
+            property int columns: Math.max(3, (width + spacing) / (160 + spacing))
+            property real cellWidth: (width - (columns - 1) * spacing) / columns
             Repeater {
                 model: ListModel { id: modelMovie }
                 delegate: CardMoive {
-                    Layout.fillWidth: true; Layout.alignment: Qt.AlignTop
+                    width: layout.cellWidth
                     onLeftClicked: {
                         root.movieSelected(movieID)
                     }
@@ -117,16 +130,18 @@ Page {
                     brief: `${movieData.country}   ${movieData.year}`
                 }
             }
-            ProgressNetwork {
-                id: progressNetwork
-                Layout.preferredHeight: 128
-                Layout.columnSpan: parent.columns
-                Layout.alignment: Qt.AlignHCenter
-            }
             Item {
-                Layout.columnSpan: parent.columns
-                Layout.preferredHeight: 16; Layout.fillWidth: true
+                width: parent.width; height: 128
+
+                ProgressNetwork {
+                    id: progressNetwork
+                    anchors.centerIn: parent
+                }
             }
+
+            Item { width: parent.width; height: 16 }
+
+            move: Transition { NumberAnimation { properties: "x,y"; duration: 200; easing.type: Easing.OutCubic } }
         }
     }
 }

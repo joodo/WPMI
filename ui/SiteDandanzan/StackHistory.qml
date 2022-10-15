@@ -48,7 +48,16 @@ Page {
 
     ScrollView {
         id: scrollView
-        anchors.fill: parent
+
+        anchors { top: parent.top; bottom: parent.bottom }
+        Timer {
+            interval: 500
+            repeat: true
+            running: visible
+            triggeredOnStart: true
+            onTriggered: scrollView.width = scrollView.parent.width
+        }
+
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff; ScrollBar.vertical.policy: ScrollBar.AsNeeded
         contentWidth: availableWidth
         Flow {
@@ -89,17 +98,10 @@ Page {
             }
             Item { width: parent.width; height: 16 }
 
-            property bool animeEnabled: false
-            Timer { id: timer; interval: 500; onTriggered: parent.animeEnabled = true }
-            onVisibleChanged: if (visible) timer.start(); else animeEnabled = false
-            add: Transition {
-                enabled: layout.animeEnabled
-                NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 200 }
-            }
-            move: Transition {
-                enabled: layout.animeEnabled
-                NumberAnimation { properties: "x,y"; duration: 200; easing.type: Easing.OutCubic }
-            }
+            // DUMMY: Wait for singleton model load finish, avoid anime shake
+            Timer { interval: 500; running: true; onTriggered: parent.move.animations[0].duration = 200 }
+            add: Transition { NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 200 } }
+            move: Transition { NumberAnimation { properties: "x,y"; duration: 0; easing.type: Easing.OutCubic } }
             populate: move
         }
     }
