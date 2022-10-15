@@ -59,6 +59,9 @@ Pane {
         }
     }
 
+    hoverEnabled: true
+    onHoveredChanged: hovered? timerHide.stop() : timerHide.start()
+
     Timer {
         id: timerHide
         interval: 4000
