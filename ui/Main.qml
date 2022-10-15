@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import MaterialYou
 import WPMI
 
 Object {
@@ -25,12 +26,20 @@ Object {
         Component.onCompleted: LeanCloud.parent = contentItem
     }
 
-    Window {
+    ApplicationWindow {
         //visible: true
         width: 600; height: 480
 
-        DialogRoom {
-            anchors.fill: parent
+        Snackbar {
+            id: snack
+            text: "Ha hais besal ldlakjtheg."
+            actionText: "Undo"
+            anchors.centerIn: parent
+        }
+
+        Button {
+            text: "show"
+            onClicked: snack.show()
         }
     }
 

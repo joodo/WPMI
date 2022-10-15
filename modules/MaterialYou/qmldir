@@ -1,25 +1,26 @@
 module MaterialYou
-ApplicationWindow 2.15 ApplicationWindow.qml
-BusyIndicator 2.15 BusyIndicator.qml
-Button 2.15 Button.qml
-Chip 2.15 Chip.qml
-ComboBox 2.15 ComboBox.qml
-Dialog 2.15 Dialog.qml
-DialogButtonBox 2.15 DialogButtonBox.qml
-Frame 2.15 Frame.qml
-IconLabel 2.15 IconLabel.qml
-Label 2.15 Label.qml
-Menu 2.15 Menu.qml
-MenuItem 2.15 MenuItem.qml
-Page 2.15 Page.qml
-Pane 2.15 Pane.qml
-ProgressBar 2.15 ProgressBar.qml
-ScrollBar 2.15 ScrollBar.qml
-ScrollIndicator 2.15 ScrollIndicator.qml
-ScrollView 2.15 ScrollView.qml
-Slider 2.15 Slider.qml
-StackView 2.15 StackView.qml
-TextField 2.15 TextField.qml
-ToolBar 2.15 ToolBar.qml
-ToolButton 2.15 ToolButton.qml
-ToolSeparator 2.15 ToolSeparator.qml
+ApplicationWindow ApplicationWindow.qml
+BusyIndicator BusyIndicator.qml
+Button Button.qml
+Chip Chip.qml
+ComboBox ComboBox.qml
+Dialog Dialog.qml
+DialogButtonBox DialogButtonBox.qml
+Frame Frame.qml
+IconLabel IconLabel.qml
+Label Label.qml
+Menu Menu.qml
+MenuItem MenuItem.qml
+Page Page.qml
+Pane Pane.qml
+ProgressBar ProgressBar.qml
+ScrollBar ScrollBar.qml
+ScrollIndicator ScrollIndicator.qml
+ScrollView ScrollView.qml
+Slider Slider.qml
+Snackbar Snackbar.qml
+StackView StackView.qml
+TextField TextField.qml
+ToolBar ToolBar.qml
+ToolButton ToolButton.qml
+ToolSeparator ToolSeparator.qml

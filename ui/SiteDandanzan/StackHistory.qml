@@ -24,9 +24,16 @@ Page {
             Layout.alignment: Qt.AlignBaseline
             text: qsTr("Clear")
             flat: true
-            onClicked: WindowMain.showDialog(qsTr("This will clean all porn you've watched. It's nice to be reborn."),
-                                             qsTr("Clear history?"),
-                                             Dialog.Ok | Dialog.Cancel).then(Session.history.clear)
+            onClicked: {
+                let historys = []
+                for (let i = 0; i < Session.history.count; i++) {
+                    historys.push(JSON.stringify(Session.history.get(i)))
+                }
+
+                Session.history.clear()
+                Window.window.toast?.(qsTr("History was cleared."), qsTr("Undo"))
+                .catch(() => historys.map(value => Session.history.append(JSON.parse(value))));
+            }
         }
         HandlerWindowDrag {
             Layout.fillHeight: true
@@ -67,7 +74,13 @@ Page {
                         MaterialYou.backgroundColor: MaterialYou.tintSurfaceColor(4)
                         MenuItem {
                             text: qsTr("Remove")
-                            onTriggered: Session.history.remove(index)
+                            onTriggered: {
+                                const myData = JSON.stringify(Session.history.get(index))
+                                const myIndex = index
+                                Session.history.remove(index)
+                                Window.window.toast?.(qsTr("%1 was removed.").arg(movieData.title),
+                                                      qsTr("Undo")).catch(() => Session.history.insert(myIndex, JSON.parse(myData)))
+                            }
                         }
                     }
                 }

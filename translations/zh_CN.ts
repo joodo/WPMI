@@ -4,32 +4,32 @@
 <context>
     <name>DialogRoom</name>
     <message>
-        <location filename="../ui/components/DialogRoom.qml" line="41"/>
+        <location filename="../ui/components/DialogRoom.qml" line="40"/>
         <source>Create Room</source>
         <translation>创建房间</translation>
     </message>
     <message>
-        <location filename="../ui/components/DialogRoom.qml" line="51"/>
+        <location filename="../ui/components/DialogRoom.qml" line="50"/>
         <source>Room Name</source>
         <translation>房间名称</translation>
     </message>
     <message>
-        <location filename="../ui/components/DialogRoom.qml" line="57"/>
+        <location filename="../ui/components/DialogRoom.qml" line="56"/>
         <source>Your Nickname</source>
         <translation>你的昵称</translation>
     </message>
     <message>
-        <location filename="../ui/components/DialogRoom.qml" line="73"/>
+        <location filename="../ui/components/DialogRoom.qml" line="72"/>
         <source>Create</source>
         <translation>创建</translation>
     </message>
     <message>
-        <location filename="../ui/components/DialogRoom.qml" line="112"/>
+        <location filename="../ui/components/DialogRoom.qml" line="111"/>
         <source>Share this link with your friends:</source>
         <translation>与朋友分享这个链接：</translation>
     </message>
     <message>
-        <location filename="../ui/components/DialogRoom.qml" line="146"/>
+        <location filename="../ui/components/DialogRoom.qml" line="145"/>
         <source>Copied</source>
         <translation>已复制</translation>
     </message>
@@ -62,12 +62,12 @@
 <context>
     <name>PaneController</name>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="111"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="114"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="117"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="120"/>
         <source>Usage</source>
         <translation>使用</translation>
     </message>
@@ -92,7 +92,7 @@
 **ESC**：退出全屏</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="121"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="124"/>
         <source>**Double Click**: Fullscreen
 
 **Space, Click**: Play / Pause
@@ -113,32 +113,32 @@
 **ESC**：退出全屏</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="127"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="130"/>
         <source>Copy m3u8</source>
         <translation>复制 m3u8</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="135"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="138"/>
         <source>Other devices</source>
         <translation>其他设备</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="144"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="147"/>
         <source>Watch on Web</source>
         <translation>在网页上观看</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="149"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="152"/>
         <source>Visit link below to watch this video on any device&apos;s browser:</source>
         <translation>用设备的浏览器访问下面的地址以观看此视频：</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="169"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="172"/>
         <source>Copied!</source>
         <translation>已复制！</translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="169"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="172"/>
         <source>Copy to Clipboard</source>
         <translation>复制到剪切板</translation>
     </message>
@@ -164,7 +164,7 @@
 <context>
     <name>RectScreen</name>
     <message>
-        <location filename="../ui/MediaPlayer/RectScreen.qml" line="199"/>
+        <location filename="../ui/WindowPlayer/RectScreen.qml" line="198"/>
         <source>Volume: %1%</source>
         <translation>音量：%1%</translation>
     </message>
@@ -273,17 +273,31 @@
         <translation>清除</translation>
     </message>
     <message>
-        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="28"/>
+        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="34"/>
+        <source>History was cleared.</source>
+        <translation>已清除历史记录。</translation>
+    </message>
+    <message>
+        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="34"/>
+        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="82"/>
+        <source>Undo</source>
+        <translation>撤销</translation>
+    </message>
+    <message>
+        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="81"/>
+        <source>%1 was removed.</source>
+        <translation>%1 以移除。</translation>
+    </message>
+    <message>
         <source>Clear history?</source>
-        <translation>清除历史记录？</translation>
+        <translation type="vanished">清除历史记录？</translation>
     </message>
     <message>
-        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="27"/>
         <source>This will clean all porn you&apos;ve watched. It&apos;s nice to be reborn.</source>
-        <translation>这将清除你浏览记录中的所有小电影儿。重生的感觉真好。</translation>
+        <translation type="vanished">这将清除你浏览记录中的所有小电影儿。重生的感觉真好。</translation>
     </message>
     <message>
-        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="69"/>
+        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="76"/>
         <source>Remove</source>
         <translation>删除</translation>
     </message>
@@ -346,7 +360,7 @@
 <context>
     <name>StackSearch</name>
     <message>
-        <location filename="../ui/SiteDandanzan/StackSearch.qml" line="54"/>
+        <location filename="../ui/SiteDandanzan/StackSearch.qml" line="53"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
@@ -374,13 +388,13 @@
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="187"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="182"/>
         <source>Restart WPMI to apply this change.</source>
         <translation>若想使设置生效，需重启 WPMI。</translation>
     </message>
     <message>
         <location filename="../ui/WindowMain/StackSettings.qml" line="82"/>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="102"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="103"/>
         <source>System</source>
         <translation>跟随系统</translation>
     </message>
@@ -405,32 +419,32 @@
         <translation>代理</translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="101"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="102"/>
         <source>No Proxy</source>
         <translation>无代理</translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="103"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="104"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="125"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="126"/>
         <source>Resource Server</source>
         <translation>资源服务器</translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="126"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="127"/>
         <source>Server to search videos.</source>
         <translation>搜索影片的服务器。</translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="137"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="139"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="192"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="187"/>
         <source>&lt;a href=&apos;restart&apos;&gt;Restart Now&lt;/a&gt;</source>
         <translation>&lt;a href=&apos;restart&apos;&gt;立即重启&lt;/a&gt;</translation>
     </message>
@@ -446,7 +460,7 @@
 <context>
     <name>WindowMain</name>
     <message>
-        <location filename="../ui/WindowMain/WindowMain.qml" line="14"/>
+        <location filename="../ui/WindowMain/WindowMain.qml" line="13"/>
         <source>Watch Pirated Movies Illegally!</source>
         <translation>非法看片儿！</translation>
     </message>

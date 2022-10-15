@@ -118,6 +118,51 @@ ApplicationWindow {
     function showDialog() { return dialog.exec(...arguments) }
 
 
+    Snackbar {
+        id: snackbar
+
+        property var queue: []
+        property var resolver
+        property var rejecter
+        function next() {
+            if (queue.length === 0) return
+            const message = queue.shift()
+            text = message.text
+            actionText = message.actionText
+            resolver = message.resolve
+            rejecter = message.reject
+
+            show()
+        }
+        onActionTriggered: rejecter?.()
+        onHidden: {
+            resolver?.()
+            next()
+        }
+
+        anchors {
+            bottom: parent.bottom
+            bottomMargin: 16
+            horizontalCenter: parent.horizontalCenter
+        }
+        z: 10
+        width: Math.min(parent.width - 32, 400, implicitWidth)
+    }
+    function toast(text: string, actionText: string): Promise {
+        return new Promise((resolve, reject) => {
+                               snackbar.queue.push({
+                                                       text,
+                                                       actionText,
+                                                       resolve,
+                                                       reject
+                                                   })
+                               if (!snackbar.visible) {
+                                   snackbar.next()
+                               }
+                           })
+    }
+
+
     DropAreaKeys {
         anchors.fill: parent
         onUnlocked: comboBoxTitle.enabled = true

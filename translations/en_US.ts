@@ -4,32 +4,32 @@
 <context>
     <name>DialogRoom</name>
     <message>
-        <location filename="../ui/components/DialogRoom.qml" line="41"/>
+        <location filename="../ui/components/DialogRoom.qml" line="40"/>
         <source>Create Room</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/components/DialogRoom.qml" line="51"/>
+        <location filename="../ui/components/DialogRoom.qml" line="50"/>
         <source>Room Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/components/DialogRoom.qml" line="57"/>
+        <location filename="../ui/components/DialogRoom.qml" line="56"/>
         <source>Your Nickname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/components/DialogRoom.qml" line="73"/>
+        <location filename="../ui/components/DialogRoom.qml" line="72"/>
         <source>Create</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/components/DialogRoom.qml" line="112"/>
+        <location filename="../ui/components/DialogRoom.qml" line="111"/>
         <source>Share this link with your friends:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/components/DialogRoom.qml" line="146"/>
+        <location filename="../ui/components/DialogRoom.qml" line="145"/>
         <source>Copied</source>
         <translation type="unfinished"></translation>
     </message>
@@ -37,17 +37,17 @@
 <context>
     <name>PaneController</name>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="111"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="114"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="117"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="120"/>
         <source>Usage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="121"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="124"/>
         <source>**Double Click**: Fullscreen
 
 **Space, Click**: Play / Pause
@@ -60,32 +60,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="127"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="130"/>
         <source>Copy m3u8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="135"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="138"/>
         <source>Other devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="144"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="147"/>
         <source>Watch on Web</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="149"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="152"/>
         <source>Visit link below to watch this video on any device&apos;s browser:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="169"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="172"/>
         <source>Copied!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MediaPlayer/PaneController.qml" line="169"/>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="172"/>
         <source>Copy to Clipboard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -111,7 +111,7 @@
 <context>
     <name>RectScreen</name>
     <message>
-        <location filename="../ui/MediaPlayer/RectScreen.qml" line="199"/>
+        <location filename="../ui/WindowPlayer/RectScreen.qml" line="198"/>
         <source>Volume: %1%</source>
         <translation type="unfinished"></translation>
     </message>
@@ -150,17 +150,23 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="28"/>
-        <source>Clear history?</source>
-        <translation></translation>
+        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="34"/>
+        <source>History was cleared.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="27"/>
-        <source>This will clean all porn you&apos;ve watched. It&apos;s nice to be reborn.</source>
-        <translation></translation>
+        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="34"/>
+        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="82"/>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="69"/>
+        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="81"/>
+        <source>%1 was removed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/SiteDandanzan/StackHistory.qml" line="76"/>
         <source>Remove</source>
         <translation></translation>
     </message>
@@ -216,7 +222,7 @@
 <context>
     <name>StackSearch</name>
     <message>
-        <location filename="../ui/SiteDandanzan/StackSearch.qml" line="54"/>
+        <location filename="../ui/SiteDandanzan/StackSearch.qml" line="53"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
@@ -245,7 +251,7 @@
     </message>
     <message>
         <location filename="../ui/WindowMain/StackSettings.qml" line="82"/>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="102"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="103"/>
         <source>System</source>
         <translation></translation>
     </message>
@@ -270,37 +276,37 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="101"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="102"/>
         <source>No Proxy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="103"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="104"/>
         <source>HTTP</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="125"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="126"/>
         <source>Resource Server</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="126"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="127"/>
         <source>Server to search videos.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="137"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="139"/>
         <source>About</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="187"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="182"/>
         <source>Restart WPMI to apply this change.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/WindowMain/StackSettings.qml" line="192"/>
+        <location filename="../ui/WindowMain/StackSettings.qml" line="187"/>
         <source>&lt;a href=&apos;restart&apos;&gt;Restart Now&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -316,7 +322,7 @@
 <context>
     <name>WindowMain</name>
     <message>
-        <location filename="../ui/WindowMain/WindowMain.qml" line="14"/>
+        <location filename="../ui/WindowMain/WindowMain.qml" line="13"/>
         <source>Watch Pirated Movies Illegally!</source>
         <translation type="unfinished"></translation>
     </message>

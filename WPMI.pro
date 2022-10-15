@@ -58,7 +58,7 @@ RESOURCES += \
     ui/SiteJable/SiteJable.qml
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH = $${PWD}/ui
+QML_IMPORT_PATH += $${PWD}/ui $${PWD}/modules/MaterialYou
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

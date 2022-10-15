@@ -32,6 +32,7 @@
         <file>ScrollView.qml</file>
         <file>ScrollBar.qml</file>
         <file>StackView.qml</file>
+        <file>Snackbar.qml</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
