@@ -92,7 +92,6 @@
 **ESC**：退出全屏</translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/PaneController.qml" line="124"/>
         <source>**Double Click**: Fullscreen
 
 **Space, Click**: Play / Pause
@@ -102,7 +101,7 @@
 **Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down
 
 **Esc**: Quit Fullscreen</source>
-        <translation>**双击**：全屏
+        <translation type="vanished">**双击**：全屏
 
 **空格，点击**：播放 / 暂停
 
@@ -111,6 +110,27 @@
 **上 / 下键，鼠标滚轮**：增加 / 减少音量
 
 **ESC**：退出全屏</translation>
+    </message>
+    <message>
+        <location filename="../ui/WindowPlayer/PaneController.qml" line="124"/>
+        <source>**Double Click**: Fullscreen
+
+**Space, Click**: Play / Pause
+
+**Left / Right Arrow**: Replay / Forward 5 seconds
+
+**Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down
+
+**Esc**: Quit Fullscreen</source>
+        <translation>**双击**：全屏
+
+**空格，点击**：播放 / 暂停
+
+**左 / 右键**：后退 / 前进 5 秒
+
+**上 / 下键，鼠标滚轮**：增加 / 减少音量
+
+**ESC**：退出全屏 {5 ?}</translation>
     </message>
     <message>
         <location filename="../ui/WindowPlayer/PaneController.qml" line="130"/>

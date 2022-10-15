@@ -121,7 +121,7 @@ PaneBlur {
                                 anchors.centerIn: parent
                                 Label {
                                     textFormat: Text.MarkdownText
-                                    text: qsTr("**Double Click**: Fullscreen\n\n**Space, Click**: Play / Pause\n\n**Left / Right Arrow**: Replay / Forward 10 seconds\n\n**Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down\n\n**Esc**: Quit Fullscreen")
+                                    text: qsTr("**Double Click**: Fullscreen\n\n**Space, Click**: Play / Pause\n\n**Left / Right Arrow**: Replay / Forward 5 seconds\n\n**Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down\n\n**Esc**: Quit Fullscreen")
                                 }
                             }
                         }

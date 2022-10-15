@@ -52,7 +52,7 @@
 
 **Space, Click**: Play / Pause
 
-**Left / Right Arrow**: Replay / Forward 10 seconds
+**Left / Right Arrow**: Replay / Forward 5 seconds
 
 **Up / Down Arrow, Mousewheel Scroll**: Volume Up / Down
 
