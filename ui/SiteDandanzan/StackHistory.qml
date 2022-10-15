@@ -51,16 +51,19 @@ Page {
         anchors.fill: parent
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff; ScrollBar.vertical.policy: ScrollBar.AsNeeded
         contentWidth: availableWidth
-        GridLayout {
+        Flow {
             id: layout
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: 16 }
-            columnSpacing: 12; rowSpacing: 12
-            onWidthChanged: columns = Math.max(3, (width + rowSpacing) / (160 + rowSpacing))
+            spacing: 12
+
+            property int columns: Math.max(3, (width + spacing) / (160 + spacing))
+            property real cellWidth: (width - (columns - 1) * spacing) / columns
             Repeater {
                 id: repeater
                 model: Session.history
                 delegate: CardMoive {
-                    Layout.fillWidth: true; Layout.alignment: Qt.AlignTop
+                    width: layout.cellWidth
+
                     property var movieData: Session.movieCardData.get(movieID)
                     thumbSource: movieData.thumbSource
                     title: movieData.title
@@ -84,10 +87,20 @@ Page {
                     }
                 }
             }
-            Item {
-                Layout.columnSpan: parent.columns
-                Layout.preferredHeight: 16; Layout.fillWidth: true
+            Item { width: parent.width; height: 16 }
+
+            property bool animeEnabled: false
+            Timer { id: timer; interval: 500; onTriggered: parent.animeEnabled = true }
+            onVisibleChanged: if (visible) timer.start(); else animeEnabled = false
+            add: Transition {
+                enabled: layout.animeEnabled
+                NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 200 }
             }
+            move: Transition {
+                enabled: layout.animeEnabled
+                NumberAnimation { properties: "x,y"; duration: 200; easing.type: Easing.OutCubic }
+            }
+            populate: move
         }
     }
 }
