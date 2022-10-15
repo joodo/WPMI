@@ -306,7 +306,7 @@
     <message>
         <location filename="../ui/SiteDandanzan/StackHistory.qml" line="81"/>
         <source>%1 was removed.</source>
-        <translation>%1 以移除。</translation>
+        <translation type="unfinished">%1 已删除。</translation>
     </message>
     <message>
         <source>Clear history?</source>

@@ -38,6 +38,7 @@ RESOURCES += \
     ui/WindowMain/StackSettings.qml \
     ui/WindowMain/HandleWindows.qml \
     ui/WindowMain/DialogGlobal.qml \
+    ui/WindowMain/SnackbarGlobal.qml \
     ui/WindowMain/DropAreaKeys.qml \
     ui/WindowMain/ComboBoxTitle.qml \
     ui/WindowPlayer/WindowPlayer.qml \

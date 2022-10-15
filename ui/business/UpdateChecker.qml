@@ -19,7 +19,7 @@ HttpRequest {
             const o = JSON.parse(versionChangeLog)
             let content = ""
             o.features.map(feature => content += `- ${feature}\n`)
-            WindowMain.showDialog(content, qsTr("Updated to Version %1").arg(o.version))
+            Window.window.dialog?.exec(content, qsTr("Updated to Version %1").arg(o.version))
         }
 
         // check update

@@ -113,53 +113,20 @@ ApplicationWindow {
 
 
     property Dialog dialog: DialogGlobal {
+        parent: window.contentItem
         anchors.centerIn: parent
     }
-    function showDialog() { return dialog.exec(...arguments) }
 
 
-    Snackbar {
-        id: snackbar
-
-        property var queue: []
-        property var resolver
-        property var rejecter
-        function next() {
-            if (queue.length === 0) return
-            const message = queue.shift()
-            text = message.text
-            actionText = message.actionText
-            resolver = message.resolve
-            rejecter = message.reject
-
-            show()
-        }
-        onActionTriggered: rejecter?.()
-        onHidden: {
-            resolver?.()
-            next()
-        }
-
+    property Item snackbar: SnackbarGlobal {
+        parent: window.contentItem
         anchors {
             bottom: parent.bottom
             bottomMargin: 16
             horizontalCenter: parent.horizontalCenter
         }
-        z: 10
         width: Math.min(parent.width - 32, 400, implicitWidth)
-    }
-    function toast(text: string, actionText: string): Promise {
-        return new Promise((resolve, reject) => {
-                               snackbar.queue.push({
-                                                       text,
-                                                       actionText,
-                                                       resolve,
-                                                       reject
-                                                   })
-                               if (!snackbar.visible) {
-                                   snackbar.next()
-                               }
-                           })
+        z: 10
     }
 
 

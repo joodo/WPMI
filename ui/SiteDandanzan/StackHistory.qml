@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import Qt.labs.settings
 import MaterialYou
 
 Page {
@@ -31,7 +30,7 @@ Page {
                 }
 
                 Session.history.clear()
-                Window.window.toast?.(qsTr("History was cleared."), qsTr("Undo"))
+                Window.window.snackbar?.toast(qsTr("History was cleared."), qsTr("Undo"))
                 .catch(() => historys.map(value => Session.history.append(JSON.parse(value))));
             }
         }
@@ -78,8 +77,8 @@ Page {
                                 const myData = JSON.stringify(Session.history.get(index))
                                 const myIndex = index
                                 Session.history.remove(index)
-                                Window.window.toast?.(qsTr("%1 was removed.").arg(movieData.title),
-                                                      qsTr("Undo")).catch(() => Session.history.insert(myIndex, JSON.parse(myData)))
+                                Window.window.snackbar?.toast(qsTr("%1 was removed.").arg(movieData.title),
+                                                              qsTr("Undo")).catch(() => Session.history.insert(myIndex, JSON.parse(myData)))
                             }
                         }
                     }
