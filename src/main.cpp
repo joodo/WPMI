@@ -18,18 +18,13 @@ int main(int argc, char *argv[])
     // For eggy's stupid macBook
     qputenv("QT_ENABLE_GLYPH_CACHE_WORKAROUND", "1");
 
+    // Disable chromium cors
+    qputenv("QTWEBENGINE_CHROMIUM_FLAGS", "--disable-web-security");
+
+
     QtWebEngineQuick::initialize();
 
-
-    // Disable chromium cors
-    int newArgc = argc + 1;
-    char **newArgv = new char*[newArgc];
-    for (int i = 0; i < argc; i++)
-    {
-        newArgv[i] = argv[i];
-    }
-    newArgv[argc] = (char*)"--disable-web-security";
-    QGuiApplication app(newArgc, newArgv);
+    QGuiApplication app(argc, argv);
 
     app.setOrganizationName("Joodo");
     app.setOrganizationDomain("https://github.com/joodo/WPMI");
