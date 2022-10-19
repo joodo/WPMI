@@ -27,7 +27,7 @@ RESOURCES += \
     ui/business/HttpRequest.qml \
     ui/business/OrderedMapModel.qml \
     ui/business/ListModelWrapper.qml \
-    ui/business/SingletonWebView.qml \
+    # ui/business/SingletonWebView.qml \
     ui/components/DialogRoom.qml \
     ui/components/CardMoive.qml \
     ui/components/FieldSearch.qml \
@@ -58,8 +58,8 @@ RESOURCES += \
     ui/SiteDandanzan/StackMovieDetail.qml \
     ui/SiteDandanzan/DataService.qml \
     ui/SiteDandanzan/Dandanzan.html \
-    ui/SiteDandanzan/sablejs.js \
-    ui/SiteDandanzan/decrypt.js \
+    ui/SiteDandanzan/decrypt.mjs \
+    ui/SiteDandanzan/sablejs.mjs \
     ui/SiteJable/SiteJable.qml
 
 # Additional import path used to resolve QML modules in Qt Creator's code model

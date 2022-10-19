@@ -28,7 +28,7 @@ WebEngineView {
                                 }
     function runScript(script) {
         const callbackId = Date.now()
-        runJavaScript(script +
+        runJavaScript("dandanzan." + script +
                       `.then(result => console.warn("[Resolve]${callbackId}," + result))
                       .catch(err => console.warn("[Reject]${callbackId}," + err));`)
         return new Promise((resolve, reject) => _resolvers.set(callbackId, { resolve, reject }))
@@ -42,7 +42,7 @@ WebEngineView {
         return runScript(`detail("${url}")`)
     }
 
-    function getM3u8(url) {
-        return runScript(`getM3u8("https://${Settings.resourceServer}/url.php", "${url}")`)
+    function getM3u8(code) {
+        return runScript(`getM3u8("https://${Settings.resourceServer}/url.php", "${code}")`)
     }
 }

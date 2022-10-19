@@ -1,9 +1,9 @@
 <html>
 
 <body>
-    <script src="sablejs.js"></script>
-    <script src="decrypt.js"></script>
-    <script>
+    <script type="module">
+        import { decrypt } from "./decrypt.mjs"
+
         function getDocument(url) {
             const xhr = new XMLHttpRequest();
             xhr.responseType = "document";
@@ -20,7 +20,7 @@
 
         function post(url, data) {
             const formData = new FormData();
-            for (key in data) {
+            for (let key in data) {
                 formData.append(key, data[key]);
             }
 
@@ -39,7 +39,7 @@
 
         function search(url) {
             return getDocument(url).then(dom => {
-                let result = [];
+                const result = [];
 
                 for (let e of dom.querySelectorAll('div.lists-content > ul > li')) result.push({
                     title: e.querySelector("h2 > a").innerHTML,
@@ -51,7 +51,7 @@
                     movieID: (url => url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf(".")))(e.querySelector("a").href)
                 });
                 let e = dom.querySelector("li.next-page > a");
-                next = e ? e.href : "";
+                const next = e ? e.href : "";
                 let r = { result, next };
 
                 return JSON.stringify(r);
@@ -63,10 +63,9 @@
                 let playlists = [];
 
                 const vars = dom.querySelector("body > script:last-of-type").innerHTML.split(";");
-                eval(vars[2]);
-                eval(vars[3]);
-
-                const lines = getZyString(infoid, link5).split("@@@").filter(e => e);
+                const infoid = parseInt(vars[2].split("=")[1]);
+                const link5 = vars[3].slice(vars[3].indexOf("=") + 2, -1);
+                const lines = decrypt(infoid, link5).split("@@@").filter(e => e);
                 for (let line of lines) {
                     const zy = line.split("!!!").filter(e => e);
 
@@ -74,8 +73,8 @@
                         name: zy[0],
                         episodes: zy[1].split("|").filter(e => e).map(value => ({
                             title: value.split("$")[0],
-                            script: value.split("$")[1],
-                        })).filter(e => e.script),
+                            code: value.split("$")[1],
+                        })).filter(e => e.code),
                     }
 
                     if (playlist.episodes.length) playlists.push(playlist);
@@ -95,17 +94,19 @@
         }
 
         const M3u8Cache = new Map();
-        function getM3u8(url, script) {
-            if (M3u8Cache.has(script)) return Promise.resolve(M3u8Cache.get(script));
+        function getM3u8(url, code) {
+            if (M3u8Cache.has(code)) return Promise.resolve(M3u8Cache.get(code));
 
             return post(url, {
-                url: script,
-                sign: parseInt('0x62AB43C9') + script.length,
+                url: code,
+                sign: parseInt('0x62AB43C9') + code.length,
             }).then(result => {
-                M3u8Cache.set(script, result);
+                M3u8Cache.set(code, result);
                 return result;
             });
         }
+
+        window.dandanzan = { search, detail, getM3u8 }
     </script>
     <h1>Dandanzan</h1>
 </body>

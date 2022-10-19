@@ -1,4 +1,4 @@
-singleton SingletonWebView SingletonWebView.qml
+# singleton SingletonWebView SingletonWebView.qml
 singleton WindowPlayer WindowPlayer.qml
 singleton WindowMain WindowMain.qml
 singleton Session Session.qml

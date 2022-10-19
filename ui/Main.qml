@@ -13,13 +13,14 @@ Object {
 
         Backend.setProxy(Settings.proxy)
     }
-
+/*
     Window {
         id: windowWebView
         //visible: true
         width: 600; height: 480
         Component.onCompleted: SingletonWebView.parent = contentItem
     }
+    */
     Window {
         //visible: true
         width: 600; height: 480

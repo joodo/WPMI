@@ -122,7 +122,7 @@ Page {
                                         text: modelData.title
                                               + (highlighted? qsTr(" (%1% Watched)").arg(parseInt(root._history.position*100)) : "")
                                         onClicked: {
-                                            if (!modelData.script) return
+                                            if (!modelData.code) return
 
                                             Session.updateHistory({
                                                                       movieID: root.movieID,
@@ -134,7 +134,7 @@ Page {
 
                                             WindowPlayer.title = `${Session.movieCardData.get(root.movieID).title} - ${modelData.title}`
                                             WindowPlayer.movieID = root.movieID
-                                            WindowPlayer.load(siteDandanzan.dataService.getM3u8(modelData.script))
+                                            WindowPlayer.load(siteDandanzan.dataService.getM3u8(modelData.code))
                                         }
                                     }
                                 },
@@ -145,8 +145,8 @@ Page {
                                         target: buttonEpisode
                                         text: modelData.title
                                         onClicked: {
-                                            if (!modelData.script) return
-                                            siteDandanzan.dataService.getM3u8(modelData.script)
+                                            if (!modelData.code) return
+                                            siteDandanzan.dataService.getM3u8(modelData.code)
                                             .then(source => {
                                                       const title = `${Session.movieCardData.get(root.movieID).title} - ${modelData.title}`
                                                       Qt.openUrlExternally(`https://joodo.github.io/WPMI/player.html?title=${encodeURIComponent(title)}&url=${encodeURIComponent(source)}`)
@@ -173,7 +173,7 @@ Page {
                                         text: qsTr("Watch together")
                                         onClicked: {
                                             const roomName = `${Session.movieCardData.get(root.movieID).title} - ${modelData.title}`
-                                            dialogRoom.create(roomName, siteDandanzan.dataService.getM3u8(modelData.script))
+                                            dialogRoom.create(roomName, siteDandanzan.dataService.getM3u8(modelData.code))
                                         }
                                     }
                                 }
