@@ -35,7 +35,8 @@ Pane {
 
     MaterialYou.radius: 4
     MaterialYou.elevation: 4
-    MaterialYou.backgroundColor: MaterialYou.SecondaryContainer
+    MaterialYou.backgroundColor: MaterialYou.InverseSurface
+    MaterialYou.foregroundColor: MaterialYou.InverseOnSurface
     verticalPadding: 8
     leftPadding: 16
     rightPadding: actionText? 8 : 16
@@ -49,13 +50,14 @@ Pane {
             Layout.alignment: Qt.AlignVCenter
             verticalAlignment: Text.AlignVCenter
             wrapMode: Text.Wrap
-            //MaterialYou.fontRole: MaterialYou.LabelMedium
+            MaterialYou.foregroundColor: control.MaterialYou.foregroundColor
         }
         Button {
             id: button
             flat: true
             visible: text
             onClicked: control.actionTriggered()
+            MaterialYou.foregroundColor: MaterialYou.InversePrimary
         }
     }
 
