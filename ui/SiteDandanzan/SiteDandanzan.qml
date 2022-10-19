@@ -5,13 +5,13 @@ import QtQuick.Window
 import MaterialYou
 
 StackView {
-    id: root
+    id: siteDandanzan
 
     initialItem: stackHistory
 
     FieldSearch {
         id: fieldSearch
-        opacity: root.currentItem instanceof StackMovieDetail? 0 : 1
+        opacity: siteDandanzan.currentItem instanceof StackMovieDetail? 0 : 1
         visible: opacity !== 0
         z: 1
         width: 300
@@ -19,7 +19,7 @@ StackView {
         placeholderText: qsTr("Search movies...")
         onSearch: query => {
                       if (!stackSearch.visible) {
-                          root.replace(stackSearch, { query })
+                          siteDandanzan.replace(stackSearch, { query })
                       } else {
                           stackSearch.query = query
                       }
@@ -29,25 +29,27 @@ StackView {
     StackHistory {
         id: stackHistory
         visible: false
-        onMovieSelected: movieID => root.push(componentMovieDetail.createObject(stackLayout, { movieID }))
+        onMovieSelected: movieID => siteDandanzan.push(componentMovieDetail.createObject(stackLayout, { movieID }))
     }
 
     StackSearch {
         id: stackSearch
         visible: false
-        onMovieSelected: movieID => root.push(componentMovieDetail.createObject(stackLayout, { movieID }))
+        onMovieSelected: movieID => siteDandanzan.push(componentMovieDetail.createObject(stackLayout, { movieID }))
 
         StackView.onViewChanged: if (StackView.view) Session.backableItemStack.append(this)
         StackView.onRemoved: Session.backableItemStack.remove(Session.backableItemStack.count - 1)
-        function back() { root.replace(stackHistory) }
+        function back() { siteDandanzan.replace(stackHistory) }
     }
+
+    property DataService dataService: DataService {}
 
     Component {
         id: componentMovieDetail
         StackMovieDetail {
             Component.onCompleted: Session.backableItemStack.append(this)
             StackView.onRemoved: Session.backableItemStack.remove(Session.backableItemStack.count - 1)
-            function back() { root.pop() }
+            function back() { siteDandanzan.pop() }
         }
     }
 

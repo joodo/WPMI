@@ -98,11 +98,18 @@ Page {
             }
             Item { width: parent.width; height: 16 }
 
+            // animation will cause crash when scroll up from lots of card
+/*
             // DUMMY: Wait for singleton model load finish, avoid anime shake
-            Timer { interval: 500; running: true; onTriggered: parent.move.animations[0].duration = 200 }
+            onVisibleChanged: if (visible) timerDisableAnimation.start()
+            Timer { id: timerDisableAnimation; interval: 500 }
             add: Transition { NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 200 } }
-            move: Transition { NumberAnimation { properties: "x,y"; duration: 0; easing.type: Easing.OutCubic } }
+            move: Transition {
+                enabled: !timerDisableAnimation.running
+                NumberAnimation { properties: "x, y"; duration: 200; easing.type: Easing.OutCubic }
+            }
             populate: move
+            */
         }
     }
 }

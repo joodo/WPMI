@@ -41,7 +41,7 @@ Pane {
                 Layout.leftMargin: 16; Layout.rightMargin: 16; Layout.topMargin: 12
                 elide: Text.ElideRight
                 wrapMode: Text.Wrap
-                maximumLineCount: 2
+                //maximumLineCount: 2
                 MaterialYou.fontRole: MaterialYou.TitleSmall
             }
             Label {

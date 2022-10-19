@@ -56,6 +56,10 @@ RESOURCES += \
     ui/SiteDandanzan/SiteDandanzan.qml \
     ui/SiteDandanzan/StackHistory.qml \
     ui/SiteDandanzan/StackMovieDetail.qml \
+    ui/SiteDandanzan/DataService.qml \
+    ui/SiteDandanzan/Dandanzan.html \
+    ui/SiteDandanzan/sablejs.js \
+    ui/SiteDandanzan/decrypt.js \
     ui/SiteJable/SiteJable.qml
 
 # Additional import path used to resolve QML modules in Qt Creator's code model

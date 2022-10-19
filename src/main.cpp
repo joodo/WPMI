@@ -5,6 +5,7 @@
 #include <QSettings>
 #include <QTranslator>
 #include <QLocale>
+#include <QList>
 
 #include "backend.h"
 #include "httprequest.h"
@@ -19,12 +20,21 @@ int main(int argc, char *argv[])
 
     QtWebEngineQuick::initialize();
 
-    QGuiApplication app(argc, argv);
+
+    // Disable chromium cors
+    int newArgc = argc + 1;
+    char **newArgv = new char*[newArgc];
+    for (int i = 0; i < argc; i++)
+    {
+        newArgv[i] = argv[i];
+    }
+    newArgv[argc] = (char*)"--disable-web-security";
+    QGuiApplication app(newArgc, newArgv);
+
     app.setOrganizationName("Joodo");
     app.setOrganizationDomain("https://github.com/joodo/WPMI");
     app.setApplicationName("WPMI");
     app.setApplicationVersion(APP_VERSION);
-
 
 
     // QML

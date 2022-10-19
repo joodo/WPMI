@@ -12,46 +12,22 @@ Page {
     property var _history: Session.history.get(Session.historyIndexOf(root.movieID))
     property var _movieListData: Session.movieCardData.get(movieID)
     property var _movieDetailData: null
-    //on_MovieDetailDataChanged: print(JSON.stringify(_movieDetailData))
 
     function renderMovieDetail(url) {
-        const scriptGetPlaylists = `
-        let r = [];
-        let titleDOMs = document.querySelectorAll("div.playlists > header > dl > dt");
-        let playlistDOMs = document.querySelectorAll("div.playlist");
-        for (let i = 0; i < titleDOMs.length; i++) {
-        let p = {
-        name: titleDOMs[i].innerHTML,
-        episodes: []
-        };
-        let as = playlistDOMs[i + 1].querySelectorAll("ul > li > a");
-        for (let a of as) p.episodes.push({
-        title: a.innerHTML.trim(),
-        script: a.attributes["onclick"].value
-        });
-        if (p.episodes.length === 1 && p.episodes[0].title === "暂无资源") continue;
-        r.push(p);
-        }
-
-        let re = {
-        "playlists": r,
-        "oTitle": document.querySelector("meta[property$=otitle]").content,
-        "genre": document.querySelector("meta[property$=class]").content,
-        "director": document.querySelector("meta[property$=director]").content,
-        "alias": document.querySelector("meta[property$=alias]").content,
-        "description": document.querySelector("meta[property$=description]").content,
-        };
-        re;
-        `
-
-        return SingletonWebView.loadUrl(url)
-        .then(() => SingletonWebView.runScript(scriptGetPlaylists))
-        .then(result => _movieDetailData = result)
-        .catch(err => progressNetwork.retryWork = () => renderMovieDetail(url));
+        progressNetwork.state = "loading"
+        return siteDandanzan.dataService.detail(url)
+        .then(result => {
+                  _movieDetailData = JSON.parse(result)
+                  progressNetwork.state = "hide"
+              })
+        .catch(err => {
+                   progressNetwork.retryWork = () => renderMovieDetail(url)
+                   progressNetwork.state = "failed"
+               });
     }
 
     Component.onCompleted: {
-        if (_movieListData && _movieListData.url) renderMovieDetail(_movieListData.url)
+        if (_movieListData?.url) renderMovieDetail(_movieListData.url)
     }
 
     background: Item {}
@@ -95,14 +71,16 @@ Page {
                     wrapMode: Text.Wrap
                 }
 
-                Item { Layout.preferredHeight: 12; Layout.fillWidth: true }
+                Item { Layout.preferredHeight: 16; Layout.fillWidth: true }
 
-                ProgressNetwork { id: progressNetwork; Layout.fillHeight: false }
+                ProgressNetwork { id: progressNetwork }
+
                 Chip {
-                    visible: progressNetwork.idle && comboBoxPlaylists.count===0
+                    visible: !progressNetwork.visible && comboBoxPlaylists.count===0
                     text: qsTr("No Resources")
                     enabled: false
                 }
+
                 ComboBox {
                     id: comboBoxPlaylists
                     visible: count > 0
@@ -119,92 +97,83 @@ Page {
                     }
                 }
 
-                RowLayout {
-                    visible: comboBoxPlaylists.count !== 0
-                    Layout.fillWidth: true; Layout.topMargin: 12
-                    spacing: 12
+                Item { Layout.preferredHeight: 12; Layout.fillWidth: true }
 
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: 8
-                        Repeater {
-                            model: comboBoxPlaylists.currentValue
-                            delegate: Button {
-                                id: buttonEpisode
-                                type: Button.Tonal
-                                tonedRole: highlighted? MaterialYou.TertiaryContainer : MaterialYou.SecondaryContainer
-                                height: 32
-                                highlighted: (root._history
-                                              && root._history.playlistID === comboBoxPlaylists.currentIndex
-                                              && root._history.episodeID === index) ? true : false
+                Flow {
+                    Layout.fillWidth: true
+                    spacing: 8
+                    Repeater {
+                        model: comboBoxPlaylists.currentValue
+                        delegate: Button {
+                            id: buttonEpisode
+                            type: Button.Tonal
+                            tonedRole: highlighted? MaterialYou.TertiaryContainer : MaterialYou.SecondaryContainer
+                            height: 32
+                            highlighted: (root._history
+                                          && root._history.playlistID === comboBoxPlaylists.currentIndex
+                                          && root._history.episodeID === index) ? true : false
 
-                                states: [
-                                    State {
-                                        name: "macos"
-                                        when: Qt.platform.os === "osx"
-                                        PropertyChanges {
-                                            target: buttonEpisode
-                                            text: modelData.title
-                                                  + (highlighted? qsTr(" (%1% Watched)").arg(parseInt(root._history.position*100)) : "")
-                                            onClicked: {
-                                                if (!modelData.script) return
-                                                SingletonWebView.runScript(modelData.script)
+                            states: [
+                                State {
+                                    name: "macos"
+                                    when: Qt.platform.os === "osx"
+                                    PropertyChanges {
+                                        target: buttonEpisode
+                                        text: modelData.title
+                                              + (highlighted? qsTr(" (%1% Watched)").arg(parseInt(root._history.position*100)) : "")
+                                        onClicked: {
+                                            if (!modelData.script) return
 
-                                                Session.updateHistory({
-                                                                          movieID: root.movieID,
-                                                                          timestamp: Date.now(),
-                                                                          playlistID: comboBoxPlaylists.currentIndex,
-                                                                          episodeID: index,
-                                                                          position: highlighted && root._history? root._history.position : 0
-                                                                      })
+                                            Session.updateHistory({
+                                                                      movieID: root.movieID,
+                                                                      timestamp: Date.now(),
+                                                                      playlistID: comboBoxPlaylists.currentIndex,
+                                                                      episodeID: index,
+                                                                      position: highlighted && root._history? root._history.position : 0
+                                                                  })
 
-                                                WindowPlayer.title = `${Session.movieCardData.get(root.movieID).title} - ${modelData.title}`
-                                                WindowPlayer.movieID = root.movieID
-                                                WindowPlayer.load(SingletonWebView.waitM3u8())
-                                            }
-                                        }
-                                    },
-                                    State {
-                                        name: "windows"
-                                        when: Qt.platform.os === "windows"
-                                        PropertyChanges {
-                                            target: buttonEpisode
-                                            text: modelData.title
-                                            onClicked: {
-                                                if (!modelData.script) return
-                                                SingletonWebView.runScript(modelData.script)
-                                                SingletonWebView.waitM3u8()
-                                                .then(source => {
-                                                          const title = `${Session.movieCardData.get(root.movieID).title} - ${modelData.title}`
-                                                          Qt.openUrlExternally(`https://joodo.github.io/WPMI/player.html?title=${encodeURIComponent(title)}&url=${encodeURIComponent(source)}`)
-                                                      });
-
-                                                Session.updateHistory({
-                                                                          movieID: root.movieID,
-                                                                          timestamp: Date.now(),
-                                                                          playlistID: comboBoxPlaylists.currentIndex,
-                                                                          episodeID: index,
-                                                                      })
-                                            }
+                                            WindowPlayer.title = `${Session.movieCardData.get(root.movieID).title} - ${modelData.title}`
+                                            WindowPlayer.movieID = root.movieID
+                                            WindowPlayer.load(siteDandanzan.dataService.getM3u8(modelData.script))
                                         }
                                     }
-                                ]
+                                },
+                                State {
+                                    name: "windows"
+                                    when: Qt.platform.os === "windows"
+                                    PropertyChanges {
+                                        target: buttonEpisode
+                                        text: modelData.title
+                                        onClicked: {
+                                            if (!modelData.script) return
+                                            siteDandanzan.dataService.getM3u8(modelData.script)
+                                            .then(source => {
+                                                      const title = `${Session.movieCardData.get(root.movieID).title} - ${modelData.title}`
+                                                      Qt.openUrlExternally(`https://joodo.github.io/WPMI/player.html?title=${encodeURIComponent(title)}&url=${encodeURIComponent(source)}`)
+                                                  });
 
-                                MouseArea {
-                                    anchors.fill: parent
-                                    acceptedButtons: Qt.RightButton
-                                    onClicked: menuEpisode.popup()
-                                    Menu {
-                                        id: menuEpisode
-                                        MenuItem {
-                                            text: qsTr("Watch together")
-                                            onClicked: {
-                                                const roomName = `${Session.movieCardData.get(root.movieID).title} - ${modelData.title}`
+                                            Session.updateHistory({
+                                                                      movieID: root.movieID,
+                                                                      timestamp: Date.now(),
+                                                                      playlistID: comboBoxPlaylists.currentIndex,
+                                                                      episodeID: index,
+                                                                  })
+                                        }
+                                    }
+                                }
+                            ]
 
-                                                SingletonWebView.runScript(modelData.script)
-
-                                                dialogRoom.create(roomName, SingletonWebView.waitM3u8())
-                                            }
+                            MouseArea {
+                                anchors.fill: parent
+                                acceptedButtons: Qt.RightButton
+                                onClicked: menuEpisode.popup()
+                                Menu {
+                                    id: menuEpisode
+                                    MenuItem {
+                                        text: qsTr("Watch together")
+                                        onClicked: {
+                                            const roomName = `${Session.movieCardData.get(root.movieID).title} - ${modelData.title}`
+                                            dialogRoom.create(roomName, siteDandanzan.dataService.getM3u8(modelData.script))
                                         }
                                     }
                                 }

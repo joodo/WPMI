@@ -11,27 +11,12 @@ Page {
     property string next: ""
 
     function getResultFromSearch(url) {
-        const script = `
-        let result = [];
-        for (let e of document.querySelectorAll('div.lists-content > ul > li')) result.push({
-        title: e.querySelector("h2 > a").innerHTML,
-        thumbSource: e.querySelector("img").src,
-        year: e.querySelectorAll("div.countrie > span")[0].innerHTML,
-        country: e.querySelectorAll("div.countrie > span")[1].innerHTML,
-        rate: e.querySelector("footer > span.rate").innerHTML,
-        url: e.querySelector("a").href,
-        movieID: (url => url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf(".")))(e.querySelector("a").href)
-        });
-        let e = document.querySelector("li.next-page > a");
-        next = e? e.href : "";
-        let r = { result, next };
-        r;
-        `
-        return SingletonWebView.loadUrl(url).then(() => SingletonWebView.runScript(script))
+        return siteDandanzan.dataService.search(url).then(r => JSON.parse(r));
     }
 
     property string query
     onQueryChanged: {
+        progressNetwork.state = "loading"
         modelMovie.clear()
         const url = `https://${Settings.resourceServer}/so/${query}-${query}--.html`;
         getResultFromSearch(url)
@@ -39,8 +24,12 @@ Page {
                   if ("next" in result) next = result.next
                   Session.updateMovieCardDataFromList(result.result)
                   result.result.map(value => modelMovie.append({ movieID : value.movieID }))
+                  progressNetwork.state = next? "loading" : "hide"
               })
-        .catch(err => progressNetwork.retryWork = () => queryChanged());
+        .catch(err => {
+                   progressNetwork.retryWork = () => queryChanged()
+                   progressNetwork.state = "failed"
+               });
     }
 
     background: null
@@ -69,14 +58,19 @@ Page {
         id: scrollView
 
         function getNextPage(url) {
+            progressNetwork.state = "loading"
             getResultFromSearch(url)
             .then(result => {
                       timerCooldown.start()
                       next = result.next
                       Session.updateMovieCardDataFromList(result.result)
                       result.result.map(value => modelMovie.append({ movieID : value.movieID }))
+                      progressNetwork.state = "hide"
                   })
-            .catch(err => progressNetwork.retryWork = () => getNextPage(url));
+            .catch(err => {
+                       progressNetwork.retryWork = () => getNextPage(url)
+                       progressNetwork.state = "failed"
+                   });
         }
 
         anchors {
@@ -95,7 +89,7 @@ Page {
         ScrollBar.vertical.onPositionChanged: {
             const position = ScrollBar.vertical.position + ScrollBar.vertical.visualSize
             if (root.next && !timerCooldown.running
-                    && (1-position) * contentHeight < progressNetwork.parent.height) {
+                    && (1-position) * contentHeight < progressNetwork.height) {
                 getNextPage(root.next)
                 root.next = ""
             }
@@ -130,18 +124,16 @@ Page {
                     brief: `${movieData.country}   ${movieData.year}`
                 }
             }
-            Item {
-                width: parent.width; height: 128
 
-                ProgressNetwork {
-                    id: progressNetwork
-                    anchors.centerIn: parent
-                }
+            ProgressNetwork {
+                id: progressNetwork
+                width: parent.width; height: 128
             }
 
             Item { width: parent.width; height: 16 }
 
-            move: Transition { NumberAnimation { properties: "x,y"; duration: 200; easing.type: Easing.OutCubic } }
+            // animation will cause crash when scroll up from lots of card
+            //move: Transition { NumberAnimation { properties: "x,y"; duration: 200; easing.type: Easing.OutCubic } }
         }
     }
 }
