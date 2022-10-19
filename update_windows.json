@@ -1,14 +1,22 @@
 {
     "versions": [
         {
-            "version": "1.2.0",
+            "version": "1.1.1",
             "after": "0.0.0",
-            "url": ""
+            "url": "https://lc-gluttony.s3.amazonaws.com/rnC1ehKEjnxd/xNP5xhtixnNB3so0LVANClzBtpNm6oFA/WPMI_windows_1_1_1.exe"
         }
     ],
     "changelog": [
         {
-            "version": "1.2.0",
+            "version": "1.1.1",
+            "new_features": [
+                "播放视频时可以点击暂停",
+                "更方便地调节视频亮度",
+                "大幅度增加载入速度、减少网络错误"
+            ]
+        },
+        {
+            "version": "1.1.0",
             "new_features": [
                 "可以邀请朋友一起看视频了",
                 "播放时可以调节视频亮度",
