@@ -30,5 +30,7 @@
         <file>celebration.wav</file>
         <file>copy.svg</file>
         <file>global.svg</file>
+        <file>brightness_fill.svg</file>
+        <file>more_horiz.svg</file>
     </qresource>
 </RCC>

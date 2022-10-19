@@ -99,7 +99,13 @@ Rectangle {
         }
 
         onWheel: wheel => {
-                     audioOutput.volume -= wheel.angleDelta.y / 1500
+                     const delta = wheel.angleDelta.y / 1300
+                     if (Math.abs(delta) < 0.005) {
+                         wheel.accepted = false
+                         return
+                     }
+
+                     audioOutput.volume -= delta
                      wheel.accepted = true
                      paneVolume.state = "show"
                  }

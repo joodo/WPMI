@@ -39,6 +39,7 @@ T.ToolButton {
         implicitWidth: 40; implicitHeight: 40
         radius: control.MaterialYou.radius
 
+        visible: control.enabled
         MaterialYou.foregroundColor: control.checked? control.MaterialYou.backgroundColor : control.MaterialYou.foregroundColor
         status: control.down? MaterialYou.Press : control.hovered? MaterialYou.Hover : control.visualFocus? MaterialYou.Focus : MaterialYou.Normal
     }
