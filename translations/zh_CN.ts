@@ -468,9 +468,19 @@
 <context>
     <name>UpdateChecker</name>
     <message>
-        <location filename="../ui/business/UpdateChecker.qml" line="22"/>
+        <location filename="../ui/business/UpdateChecker.qml" line="23"/>
         <source>Updated to Version %1</source>
         <translation>已更新至版本 %1</translation>
+    </message>
+    <message>
+        <location filename="../ui/business/UpdateChecker.qml" line="69"/>
+        <source>Version updated, restart to apply.</source>
+        <translation>重启后将升级新版本。</translation>
+    </message>
+    <message>
+        <location filename="../ui/business/UpdateChecker.qml" line="70"/>
+        <source>Restart now</source>
+        <translation>现在重启</translation>
     </message>
 </context>
 <context>
@@ -488,12 +498,12 @@
         <translation type="vanished">音量：%1%</translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="73"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="74"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="79"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="80"/>
         <source>Usage</source>
         <translation>使用</translation>
     </message>
@@ -518,7 +528,7 @@
 **ESC**：退出全屏</translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="83"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="84"/>
         <source>**Double Click**: Fullscreen
 
 **Space, Click**: Play / Pause
@@ -539,32 +549,32 @@
 **ESC**：退出全屏 {5 ?}</translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="89"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="90"/>
         <source>Copy m3u8</source>
         <translation>复制 m3u8</translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="96"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="97"/>
         <source>Other devices</source>
         <translation>其他设备</translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="105"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="106"/>
         <source>Watch on Web</source>
         <translation>在网页上观看</translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="110"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="111"/>
         <source>Visit link below to watch this video on any device&apos;s browser:</source>
         <translation>用设备的浏览器访问下面的地址以观看此视频：</translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="130"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="131"/>
         <source>Copied!</source>
         <translation>已复制！</translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="130"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="131"/>
         <source>Copy to Clipboard</source>
         <translation>复制到剪切板</translation>
     </message>

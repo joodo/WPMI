@@ -266,8 +266,18 @@
 <context>
     <name>UpdateChecker</name>
     <message>
-        <location filename="../ui/business/UpdateChecker.qml" line="22"/>
+        <location filename="../ui/business/UpdateChecker.qml" line="23"/>
         <source>Updated to Version %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/business/UpdateChecker.qml" line="69"/>
+        <source>Version updated, restart to apply.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/business/UpdateChecker.qml" line="70"/>
+        <source>Restart now</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -282,17 +292,17 @@
 <context>
     <name>WindowPlayer</name>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="73"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="74"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="79"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="80"/>
         <source>Usage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="83"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="84"/>
         <source>**Double Click**: Fullscreen
 
 **Space, Click**: Play / Pause
@@ -305,32 +315,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="89"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="90"/>
         <source>Copy m3u8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="96"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="97"/>
         <source>Other devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="105"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="106"/>
         <source>Watch on Web</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="110"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="111"/>
         <source>Visit link below to watch this video on any device&apos;s browser:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="130"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="131"/>
         <source>Copied!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="130"/>
+        <location filename="../ui/WindowPlayer/WindowPlayer.qml" line="131"/>
         <source>Copy to Clipboard</source>
         <translation type="unfinished"></translation>
     </message>

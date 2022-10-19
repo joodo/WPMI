@@ -26,7 +26,6 @@ void HttpRequest::send(const QString& method)
         if (willDownload())
         {
             m_saveFile.setFileName(getDownloadFilePath());
-            qDebug() << m_saveFile.fileName();
             if (!m_saveFile.open(QIODevice::WriteOnly | QIODeviceBase::NewOnly))
             {
                 emit errored("Cannot save download file.");

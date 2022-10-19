@@ -44,5 +44,10 @@ Object {
         }
     }
 
-    UpdateChecker {}
+    Timer {
+        interval: 1000
+        running: true
+        onTriggered: checker.check()
+    }
+    UpdateChecker { id: checker }
 }

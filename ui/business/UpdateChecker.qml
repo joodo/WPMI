@@ -5,8 +5,10 @@ import WPMI
 
 HttpRequest {
     id: updateChecker
+
     url: "https://joodo.github.io/WPMI/update_%1.json".arg(Qt.platform.os)
-    Component.onCompleted: {
+
+    function check() {
         const NewFeaturesFileName = "newfeatures.txt"
 
         // remove old exe file
@@ -15,11 +17,11 @@ HttpRequest {
         // show new feature
         const versionChangeLog = Backend.readFile(NewFeaturesFileName)
         if (versionChangeLog) {
-            Backend.removeFile(NewFeaturesFileName)
             const o = JSON.parse(versionChangeLog)
             let content = ""
             o.features.map(feature => content += `- ${feature}\n`)
-            Window.window.dialog?.exec(content, qsTr("Updated to Version %1").arg(o.version))
+            WindowMain.dialog?.exec(content, qsTr("Updated to Version %1").arg(o.version))
+            Backend.removeFile(NewFeaturesFileName)
         }
 
         // check update
@@ -61,6 +63,9 @@ HttpRequest {
                                                           features: newFeatures,
                                                       }
                                                       Backend.writeFile(NewFeaturesFileName, JSON.stringify(content))
+
+                                                      WindowMain.snackbar?.toast(qsTr("Version updated, restart to apply."),
+                                                                                 qsTr("Restart now")).catch(Backend.restartApplication)
                                                   })
                                break
                            }
