@@ -164,6 +164,7 @@
                     spinning: true,
                     spinTip: "",
                     fullscreened: false,
+                    isVideo: false,
                 }
             },
             methods: {
@@ -267,7 +268,7 @@
                         });
                         Player.src({
                             src: conversation.get('videoUrl'),
-                            type: "application/x-mpegURL"
+                            type: this.isVideo? "video/webm" : "application/x-mpegURL"
                         });
                         Player.ready(() => {
                             this.syncConversationState();
@@ -396,6 +397,7 @@
                     this.modelVisible = true;
                 } else {
                     this.userName = UrlParams.get("user");
+                    this.isVideo = UrlParams.get("video");
                     this.login();
                 }
             },
